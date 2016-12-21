@@ -1,0 +1,12 @@
+.ims-area-picker-tree-container {
+  height: 50vh;
+  overflow-y: auto;
+}
+
+.ims-area-picker-tree-header {
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin: 0;
+  padding: 6px;
+  width: 100%;
+}
