@@ -31,3 +31,4 @@ This package requires that Twitter Bootstrap (e.g. ```bootstrap.min.css``` ) be 
 * FormGroup - renders a from group with support for showing validation errors
 * LoadingIndicator - spinning circular loading indicator
 * RequiredIndicator - renders an asterisk for showing when an input is required
+* SortableListHeader - renders a clickable header for a list to change sort order
