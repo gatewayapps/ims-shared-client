@@ -6,6 +6,7 @@ import FormGroup from './components/FormGroup'
 import LoadingIndicator from './components/LoadingIndicator'
 import RequiredIndicator from './components/RequiredIndicator'
 import SortableListHeader from './components/SortableListHeader'
+import UserAutosuggest from './components/UserAutosuggest'
 
 module.exports = {
   ActionLink: ActionLink,
@@ -15,5 +16,6 @@ module.exports = {
   FormGroup: FormGroup,
   LoadingIndicator: LoadingIndicator,
   RequiredIndicator: RequiredIndicator,
-  SortableListHeader: SortableListHeader
+  SortableListHeader: SortableListHeader,
+  UserAutosuggest: UserAutosuggest
 }

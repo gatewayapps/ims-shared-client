@@ -1,0 +1,21 @@
+.ims-user-autosuggest-item__container {
+  display: flex;
+}
+
+.ims-user-autosuggest-item__profile-image {
+  align-self: center;
+  width: 35px;
+}
+
+.ims-user-autosuggest-item__info-box {
+  flex-grow: 1;
+}
+
+.ims-user-autosuggest-item__name {
+  font-weight: 600;
+}
+
+.ims-user-autosuggest-item__position {
+  color: #aaaaaa;
+  font-size: 85%;
+}
