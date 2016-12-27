@@ -32,3 +32,4 @@ This package requires that Twitter Bootstrap (e.g. ```bootstrap.min.css``` ) be 
 * LoadingIndicator - spinning circular loading indicator
 * RequiredIndicator - renders an asterisk for showing when an input is required
 * SortableListHeader - renders a clickable header for a list to change sort order
+* UserAutosuggest - renders an auto complete input for selecting user accounts from the IMS hub
