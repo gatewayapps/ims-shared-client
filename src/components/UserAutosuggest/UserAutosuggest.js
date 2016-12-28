@@ -16,7 +16,8 @@ export class UserAutosuggest extends React.Component {
   }
 
   _getSuggestionValue (suggestion) {
-    return suggestion.displayName
+    return suggestion.displayName ? suggestion.displayName
+      : suggestion.firstName + ' ' + suggestion.lastName
   }
 
   _renderSuggestion (suggestion) {
@@ -119,7 +120,7 @@ export class UserAutosuggest extends React.Component {
 
     return (
       <Autosuggest
-        id={this.props.autoSuggestId}
+        id={this.props.autosuggestId}
         suggestions={users}
         onSuggestionsFetchRequested={(e) => this._onSuggestionsFetchRequested(e)}
         onSuggestionsClearRequested={() => this._onSuggestionsClearRequested()}
@@ -133,7 +134,7 @@ export class UserAutosuggest extends React.Component {
 }
 
 UserAutosuggest.propTypes = Object.assign({}, React.Component, {
-  autoSuggestId: React.PropTypes.string,
+  autosuggestId: React.PropTypes.string,
   hubUrl: React.PropTypes.string.isRequired,
   onSelect: React.PropTypes.func.isRequired,
   packageId: React.PropTypes.string.isRequired,

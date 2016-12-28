@@ -40,7 +40,7 @@ UserAutosuggestItem.propTypes = {
     displayName: React.PropTypes.string,
     positionPath: React.PropTypes.string,
     profileImageUrl: React.PropTypes.string
-  })
+  }).isRequired
 }
 
 export default UserAutosuggestItem
