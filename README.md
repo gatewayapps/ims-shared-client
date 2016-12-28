@@ -27,6 +27,7 @@ This package requires that Twitter Bootstrap (e.g. ```bootstrap.min.css``` ) be 
 * ActionLink - renders a link button for invoking an action
 * AreaPicker - select an area from the IMS Hub areas tree
 * DeleteLink - renders a link button that displays a delete confirmation dialog when clicked
+* EquipmentAutosuggest - renders an auto complete input for selecting equipment from the IMS hub
 * ErrorAlert - renders a Bootstrap error alert box when provided a message
 * FormGroup - renders a from group with support for showing validation errors
 * LoadingIndicator - spinning circular loading indicator
