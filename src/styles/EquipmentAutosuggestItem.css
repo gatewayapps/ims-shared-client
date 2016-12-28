@@ -1,0 +1,12 @@
+.ims-equipment-autosuggest-item__container {
+  width: 100%;
+}
+
+.ims-equipment-autosuggest-item__name {
+  font-weight: 600;
+}
+
+.ims-equipment-autosuggest-item__area-path {
+  color: #aaaaaa;
+  font-size: 85%;
+}
