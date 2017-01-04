@@ -28,7 +28,7 @@ export class UserAutosuggestItem extends React.Component {
     if (this.props.user.profileImageUrl) {
       return (<img className='img-circle' height={30} width={30} src={this.props.user.profileImageUrl} />)
     } else {
-      return (<span><strong className='fa fa-user-o' /></span>)
+      return (<span><strong className='fa fa-user-o fa-2x' /></span>)
     }
   }
 }
