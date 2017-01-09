@@ -28,6 +28,10 @@ export class AreaPicker extends React.Component {
     }
   }
 
+  _disableSelect () {
+    return !(this.state.selectedNode && this.state.selectedNode.nodeId > 0)
+  }
+
   _onEntering () {
     this.setState({
       isLoading: true,
@@ -120,7 +124,11 @@ export class AreaPicker extends React.Component {
           <Modal.Dismiss className='btn btn-link'>
             <i className='fa fa-times' aria-hidden='true' /> Cancel
           </Modal.Dismiss>
-          <button type='button' className='btn btn-primary' onClick={() => this._onSelect()}>
+          <button
+            type='button'
+            className='btn btn-primary'
+            onClick={() => this._onSelect()}
+            disabled={this._disableSelect()}>
             <i className='fa fa-link' aria-hidden='true' /> Select
           </button>
         </Modal.Footer>
