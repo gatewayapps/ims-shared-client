@@ -80,7 +80,10 @@ export class AreaPicker extends React.Component {
 
   _onSelect () {
     if (typeof this.props.onSelect === 'function') {
-      this.props.onSelect(this.state.selectedNode)
+      const selectedNode = Object.assign({}, this.state.selectedNode, {
+        children: undefined
+      })
+      this.props.onSelect(selectedNode)
     }
     this.setState({ show: false })
   }
