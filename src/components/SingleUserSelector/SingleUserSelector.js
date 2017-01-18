@@ -83,9 +83,9 @@ export class SingleUserSelector extends React.Component {
 
   render () {
     if (this.state.selectMode === true) {
-      this._renderSelectMode()
+      return this._renderSelectMode()
     } else {
-      this._renderDisplayMode()
+      return this._renderDisplayMode()
     }
   }
 }

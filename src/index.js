@@ -1,6 +1,7 @@
 import ActionLink from './components/ActionLink'
 import AreaPicker from './components/AreaPicker'
 import DeleteLink from './components/DeleteLink'
+import DisplayName from './components/DisplayName'
 import EquipmentAutosuggest from './components/EquipmentAutosuggest'
 import ErrorAlert from './components/ErrorAlert'
 import FormGroup from './components/FormGroup'
@@ -14,6 +15,7 @@ module.exports = {
   ActionLink: ActionLink,
   AreaPicker: AreaPicker,
   DeleteLink: DeleteLink,
+  DisplayName: DisplayName,
   EquipmentAutosuggest: EquipmentAutosuggest,
   ErrorAlert: ErrorAlert,
   FormGroup: FormGroup,
