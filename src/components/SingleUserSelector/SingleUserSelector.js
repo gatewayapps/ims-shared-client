@@ -29,7 +29,6 @@ export class SingleUserSelector extends React.Component {
     this.setState({
       selectMode: true
     })
-    this.editor.focus()
   }
 
   _renderDisplayMode () {
@@ -69,7 +68,6 @@ export class SingleUserSelector extends React.Component {
             onSelect={(s) => this._onSelect(s)}
             packageId={this.props.packageId}
             placeholder={this.props.placeholder}
-            ref={(e) => { this.editor = e }}
             tokens={this.props.tokens} />
         </div>
         <div className='ims-single-user-selector__select-container-cancel'>
