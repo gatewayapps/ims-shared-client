@@ -113,7 +113,7 @@ export class UserAutosuggest extends React.Component {
     const { value, users } = this.state
     const inputProps = {
       className: 'form-control',
-      placeholder: 'To add a person start typing their name...',
+      placeholder: this.props.placeholder || 'To add a person start typing their name...',
       value: value,
       onChange: (e, d) => this._onChange(e, d)
     }
@@ -138,6 +138,7 @@ UserAutosuggest.propTypes = Object.assign({}, React.Component, {
   hubUrl: React.PropTypes.string.isRequired,
   onSelect: React.PropTypes.func.isRequired,
   packageId: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
   tokens: React.PropTypes.shape({
     accessToken: React.PropTypes.string.isRequired,
     expires: React.PropTypes.number.isRequired,
