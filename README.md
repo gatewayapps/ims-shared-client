@@ -32,5 +32,6 @@ This package requires that Twitter Bootstrap (e.g. ```bootstrap.min.css``` ) be 
 * FormGroup - renders a from group with support for showing validation errors
 * LoadingIndicator - spinning circular loading indicator
 * RequiredIndicator - renders an asterisk for showing when an input is required
+* SingleUserSelector - renders a component that toggles the UserAutosuggest for selecting a single user
 * SortableListHeader - renders a clickable header for a list to change sort order
 * UserAutosuggest - renders an auto complete input for selecting user accounts from the IMS hub
