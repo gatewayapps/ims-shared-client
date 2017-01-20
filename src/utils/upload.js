@@ -39,9 +39,7 @@ export function upload (url, accessToken, file, id, callback) {
       }
     }
     const onComplete = (e) => {
-      console.log(e)
-      console.log(e.target.result)
-      callback({ type: 'complete', id: id })
+      callback({ type: 'complete', id: id, details: JSON.parse(e.target.response) })
     }
 
     const req = new XMLHttpRequest()
