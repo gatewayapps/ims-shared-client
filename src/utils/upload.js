@@ -39,6 +39,8 @@ export function upload (url, accessToken, file, id, callback) {
       }
     }
     const onComplete = (e) => {
+      console.log(e)
+      console.log(e.target.result)
       callback({ type: 'complete', id: id })
     }
 
