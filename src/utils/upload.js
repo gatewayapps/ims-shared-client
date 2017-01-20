@@ -35,16 +35,12 @@ export function upload (url, accessToken, file, id, callback) {
     formData.append('file', new Blob([bin]), file.name)
     const onProgress = (e) => {
       if (e.lengthComputable) {
-        callback({ type: 'progress', complete: (e.loaded / e.total) * 100, id: id })
+        callback({ type: 'progress', complete: (e.loaded / e.total) * 100, file: file.name, uploadId: id })
       }
     }
     const onComplete = (e) => {
       var result = JSON.parse(e.target.response)
-      if (result.success) {
-        callback({ type: 'complete', uploadId: id, ...result })
-      } else {
-        callback({ type: 'complete', uploadId: id, ...result })
-      }
+      callback({ type: 'complete', file: file.name, uploadId: id, ...result })
     }
 
     const req = new XMLHttpRequest()
@@ -56,7 +52,8 @@ export function upload (url, accessToken, file, id, callback) {
     req.open('POST', url)
     req.setRequestHeader('x-file-size', file.size)
     req.setRequestHeader('x-ims-authorization', `JWT ${accessToken}`)
-  // req.setRequestHeader('Content-Disposition', `attachment; name="file"; filename="${file.name}"`)
+    // req.setRequestHeader('Content-Disposition', `attachment; name="file"; filename="${file.name}"`)
+    callback({ type: 'start', file: file.name, uploadId: id })
     req.send(formData)
   }
 
