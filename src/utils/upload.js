@@ -12,7 +12,7 @@ try {
   }
 } catch (e) { }
 
-export function cancel(id) {
+export function cancel (id) {
   if (UploadRequests[id]) {
     const req = UploadRequests[id]
     // Is the request already completed?  If so, no need for abort
@@ -26,7 +26,7 @@ export function cancel(id) {
   }
 }
 
-export function upload(url, accessToken, file, id, callback) {
+export function upload (url, accessToken, file, id, callback) {
   const reader = new FileReader()
   reader.onloadend = (e) => {
     const bin = e.target.result
@@ -39,7 +39,6 @@ export function upload(url, accessToken, file, id, callback) {
       }
     }
     const onComplete = (e) => {
-
       var result = JSON.parse(e.target.response)
       if (result.success) {
         callback({ type: 'complete', uploadId: id, ...result })
@@ -47,21 +46,20 @@ export function upload(url, accessToken, file, id, callback) {
         callback({ type: 'complete', uploadId: id, ...result })
       }
     }
+
+    const req = new XMLHttpRequest()
+    UploadRequests[id] = req
+    req.withCredentials = true
+    req.upload.addEventListener('progress', onProgress, false)
+    req.addEventListener('load', onComplete, false)
+
+    req.open('POST', url)
+    req.setRequestHeader('x-file-size', file.size)
+    req.setRequestHeader('x-ims-authorization', `JWT ${accessToken}`)
+  // req.setRequestHeader('Content-Disposition', `attachment; name="file"; filename="${file.name}"`)
+    req.send(formData)
   }
 
-  const req = new XMLHttpRequest()
-  UploadRequests[id] = req
-  req.withCredentials = true
-  req.upload.addEventListener('progress', onProgress, false)
-  req.addEventListener('load', onComplete, false)
-
-  req.open('POST', url)
-  req.setRequestHeader('x-file-size', file.size)
-  req.setRequestHeader('x-ims-authorization', `JWT ${accessToken}`)
-  // req.setRequestHeader('Content-Disposition', `attachment; name="file"; filename="${file.name}"`)
-  req.send(formData)
-}
-
-reader.readAsArrayBuffer(file)
+  reader.readAsArrayBuffer(file)
 }
 
