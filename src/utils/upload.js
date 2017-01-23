@@ -53,10 +53,10 @@ export function upload (url, accessToken, file, id, callback) {
     req.setRequestHeader('x-file-size', file.size)
     req.setRequestHeader('x-ims-authorization', `JWT ${accessToken}`)
     // req.setRequestHeader('Content-Disposition', `attachment; name="file"; filename="${file.name}"`)
-    callback({ type: 'start', file: file.name, uploadId: id })
+
     req.send(formData)
   }
-
+  callback({ type: 'start', file: file.name, uploadId: id })
   reader.readAsArrayBuffer(file)
 }
 
