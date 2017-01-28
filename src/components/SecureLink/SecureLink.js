@@ -16,6 +16,8 @@ export default class SecureLink extends BaseComponent {
       return (
         <Link to={this.props.to} activeClassName='active'><i className={`fa ${this.props.icon}`} aria-hidden='true' /> {this.props.label}</Link>
       )
+    } else {
+      return <span />
     }
   }
 }
