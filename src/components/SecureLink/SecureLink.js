@@ -14,7 +14,7 @@ export default class SecureLink extends BaseComponent {
   render () {
     if (this.checkPermission(`+:${this.props.packageId || packageId}:${this.props.role || 'user'}:${this.props.permission}:*:*`, this.props.user, true)) {
       return (
-        <li><Link to={this.props.to} activeClassName='active'><i className={`fa ${this.props.icon}`} aria-hidden='true' /> {this.props.label}</Link></li>
+        <Link to={this.props.to} activeClassName='active'><i className={`fa ${this.props.icon}`} aria-hidden='true' /> {this.props.label}</Link>
       )
     }
   }
