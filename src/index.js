@@ -10,18 +10,17 @@ import FileUploader from './components/FileUploader'
 import FormGroup from './components/FormGroup'
 import LoadingIndicator from './components/LoadingIndicator'
 import RequiredIndicator from './components/RequiredIndicator'
+import SecureLink from './components/SecureLink'
 import SingleUserSelector from './components/SingleUserSelector'
 import SortableListHeader from './components/SortableListHeader'
 import UserAutosuggest from './components/UserAutosuggest'
 
 // ========================================
 
-
 // Utilities ===============================
 import IconHelper from './utils/IconHelper'
 
 // =========================================
-
 
 module.exports = {
   ActionLink: ActionLink,
@@ -35,6 +34,7 @@ module.exports = {
   FormGroup: FormGroup,
   LoadingIndicator: LoadingIndicator,
   RequiredIndicator: RequiredIndicator,
+  SecureLink: SecureLink,
   SingleUserSelector: SingleUserSelector,
   SortableListHeader: SortableListHeader,
   UserAutosuggest: UserAutosuggest,
