@@ -38,7 +38,6 @@ export class PersonCard extends BaseComponent {
 }
 
 PersonCard.propTypes = Object.assign({}, React.Component.propTypes, {
-  style: React.PropTypes.object,
   person: React.PropTypes.shape({
     firstName: React.PropTypes.string.isRequired,
     lastName: React.PropTypes.string.isRequired,
