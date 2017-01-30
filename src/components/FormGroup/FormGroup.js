@@ -8,14 +8,14 @@ export const FormGroup = (props) => {
     'has-error': props.validationMessage && props.validationMessage.length > 0
   })
 
-  const { className, ...messageProps } = props.messageProps
-
+  const messageProps = props.messageProps || {}
+  const { className, ...helpBlockProps } = messageProps
   const messageClassNames = classNames('help-block', className)
 
   return (
     <div className={classes}>
       {props.children}
-      <div className={messageClassNames} {...messageProps}>{props.validationMessage}</div>
+      <div className={messageClassNames} {...helpBlockProps}>{props.validationMessage}</div>
     </div>
   )
 }
