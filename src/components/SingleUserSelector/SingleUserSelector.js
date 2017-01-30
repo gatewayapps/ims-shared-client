@@ -32,24 +32,28 @@ export class SingleUserSelector extends React.Component {
   }
 
   _renderDisplayMode () {
-    const buttonClasses = classNames('btn btn-link', {
-      'btn-sm': this.props.size === 'sm',
-      'btn-lg': this.props.size === 'lg',
-      'btn-xs': this.props.size === 'xs'
-    })
+    if (this.props.renderSelectedUser) {
+      return this.props.renderSelectedUser()
+    } else {
+      const buttonClasses = classNames('btn btn-link', {
+        'btn-sm': this.props.size === 'sm',
+        'btn-lg': this.props.size === 'lg',
+        'btn-xs': this.props.size === 'xs'
+      })
 
-    return (
-      <div>
-        <DisplayName
-          className='ims-single-user-selector__display-name'
-          user={this.props.value} />
-        <button
-          className={buttonClasses}
-          onClick={() => this._onShowSelectMode()}>
-          <i className='fa fa-user' /> {this.props.label || 'Choose Employee'}
-        </button>
-      </div>
-    )
+      return (
+        <div>
+          <DisplayName
+            className='ims-single-user-selector__display-name'
+            user={this.props.value} />
+          <button
+            className={buttonClasses}
+            onClick={() => this._onShowSelectMode()}>
+            <i className='fa fa-user' /> {this.props.label || 'Choose Employee'}
+          </button>
+        </div>
+      )
+    }
   }
 
   _renderSelectMode () {
@@ -96,6 +100,7 @@ SingleUserSelector.propTypes = {
   hubUrl: React.PropTypes.string.isRequired,
   inputProps: React.PropTypes.object,
   label: React.PropTypes.string,
+  renderSelectedUser: React.PropTypes.func,
   onChange: React.PropTypes.func.isRequired,
   packageId: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
