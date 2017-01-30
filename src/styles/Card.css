@@ -1,0 +1,28 @@
+.ims-card__container {
+  background-color: #fafafa;
+  border: 2px solid #a1a1a1;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 10px;
+  position: relative;
+}
+
+.ims-card__container .ims-card__remove-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.ims-card__container .ims-card__header {
+  margin-bottom: 5px;
+}
+
+.ims-card__container .ims-card__title {
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.ims-card__container .ims-card__subtitle {
+  color: #7a7a7a;
+  font-size: .8em;
+}
