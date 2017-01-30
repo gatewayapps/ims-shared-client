@@ -1,0 +1,4 @@
+.ims-user-profile-image__profile-image {
+  -o-object-fit: cover;
+  object-fit: cover;
+}

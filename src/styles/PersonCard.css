@@ -1,0 +1,13 @@
+.ims-person-card__header-container {
+  display: flex;
+  align-items: center;
+}
+
+.ims-person-card__header-left-container {
+  width: 30px;
+  margin-right: 5px;
+}
+
+.ims-person-card__header-right-container {
+  flex-grow: 1;
+}
