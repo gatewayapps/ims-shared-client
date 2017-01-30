@@ -40,7 +40,7 @@ export class Card extends BaseComponent {
     const renderHeader = this.props.renderHeader || this._renderHeader
 
     return (
-      <div className='ims-card__container'>
+      <div className='ims-card__container' style={this.props.style}>
         <div className={classNames('clearfix', 'ims-card__header')}>
           {this._renderRemoveButton()}
           {renderHeader()}
@@ -54,6 +54,7 @@ export class Card extends BaseComponent {
 }
 
 Card.propTypes = Object.assign({}, React.Component.propTypes, {
+  style: React.PropTypes.style,
   title: React.PropTypes.node,
   subtitle: React.PropTypes.node,
   removeButton: React.PropTypes.bool,

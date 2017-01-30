@@ -32,12 +32,13 @@ export class PersonCard extends BaseComponent {
 
   render () {
     return (
-      <Card renderHeader={this._renderPersonHeader} {...this.props} />
+      <Card style={this.props.style} renderHeader={this._renderPersonHeader} {...this.props} />
     )
   }
 }
 
 PersonCard.propTypes = Object.assign({}, React.Component.propTypes, {
+  style: React.PropTypes.object,
   person: React.PropTypes.shape({
     firstName: React.PropTypes.string.isRequired,
     lastName: React.PropTypes.string.isRequired,
