@@ -115,6 +115,7 @@ export class UserAutosuggest extends React.Component {
       className: 'form-control',
       placeholder: this.props.placeholder || 'To add a person start typing their name...',
       value: value,
+      ...this.props.inputProps,
       onChange: (e, d) => this._onChange(e, d)
     }
 

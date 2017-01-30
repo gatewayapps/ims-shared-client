@@ -66,6 +66,7 @@ export class SingleUserSelector extends React.Component {
             autosuggestId={this.props.autosuggestId}
             hubUrl={this.props.hubUrl}
             onSelect={(s) => this._onSelect(s)}
+            inputProps={this.props.inputProps}
             packageId={this.props.packageId}
             placeholder={this.props.placeholder}
             tokens={this.props.tokens} />
@@ -93,11 +94,12 @@ export class SingleUserSelector extends React.Component {
 SingleUserSelector.propTypes = {
   autosuggestId: React.PropTypes.string,
   hubUrl: React.PropTypes.string.isRequired,
+  inputProps: React.PropTypes.object,
   label: React.PropTypes.string,
   onChange: React.PropTypes.func.isRequired,
   packageId: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
-  size: React.PropTypes.oneOf([ 'sm', 'md', 'lg', 'xs' ]),
+  size: React.PropTypes.oneOf(['sm', 'md', 'lg', 'xs']),
   tokens: React.PropTypes.shape({
     accessToken: React.PropTypes.string.isRequired,
     expires: React.PropTypes.number.isRequired,
