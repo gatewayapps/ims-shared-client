@@ -63,14 +63,14 @@ PersonCard.propTypes = Object.assign({}, React.Component.propTypes, {
     displayName: React.PropTypes.string,
     positionPath: React.PropTypes.string,
     hireDate: React.PropTypes.oneOfType([
-      React.PropTypes.date,
+      React.PropTypes.string,
       React.PropTypes.instanceOf(moment),
-      React.PropTypes.string
+      React.PropTypes.object
     ]),
     positionStartDate: React.PropTypes.oneOfType([
-      React.PropTypes.date,
+      React.PropTypes.string,
       React.PropTypes.instanceOf(moment),
-      React.PropTypes.string
+      React.PropTypes.object
     ])
   }).isRequired,
   showHireDate: React.PropTypes.bool,

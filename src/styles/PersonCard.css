@@ -23,6 +23,6 @@
 
 .ims-person-card__text-ellipsis {
   overflow: hidden;
-  text-overflow: nowrap;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
