@@ -22,7 +22,6 @@ export const FormGroup = (props) => {
       </div>
     )
   }
-  
 
   return (
     <div className={classes}>
