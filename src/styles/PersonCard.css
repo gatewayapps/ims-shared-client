@@ -1,6 +1,5 @@
 .ims-person-card__header-container {
   display: flex;
-  align-items: center;
 }
 
 .ims-person-card__header-left-container {
@@ -9,5 +8,21 @@
 }
 
 .ims-person-card__header-right-container {
+  align-self: center;
   flex-grow: 1;
+  overflow: hidden;
+}
+
+.ims-person-card__header-container .ims-person-card__subtitle {
+  min-height: 17px;
+}
+
+.ims-person-card__header-container .ims-person-card__subtitle.ims-person-card__subtitle--double {
+  min-height: 34px;
+}
+
+.ims-person-card__text-ellipsis {
+  overflow: hidden;
+  text-overflow: nowrap;
+  white-space: nowrap;
 }

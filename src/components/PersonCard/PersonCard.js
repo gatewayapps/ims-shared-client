@@ -1,4 +1,6 @@
 import React from 'react'
+import classNames from 'classnames'
+import moment from 'moment'
 import BaseComponent from '../BaseComponent'
 import Card from '../Card'
 import DisplayName from '../DisplayName'
@@ -13,6 +15,18 @@ export class PersonCard extends BaseComponent {
   }
 
   _renderPersonHeader () {
+    const subtitleClasses = classNames('ims-card__subtitle ims-person-card__subtitle', {
+      'ims-person-card__subtitle--double': this.props.showHireDate || this.props.showPositionStartDate
+    })
+
+    const hireDate = this.props.showHireDate && this.props.person.hireDate
+      ? (<span>Hired {moment(this.props.person.hireDate).format('M/D/YYYY')}</span>)
+      : null
+
+    const positionDate = this.props.showPositionStartDate && this.props.person.showPositionStartDate
+      ? (<span>Position {moment(this.props.person.positionStartDate).format('M/D/YYYY')}</span>)
+      : null
+
     return (
       <div className={'ims-person-card__header-container'}>
         <div className={'ims-person-card__header-left-container'}>
@@ -22,8 +36,13 @@ export class PersonCard extends BaseComponent {
           <div className={'ims-card__title'}>
             <DisplayName user={this.props.person} />
           </div>
-          <div className={'ims-card__subtitle'}>
-            <NodePath path={this.props.person.positionPath} removeFirst />
+          <div className={subtitleClasses}>
+            <div className={'ims-person-card__text-ellipsis'} title={this.props.person.positionPath}>
+              <NodePath path={this.props.person.positionPath} removeFirst />
+            </div>
+            <div>
+              {hireDate} {positionDate}
+            </div>
           </div>
         </div>
       </div>
@@ -42,8 +61,20 @@ PersonCard.propTypes = Object.assign({}, React.Component.propTypes, {
     firstName: React.PropTypes.string.isRequired,
     lastName: React.PropTypes.string.isRequired,
     displayName: React.PropTypes.string,
-    positionPath: React.PropTypes.string
-  }).isRequired
+    positionPath: React.PropTypes.string,
+    hireDate: React.PropTypes.oneOfType([
+      React.PropTypes.date,
+      React.PropTypes.instanceOf(moment),
+      React.PropTypes.string
+    ]),
+    positionStartDate: React.PropTypes.oneOfType([
+      React.PropTypes.date,
+      React.PropTypes.instanceOf(moment),
+      React.PropTypes.string
+    ])
+  }).isRequired,
+  showHireDate: React.PropTypes.bool,
+  showPositionStartDate: React.PropTypes.bool
 })
 
 export default PersonCard
