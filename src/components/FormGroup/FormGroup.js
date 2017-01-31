@@ -2,20 +2,32 @@ import React from 'react'
 import classNames from 'classnames'
 
 export const FormGroup = (props) => {
+  let validationMessageBlock = null
+
+  const hasError = props.validationMessage && props.validationMessage.length > 0
+
   const classes = classNames({
     'form-group': true,
     'form-group-sm': true,
-    'has-error': props.validationMessage && props.validationMessage.length > 0
+    'has-error': hasError
   })
 
-  const messageProps = props.messageProps || {}
-  const { className, ...helpBlockProps } = messageProps
-  const messageClassNames = classNames('help-block', className)
+  if (hasError) {
+    const messageProps = props.messageProps || {}
+    const { className, ...helpBlockProps } = messageProps
+    const messageClassNames = classNames('help-block', className)
+    validationMessageBlock = (
+      <div className={messageClassNames} {...helpBlockProps}>
+        {props.validationMessage}
+      </div>
+    )
+  }
+  
 
   return (
     <div className={classes}>
       {props.children}
-      <div className={messageClassNames} {...helpBlockProps}>{props.validationMessage}</div>
+      {validationMessageBlock}
     </div>
   )
 }
