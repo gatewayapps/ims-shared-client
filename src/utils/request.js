@@ -9,7 +9,7 @@ export default function request (url, options) {
     const opts = prepareOptions(options)
 
     if (opts.authenticate) {
-      return getAccessToken(opts.packageId, opts.tokens)
+      return getAccessToken(opts.packageId, opts.tokens, opts.hubUrl)
         .then((accessToken) => {
           opts.requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(opts.packageId, accessToken)
           return makeRequest(url, opts.requestOptions)
@@ -27,10 +27,10 @@ function makeRequest (url, requestOptions) {
   return fetch(url, requestOptions).then(parseResponse)
 }
 
-function getAccessToken (packageId, tokens) {
+function getAccessToken (packageId, tokens, hubUrl) {
   const expiresLimit = moment().add(60, 'seconds').unix()
   if (tokens.expires < expiresLimit) {
-    return refreshAccessToken(packageId, tokens.refreshToken)
+    return refreshAccessToken(packageId, hubUrl, tokens.refreshToken)
       .then((result) => {
         if (result.success === true) {
           return result.accessToken

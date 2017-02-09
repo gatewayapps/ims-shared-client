@@ -55,6 +55,12 @@ export class AreaPicker extends React.Component {
     return request(`${this.props.hubUrl}/api/trees/areas`, requestOptions)
       .then((result) => {
         if (result && result.success === true) {
+          if (Array.isArray(result.structure)) {
+            for (let i = 0; i < result.structure.length; i++) {
+              result.structure[i].open = true
+            }
+          }
+
           that.setState({
             isLoading: false,
             treeData: result.structure

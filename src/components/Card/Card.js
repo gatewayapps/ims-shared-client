@@ -54,7 +54,6 @@ export class Card extends BaseComponent {
 }
 
 Card.propTypes = Object.assign({}, React.Component.propTypes, {
-  style: React.PropTypes.style,
   title: React.PropTypes.node,
   subtitle: React.PropTypes.node,
   removeButton: React.PropTypes.bool,
