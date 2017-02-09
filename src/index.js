@@ -13,6 +13,7 @@ import LoadingIndicator from './components/LoadingIndicator'
 import NodePath from './components/NodePath'
 import PersonCard from './components/PersonCard'
 import RequiredIndicator from './components/RequiredIndicator'
+import ScopedComponent from './components/ScopedComponent'
 import SecureLink from './components/SecureLink'
 import SingleUserSelector from './components/SingleUserSelector'
 import SortableListHeader from './components/SortableListHeader'
@@ -23,6 +24,8 @@ import UserProfileImage from './components/UserProfileImage'
 
 // Utilities ===============================
 import IconHelper from './utils/IconHelper'
+import connectScoped from './utils/ConnectScoped'
+import { prepareInjector, injectScopedReducer } from './utils/InjectScopedReducer'
 
 // =========================================
 
@@ -41,12 +44,16 @@ module.exports = {
   NodePath: NodePath,
   PersonCard: PersonCard,
   RequiredIndicator: RequiredIndicator,
+  ScopedComponent: ScopedComponent,
   SecureLink: SecureLink,
   SingleUserSelector: SingleUserSelector,
   SortableListHeader: SortableListHeader,
   UserAutosuggest: UserAutosuggest,
   UserProfileImage: UserProfileImage,
   Utils: {
-    IconHelper: IconHelper
+    IconHelper: IconHelper,
+    connectScoped: connectScoped,
+    prepareScopedInjector: prepareInjector,
+    injectScopedReducer: injectScopedReducer
   }
 }
