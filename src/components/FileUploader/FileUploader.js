@@ -9,9 +9,10 @@ export default class FileUploader extends React.Component {
   render () {
     return (
       <div style={this.props.style} className={this.props.className}
-        onDragOver={(e) => { this._onDragOver(e) }}
-        onDragEnd={(e) => { this._onDragEnd(e) }}
-        onDrop={(e) => { this._onDrop(e) }}>
+        onDragOver={(e) => { return this._onDragOver(e) }}
+        onDragEnd={(e) => { return this._onDragEnd(e) }}
+        onDragEnter={(e) => { return this._onDragEnter(e) }}
+        onDrop={(e) => { return this._onDrop(e) }}>
         {this.props.children || 'Drop attachments here'}
       </div>
     )
@@ -25,7 +26,22 @@ export default class FileUploader extends React.Component {
     if (e.stopPropagation) {
       e.stopPropagation() // stops the browser from redirecting.
     }
-    e.dataTransfer.dropEffect = this.props.dropEffect || 'copy'
+    try {
+      e.dataTransfer.dropEffect = this.props.dropEffect || 'copy'
+    } catch (err) {
+
+    }
+    return false
+  }
+
+  _onDragEnter (e) {
+    e = e || event
+    if (e.preventDefault) {
+      e.preventDefault() // Necessary. Allows us to drop.
+    }
+    if (e.stopPropagation) {
+      e.stopPropagation() // stops the browser from redirecting.
+    }
     return false
   }
 
@@ -55,8 +71,6 @@ export default class FileUploader extends React.Component {
       }))
       this.currentIndex++
     }
-
-    return false
   }
 }
 
