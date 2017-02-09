@@ -18,6 +18,7 @@ export default class FileUploader extends React.Component {
   }
 
   _onDragOver (e) {
+    e = e || event
     if (e.preventDefault) {
       e.preventDefault() // Necessary. Allows us to drop.
     }
@@ -29,10 +30,18 @@ export default class FileUploader extends React.Component {
   }
 
   _onDragEnd (e) {
+    e = e || event
+    if (e.preventDefault) {
+      e.preventDefault() // Necessary. Allows us to drop.
+    }
+    if (e.stopPropagation) {
+      e.stopPropagation() // stops the browser from redirecting.
+    }
     return false
   }
 
   _onDrop (e) {
+    e = e || event
     if (e.stopPropagation) {
       e.stopPropagation() // stops the browser from redirecting.
     }
