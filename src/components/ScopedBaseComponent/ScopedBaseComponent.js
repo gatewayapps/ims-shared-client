@@ -3,7 +3,7 @@ import React from 'react'
 import { PermissionHandler } from 'ims-shared-core'
 import cookie from 'react-cookie'
 
-import { ScopedComponent } from '../ScopedComponent'
+import ScopedComponent from '../ScopedComponent'
 var packageId = cookie.load('PACKAGE_ID') || __PACKAGE_ID__ || '__PACKAGE_ID__ NOT SET!!!'
 
 const permHandler = new PermissionHandler({
