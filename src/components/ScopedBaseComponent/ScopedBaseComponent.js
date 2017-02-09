@@ -13,10 +13,6 @@ const permHandler = new PermissionHandler({
 })
 export default class ScopedBaseComponent extends ScopedComponent {
 
-  constructor (props, scopeProps) {
-    super(props, scopeProps)
-  }
-
   bindFunctions () {
     var keys = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
 
