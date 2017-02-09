@@ -26,6 +26,7 @@ This package requires that Twitter Bootstrap (e.g. ```bootstrap.min.css``` ) be 
 ## React Components
 * ActionLink - renders a link button for invoking an action
 * AreaPicker - select an area from the IMS Hub areas tree
+* BaseComponent - provides a checkPermission method
 * DeleteLink - renders a link button that displays a delete confirmation dialog when clicked
 * DisplayName - Given a user either renders the displayName or firstName + lastName
 * EquipmentAutosuggest - renders an auto complete input for selecting equipment from the IMS hub
@@ -34,6 +35,8 @@ This package requires that Twitter Bootstrap (e.g. ```bootstrap.min.css``` ) be 
 * FormGroup - renders a from group with support for showing validation errors
 * LoadingIndicator - spinning circular loading indicator
 * RequiredIndicator - renders an asterisk for showing when an input is required
+* ScopedBaseComponent - a base component that has its own scope
+* ScopedComponent - Can inject its own reducer
 * SingleUserSelector - renders a component that toggles the UserAutosuggest for selecting a single user
 * SortableListHeader - renders a clickable header for a list to change sort order
 * UserAutosuggest - renders an auto complete input for selecting user accounts from the IMS hub

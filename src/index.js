@@ -13,6 +13,7 @@ import LoadingIndicator from './components/LoadingIndicator'
 import NodePath from './components/NodePath'
 import PersonCard from './components/PersonCard'
 import RequiredIndicator from './components/RequiredIndicator'
+import ScopedBaseComponent from './components/ScopedBaseComponent'
 import ScopedComponent from './components/ScopedComponent'
 import SecureLink from './components/SecureLink'
 import SingleUserSelector from './components/SingleUserSelector'
@@ -44,6 +45,7 @@ module.exports = {
   NodePath: NodePath,
   PersonCard: PersonCard,
   RequiredIndicator: RequiredIndicator,
+  ScopedBaseComponent: ScopedBaseComponent,
   ScopedComponent: ScopedComponent,
   SecureLink: SecureLink,
   SingleUserSelector: SingleUserSelector,
