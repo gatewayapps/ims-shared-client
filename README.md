@@ -6,8 +6,33 @@ This is a package of shared react client components and utilities for build pack
 $ npm install --save ims-shared-client
 ```
 
-## Sample Usage
+## Version 2.0 Breaking change
+Version 2.0 introduces a new version of the request library that is connected with the redux store. Components from the shared library such as UserAutosuggest and AreaPicker require the request library be prepared to be used.
+
+Example: app/store/createStore.js
+
+```js
+/// Other imports here
+import { prepareRequest } from 'ims-shared-client/request'
+
+/// Later in file...
+  // ======================================================
+  // Store Instantiation and HMR Setup
+  // ======================================================
+  const store = createStore(
+    makeRootReducer(),
+    fromJS(initialState),
+    compose(
+      applyMiddleware(...middleware),
+      ...enhancers
+    )
+  )
+
+  prepareRequest(store, 'global.tokens')
 ```
+
+## Sample Usage
+```js
 import React from 'react'
 import { LoadingIndicator } from 'ims-shared-client
 
