@@ -15,7 +15,7 @@ let tokensPathKey
 let packageId
 let hubUrl
 
-export const UPDATE_ACCESS_TOKEN = '@@ims-shared-core/UPDATE_ACCESS_TOKEN'
+export const UPDATE_ACCESS_TOKEN = 'UPDATE_ACCESS_TOKEN'
 
 export function prepareRequest (store, tokensPath) {
   if (store && store.getState && store.dispatch) {
