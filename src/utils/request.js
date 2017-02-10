@@ -73,14 +73,16 @@ function scheduleRefreshAccessToken () {
 
   const tokens = getTokens()
 
-  const refreshTime = moment.unix(tokens.expires).subtract(5, 'minutes')
-  let refreshIn = refreshTime.diff(moment())
+  if (tokens) {
+    const refreshTime = moment.unix(tokens.expires).subtract(5, 'minutes')
+    let refreshIn = refreshTime.diff(moment())
 
-  if (refreshIn < 0) {
-    refreshIn = 0
+    if (refreshIn < 0) {
+      refreshIn = 0
+    }
+
+    setTimeout(refreshAccessToken, refreshIn)
   }
-
-  setTimeout(refreshAccessToken, refreshIn)
 }
 
 function verifyInitialized () {
