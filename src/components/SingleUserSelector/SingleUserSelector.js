@@ -68,12 +68,9 @@ export class SingleUserSelector extends React.Component {
         <div className='ims-single-user-selector__select-container-input'>
           <UserAutosuggest
             autosuggestId={this.props.autosuggestId}
-            hubUrl={this.props.hubUrl}
             onSelect={(s) => this._onSelect(s)}
             inputProps={this.props.inputProps}
-            packageId={this.props.packageId}
-            placeholder={this.props.placeholder}
-            tokens={this.props.tokens} />
+            placeholder={this.props.placeholder} />
         </div>
         <div className='ims-single-user-selector__select-container-cancel'>
           <button
@@ -97,19 +94,12 @@ export class SingleUserSelector extends React.Component {
 
 SingleUserSelector.propTypes = {
   autosuggestId: React.PropTypes.string,
-  hubUrl: React.PropTypes.string.isRequired,
   inputProps: React.PropTypes.object,
   label: React.PropTypes.string,
   renderSelectedUser: React.PropTypes.func,
   onChange: React.PropTypes.func.isRequired,
-  packageId: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
   size: React.PropTypes.oneOf(['sm', 'md', 'lg', 'xs']),
-  tokens: React.PropTypes.shape({
-    accessToken: React.PropTypes.string.isRequired,
-    expires: React.PropTypes.number.isRequired,
-    refreshToken: React.PropTypes.string.isRequired
-  }),
   value: React.PropTypes.shape({
     userAccountId: React.PropTypes.number.isRequired,
     firstName: React.PropTypes.string.isRequired,

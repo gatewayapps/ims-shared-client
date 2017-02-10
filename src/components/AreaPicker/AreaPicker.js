@@ -5,6 +5,7 @@ import * as ReactTree from 'gateway-react-tree'
 import ErrorAlert from '../ErrorAlert'
 import LoadingIndicator from '../LoadingIndicator'
 import request from '../../utils/request'
+import { getHubUrl } from '../../utils/cookies'
 import '../../styles/AreaPicker.css'
 
 export class AreaPicker extends React.Component {
@@ -13,18 +14,7 @@ export class AreaPicker extends React.Component {
     this.state = {
       isLoading: true,
       show: false,
-      treeData: [],
-      tokens: props.tokens
-    }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.tokens &&
-      (!this.props.tokens || this.props.tokens.expires !== nextProps.tokens.expires ||
-      this.props.tokens.accessToken !== nextProps.tokens.accessToken)) {
-      this.setState({
-        tokens: nextProps.tokens
-      })
+      treeData: []
     }
   }
 
@@ -46,13 +36,10 @@ export class AreaPicker extends React.Component {
       method: 'POST',
       body: JSON.stringify({
         nodeDetailTypes: [1]
-      }),
-      packageId: this.props.packageId,
-      tokens: this.props.tokens,
-      hubUrl: this.props.hubUrl
+      })
     }
 
-    return request(`${this.props.hubUrl}/api/trees/areas`, requestOptions)
+    return request(`${getHubUrl()}/api/trees/areas`, requestOptions)
       .then((result) => {
         if (result && result.success === true) {
           if (Array.isArray(result.structure)) {
@@ -212,15 +199,8 @@ export class AreaPicker extends React.Component {
 
 AreaPicker.propTypes = Object.assign({}, React.Component.propTypes, {
   buttonProps: React.PropTypes.object,
-  hubUrl: React.PropTypes.string.isRequired,
   onSelect: React.PropTypes.func,
-  packageId: React.PropTypes.string.isRequired,
-  size: React.PropTypes.oneOf([ 'sm', 'md', 'lg', 'xs' ]),
-  tokens: React.PropTypes.shape({
-    accessToken: React.PropTypes.string.isRequired,
-    expires: React.PropTypes.number.isRequired,
-    refreshToken: React.PropTypes.string.isRequired
-  })
+  size: React.PropTypes.oneOf([ 'sm', 'md', 'lg', 'xs' ])
 })
 
 export default AreaPicker

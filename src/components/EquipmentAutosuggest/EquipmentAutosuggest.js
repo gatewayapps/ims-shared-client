@@ -1,6 +1,7 @@
 import React from 'react'
 import Autosuggest from 'react-autosuggest'
 import request from '../../utils/request'
+import { getHubUrl } from '../../utils/cookies'
 import EquipmentAutosuggestItem from './EquipmentAutosuggestItem'
 import '../../styles/Autosuggest.css'
 
@@ -39,14 +40,11 @@ export class EquipmentAutosuggest extends React.Component {
       method: 'POST',
       body: JSON.stringify({
         filter: search
-      }),
-      packageId: this.props.packageId,
-      tokens: this.props.tokens,
-      hubUrl: this.props.hubUrl
+      })
     }
 
     this.lastRequestId = setTimeout(() => {
-      request(`${this.props.hubUrl}/api/equipment/search`, requestOptions)
+      request(`${getHubUrl()}/api/equipment/search`, requestOptions)
         .then((result) => {
           if (result && result.success === true) {
             if (result.total === 0) {
@@ -134,14 +132,7 @@ export class EquipmentAutosuggest extends React.Component {
 
 EquipmentAutosuggest.propTypes = Object.assign({}, React.Component, {
   autosuggestId: React.PropTypes.string,
-  hubUrl: React.PropTypes.string.isRequired,
-  onSelect: React.PropTypes.func.isRequired,
-  packageId: React.PropTypes.string.isRequired,
-  tokens: React.PropTypes.shape({
-    accessToken: React.PropTypes.string.isRequired,
-    expires: React.PropTypes.number.isRequired,
-    refreshToken: React.PropTypes.string.isRequired
-  })
+  onSelect: React.PropTypes.func.isRequired
 })
 
 export default EquipmentAutosuggest

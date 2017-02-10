@@ -1,6 +1,7 @@
 import React from 'react'
 import Autosuggest from 'react-autosuggest'
 import request from '../../utils/request'
+import { getHubUrl } from '../../utils/cookies'
 import UserAutosuggestItem from './UserAutosuggestItem'
 import '../../styles/Autosuggest.css'
 
@@ -40,14 +41,11 @@ export class UserAutosuggest extends React.Component {
       method: 'POST',
       body: JSON.stringify({
         filter: search
-      }),
-      packageId: this.props.packageId,
-      tokens: this.props.tokens,
-      hubUrl: this.props.hubUrl
+      })
     }
 
     this.lastRequestId = setTimeout(() => {
-      request(`${this.props.hubUrl}/api/userAccounts/search`, requestOptions)
+      request(`${getHubUrl()}/api/userAccounts/search`, requestOptions)
         .then((result) => {
           if (result && result.success === true) {
             if (result.total === 0) {
@@ -136,15 +134,8 @@ export class UserAutosuggest extends React.Component {
 
 UserAutosuggest.propTypes = Object.assign({}, React.Component, {
   autosuggestId: React.PropTypes.string,
-  hubUrl: React.PropTypes.string.isRequired,
   onSelect: React.PropTypes.func.isRequired,
-  packageId: React.PropTypes.string.isRequired,
-  placeholder: React.PropTypes.string,
-  tokens: React.PropTypes.shape({
-    accessToken: React.PropTypes.string.isRequired,
-    expires: React.PropTypes.number.isRequired,
-    refreshToken: React.PropTypes.string.isRequired
-  })
+  placeholder: React.PropTypes.string
 })
 
 export default UserAutosuggest
