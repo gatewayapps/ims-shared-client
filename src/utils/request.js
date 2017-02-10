@@ -7,12 +7,15 @@ import { getCookie } from './cookies'
 import * as HeaderUtils from './headers'
 import RequestError from './RequestError'
 
+const REFRESH_ATTEMPT_DELAY = 5000
+let refreshAttempts = 0
+
 let storeInstance
 let tokensPathKey
 let packageId
 let hubUrl
 
-export const UPDATE_ACCESS_TOKEN = 'UPDATE_ACCESS_TOKEN'
+export const UPDATE_ACCESS_TOKEN = '@@ims-shared-core/UPDATE_ACCESS_TOKEN'
 
 export function prepareRequest (store, tokensPath) {
   if (store && store.getState && store.dispatch) {
@@ -38,6 +41,8 @@ export function prepareRequest (store, tokensPath) {
   if (!hubUrl) {
     throw new Error('"HUB_URL" cookie has not been set')
   }
+
+  refreshAttempts = 0
 
   scheduleRefreshAccessToken()
 }
@@ -110,9 +115,20 @@ function refreshAccessToken () {
   return fetch(`${hubUrl}/users/accessToken`, refreshOptions)
     .then(parseResponse)
     .then((response) => {
-      storeInstance.dispatch(updateAccessToken(response.accessToken, response.expires))
-      scheduleRefreshAccessToken()
+      if (response.success === true) {
+        storeInstance.dispatch(updateAccessToken(response.accessToken, response.expires))
+        scheduleRefreshAccessToken()
+        refreshAttempts = 0
+      } else {
+        console.error(`Received success false from refreshAccessToken with message: ${response.message}`)
+      }
+
       return response
+    })
+    .catch((error) => {
+      refreshAttempts++
+      console.error(`Failed refreshing access token attempt ${refreshAttempts}`, error)
+      setTimeout(refreshAccessToken, REFRESH_ATTEMPT_DELAY * refreshAttempts)
     })
 }
 
