@@ -1,4 +1,5 @@
 import Promise from 'bluebird'
+import { Map } from 'immutable'
 import fetch from 'isomorphic-fetch'
 import moment from 'moment'
 import { Constants } from 'ims-shared-core'
@@ -58,7 +59,8 @@ export default function request (url, options) {
 }
 
 function getTokens () {
-  return storeInstance.getState().getIn(tokensPathKey)
+  const tokens = storeInstance.getState().getIn(tokensPathKey)
+  return Map.isMap(tokens) ? tokens.toJS() : undefined
 }
 
 function scheduleRefreshAccessToken () {
