@@ -1,5 +1,5 @@
 import React from 'react'
-import { injectScopedReducer } from '../../utils/injectScopedReducer'
+import { injectScopedReducer } from '../../utils/InjectScopedReducer'
 
 export default class ScopedComponent extends React.Component {
   constructor (props, scopeProps) {
