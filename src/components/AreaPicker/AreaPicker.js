@@ -112,6 +112,7 @@ export class AreaPicker extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <ErrorAlert message={this.state.error} />
+          {this.renderTreeHeader()}
           <div className='ims-area-picker__tree-container'>
             {this.renderModalBody()}
           </div>
@@ -139,7 +140,6 @@ export class AreaPicker extends React.Component {
 
     return (
       <ReactTree.Tree
-        header={this.renderTreeHeader()}
         nodes={this.state.treeData}
         ref='activeTree'
         renderNodeTitle={this._renderNodeTitle}
