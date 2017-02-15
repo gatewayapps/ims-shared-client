@@ -112,9 +112,18 @@ export class AreaPicker extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <ErrorAlert message={this.state.error} />
-          {this.renderTreeHeader()}
-          <div className='ims-area-picker__tree-container'>
-            {this.renderModalBody()}
+          <div className='panel panel-default'>
+            <div className='panel-heading ims-area-picker__tree-header-container'>
+              <input
+                className='form-control'
+                placeholder='Search...'
+                ref='filter'
+                onChange={(e) => { this.refs.activeTree.setFilter(e.target.value) }}
+                type='text' />
+            </div>
+            <div className='ims-area-picker__tree-container panel-body'>
+              {this.renderModalBody()}
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -152,12 +161,9 @@ export class AreaPicker extends React.Component {
 
   renderTreeHeader () {
     return (
-      <input
-        className='ims-area-picker__tree-header'
-        placeholder='Search...'
-        ref='filter'
-        onChange={(e) => { this.refs.activeTree.setFilter(e.target.value) }}
-        type='text' />
+      <div className='ims-area-picker__tree-header-container'>
+        
+      </div>
     )
   }
 
@@ -184,6 +190,7 @@ export class AreaPicker extends React.Component {
     this.setState({
       treeData: this.state.treeData
     })
+    this._onNodeSelect(node)
   }
 
   _onNodeSelect (node) {
