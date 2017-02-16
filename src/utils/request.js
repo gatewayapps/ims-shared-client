@@ -44,7 +44,7 @@ export function prepareRequest (store, tokensPath) {
 
   refreshAttempts = 0
 
-  scheduleRefreshAccessToken()
+  return refreshAccessToken()
 }
 
 export default function request (url, options) {
@@ -68,6 +68,17 @@ function getTokens () {
   return Map.isMap(tokens) ? tokens.toJS() : undefined
 }
 
+function getAccessToken () {
+  const tokens = getTokens()
+
+  if (tokens.expires < moment().add(1, 'minute').unix()) {
+    return refreshAccessToken()
+      .then((response) => response.accessToken)
+  } else {
+    return Promise.resolve(tokens.accessToken)
+  }
+}
+
 function scheduleRefreshAccessToken () {
   verifyInitialized()
 
@@ -81,7 +92,7 @@ function scheduleRefreshAccessToken () {
       refreshIn = 0
     }
 
-    setTimeout(refreshAccessToken, refreshIn)
+    setTimeout(() => refreshAccessToken(true), refreshIn)
   }
 }
 
@@ -92,9 +103,11 @@ function verifyInitialized () {
 }
 
 function makeAuthenticatedRequest (url, requestOptions) {
-  const tokens = getTokens()
-  requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(packageId, tokens.accessToken)
-  return makeRequest(url, requestOptions)
+  return getAccessToken()
+    .then((accessToken) => {
+      requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(packageId, accessToken)
+      return makeRequest(url, requestOptions)
+    })
 }
 
 function makeUnauthenticatedRequest (url, requestOptions) {
@@ -106,7 +119,7 @@ function makeRequest (url, requestOptions) {
   return fetch(url, requestOptions).then(parseResponse)
 }
 
-function refreshAccessToken () {
+export function refreshAccessToken (scheduleRefresh) {
   const tokens = getTokens()
   const refreshOptions = {
     headers: HeaderUtils.createRequestHeader(packageId),
@@ -119,7 +132,9 @@ function refreshAccessToken () {
     .then((response) => {
       if (response.success === true) {
         storeInstance.dispatch(updateAccessToken(response.accessToken, response.expires))
-        scheduleRefreshAccessToken()
+        if (scheduleRefresh === true) {
+          scheduleRefreshAccessToken()
+        }
         refreshAttempts = 0
       } else {
         console.error(`Received success false from refreshAccessToken with message: ${response.message}`)
@@ -130,7 +145,7 @@ function refreshAccessToken () {
     .catch((error) => {
       refreshAttempts++
       console.error(`Failed refreshing access token attempt ${refreshAttempts}`, error)
-      setTimeout(refreshAccessToken, REFRESH_ATTEMPT_DELAY * refreshAttempts)
+      setTimeout(() => refreshAccessToken(true), REFRESH_ATTEMPT_DELAY * refreshAttempts)
     })
 }
 
