@@ -121,6 +121,11 @@ function makeRequest (url, requestOptions) {
 
 export function refreshAccessToken (scheduleRefresh) {
   const tokens = getTokens()
+  
+  if (!tokens || !tokens.refreshToken) {
+    return Promise.resolve()
+  }
+
   const refreshOptions = {
     headers: HeaderUtils.createRequestHeader(packageId),
     method: 'POST',
