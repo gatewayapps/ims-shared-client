@@ -31,10 +31,21 @@ import { prepareRequest } from 'ims-shared-client/request'
   prepareRequest(store, 'global.tokens')
 ```
 
+### Using request in modules
+
+```js
+import request from 'ims-shared-client/request'
+
+
+function* mySaga (action) {
+  yield call(request, '/api/endpoint', requestOptions)
+}
+```
+
 ## Sample Usage
 ```js
 import React from 'react'
-import { LoadingIndicator } from 'ims-shared-client
+import { LoadingIndicator } from 'ims-shared-client'
 
 class MyComponent extends React.Component {
   render () {
