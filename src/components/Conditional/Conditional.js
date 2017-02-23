@@ -4,7 +4,7 @@ export class ActionLink extends React.Component {
   render () {
     var shouldRender = this.props.value ? this.props.condition === this.props.value : !!this.props.condition
 
-    return shouldRender ? this.props.children : undefined
+    return shouldRender ? this.props.children : null
   }
 }
 
