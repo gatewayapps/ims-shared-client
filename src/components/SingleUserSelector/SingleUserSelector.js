@@ -49,8 +49,15 @@ export class SingleUserSelector extends React.Component {
           <button
             className={buttonClasses}
             onClick={() => this._onShowSelectMode()}>
-            <i className='fa fa-user' /> {this.props.label || 'Choose Employee'}
+            <i className='fa fa-fw fa-user' /> {this.props.label || 'Choose Employee'}
           </button>
+          {this.props.clearButton && this.props.value &&
+            <button
+              className={buttonClasses}
+              onClick={() => this.props.onChange(undefined)}>
+              <i className='fa fa-fw fa-times' /> Clear
+            </button>
+          }
         </div>
       )
     }
@@ -96,6 +103,7 @@ export class SingleUserSelector extends React.Component {
 
 SingleUserSelector.propTypes = {
   autosuggestId: React.PropTypes.string,
+  clearButton: React.PropTypes.bool,
   inputProps: React.PropTypes.object,
   label: React.PropTypes.string,
   renderSelectedUser: React.PropTypes.func,
