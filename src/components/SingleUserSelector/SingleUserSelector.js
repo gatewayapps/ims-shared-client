@@ -63,13 +63,15 @@ export class SingleUserSelector extends React.Component {
       'btn-xs': this.props.size === 'xs'
     })
 
+    const inputProps = Object.assign({}, { autoFocus: true }, this.props.inputProps)
+
     return (
       <div className='ims-single-user-selector__select-container'>
         <div className='ims-single-user-selector__select-container-input'>
           <UserAutosuggest
             autosuggestId={this.props.autosuggestId}
             onSelect={(s) => this._onSelect(s)}
-            inputProps={this.props.inputProps}
+            inputProps={inputProps}
             placeholder={this.props.placeholder} />
         </div>
         <div className='ims-single-user-selector__select-container-cancel'>
