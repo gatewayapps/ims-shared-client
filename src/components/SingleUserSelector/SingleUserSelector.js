@@ -40,6 +40,7 @@ export class SingleUserSelector extends React.Component {
         'btn-lg': this.props.size === 'lg',
         'btn-xs': this.props.size === 'xs'
       })
+      const clearButtonClasses = classNames(buttonClasses, 'text-danger')
 
       return (
         <div>
@@ -53,7 +54,7 @@ export class SingleUserSelector extends React.Component {
           </button>
           {this.props.clearButton && this.props.value &&
             <button
-              className={buttonClasses}
+              className={clearButtonClasses}
               onClick={() => this.props.onChange(undefined)}>
               <i className='fa fa-fw fa-times' /> Clear
             </button>
