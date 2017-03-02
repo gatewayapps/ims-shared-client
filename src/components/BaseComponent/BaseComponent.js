@@ -22,14 +22,14 @@ export default class BaseComponent extends React.Component {
     }
   }
 
-  checkPermission (permission, userState) {
+  checkPermission (permission, userState, skipTreeNodeCheck) {
     const user = userState || this.props.user ? this.props.user : undefined
 
     if (!this._isUserInitialized(user)) {
       return false
     }
 
-    return permHandler.checkPermission(permission, user.permissions)
+    return permHandler.checkPermission(permission, user.permissions, skipTreeNodeCheck)
   }
 
   _isUserInitialized (user) {
