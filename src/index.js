@@ -27,7 +27,7 @@ import UserProfileImage from './components/UserProfileImage'
 // Utilities ===============================
 import IconHelper from './utils/IconHelper'
 import connectScoped from './utils/ConnectScoped'
-import { prepareInjector, injectScopedReducer } from './utils/InjectScopedReducer'
+import { prepareInjector, injectScopedReducer } from './utils/injectScopedReducer'
 
 // =========================================
 
