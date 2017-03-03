@@ -2,6 +2,7 @@
 var storeInstance
 var injectorInstance
 
+
 export function prepareInjector (store, injector) {
   storeInstance = store
   injectorInstance = injector
