@@ -5,13 +5,31 @@ import request from './request'
  * include: array of action types to include
  * interval: how often to send.  Defaults to 0 - immediately(in seconds)
  * user: the current user
+ * shouldTrackAction: method to determine if an action should be tracked
  * sessionId: unique identifier to track a session
+ * logging: whether to write debug info to console.log
+ * path: path on hub to send the event, defaults to /events/track
+ * method: request method to use, defaults to 'POST'
+ * requestOptions: options to send with the request
  */
 
 export default function (options) {
+  const log = function (msg, arg) {
+    if (options.logging) {
+      console.log(msg, arg)
+    }
+  }
+
+  const getSeconds = () => {
+    return new Date().getTime() / 1000
+  }
+
   const ACTION_QUEUE = []
   const TIME_TO_WAIT = options.interval * 1000
   var QUEUE_TIMEOUT = null
+  const SESSION_START_TIME = getSeconds()
+
+  log('Session started at ', SESSION_START_TIME)
 
   const packageId = getCookie(Constants.Cookies.PackageId)
   if (!packageId) {
@@ -30,29 +48,46 @@ export default function (options) {
   const sendQueue = () => {
     QUEUE_TIMEOUT = null
 
-    const body = {
-      user: options.user,
+    const body = JSON.stringify({
+      usr: options.user,
       sid: options.sessionId,
-      events: ACTION_QUEUE,
-      packageId: packageId,
+      log: ACTION_QUEUE,
+      pid: packageId,
       ua: navigator.userAgent,
-      screen: {
+      scr: {
         w: screen.width,
         h: screen.height
       }
+    })
+    if (options.logging) {
+      log('Sending queue', JSON.stringify(JSON.parse(body), null, 2))
     }
-    return request(`${hubUrl}/api/track`, { body: JSON.stringify(body), method: 'POST' })
+
+    ACTION_QUEUE.length = 0
+
+    return request(`${hubUrl}${options.path || '/events/track'}`, {
+      body: body,
+      method: options.method || 'POST',
+      requestOptions: options.requestOptions })
+  }
+
+  const addPropertiesToAction = (action) => {
+    var retVal = {}
+    Object.assign(retVal, action)
+    retVal['!at'] = new Date()
+    retVal['!st'] = getSeconds() - SESSION_START_TIME
+    retVal['!w'] = {
+      w: window.innerWidth,
+      h: window.innerHeight
+    }
+    return retVal
   }
 
   const queueAction = (action) => {
-    if (shouldQueueAction(action)) {
-      action['__ts'] = new Date()
-      action['__view'] = {
-        w: window.innerWidth,
-        h: window.innerHeight
-      }
-      ACTION_QUEUE.push(action)
-
+    if ((options.shouldTrackAction && options.shouldTrackAction(action)) || (options.include && shouldQueueAction(action))) {
+      ACTION_QUEUE.push(
+        addPropertiesToAction(action)
+      )
       if (QUEUE_TIMEOUT === null) {
         QUEUE_TIMEOUT = window.setTimeout(sendQueue, TIME_TO_WAIT)
       }

@@ -121,7 +121,7 @@ function makeRequest (url, requestOptions) {
 
 export function refreshAccessToken (scheduleRefresh) {
   const tokens = getTokens()
-  
+
   if (!tokens || !tokens.refreshToken) {
     return Promise.resolve()
   }
@@ -188,7 +188,11 @@ function prepareOptions (options = {}) {
   const requestOptions = {
     method: opts.method,
     credentials: opts.credentials,
-    body: opts.body
+    body: opts.body,
+    headers: {
+      'content-type': 'application/json',
+      'accept': 'application/json'
+    }
   }
 
   if (!opts.requestOptions) {
