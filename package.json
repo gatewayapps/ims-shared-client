@@ -1,6 +1,6 @@
 {
   "name": "ims-shared-client",
-  "version": "2.3.11",
+  "version": "2.5.13",
   "description": "",
   "babel": {
     "presets": [
@@ -30,7 +30,7 @@
     "eslint-plugin-standard": "^2.1.1",
     "gateway-react-tree": "^1.0.11",
     "immutable": "^3.8.1",
-    "ims-shared-core": ">=3.0.0",
+    "ims-shared-core": ">=4.0.5",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.17.1",
     "react": "^15.0.0",

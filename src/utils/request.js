@@ -158,8 +158,12 @@ function parseResponse (response) {
   if (!response || response.status >= 500) {
     throw new RequestError('Response received a server error')
   }
-
-  return response.json()
+  var contentType = response.headers.get('content-type')
+  if (contentType && contentType.indexOf('application/json') !== -1) {
+    return response.json()
+  } else {
+    return response.status === 200
+  }
 }
 
 function updateAccessToken (accessToken, expires) {

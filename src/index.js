@@ -14,7 +14,9 @@ import LoadingIndicator from './components/LoadingIndicator'
 import NodePath from './components/NodePath'
 import PersonCard from './components/PersonCard'
 import RequiredIndicator from './components/RequiredIndicator'
+import PermissionCheck from './components/PermissionCheck'
 import ScopedBaseComponent from './components/ScopedBaseComponent'
+import FeedbackButton from './components/FeedbackButton'
 import ScopedComponent from './components/ScopedComponent'
 import SecureLink from './components/SecureLink'
 import SingleUserSelector from './components/SingleUserSelector'
@@ -29,7 +31,6 @@ import IconHelper from './utils/IconHelper'
 import connectScoped from './utils/ConnectScoped'
 import { prepareInjector, injectScopedReducer } from './utils/injectScopedReducer'
 
-
 // =========================================
 
 module.exports = {
@@ -42,10 +43,12 @@ module.exports = {
   DisplayName: DisplayName,
   EquipmentAutosuggest: EquipmentAutosuggest,
   ErrorAlert: ErrorAlert,
+  FeedbackButton: FeedbackButton,
   FileUploader: FileUploader,
   FormGroup: FormGroup,
   LoadingIndicator: LoadingIndicator,
   NodePath: NodePath,
+  PermissionCheck: PermissionCheck,
   PersonCard: PersonCard,
   RequiredIndicator: RequiredIndicator,
   ScopedBaseComponent: ScopedBaseComponent,
