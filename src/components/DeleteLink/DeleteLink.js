@@ -22,17 +22,23 @@ export class DeleteLink extends React.Component {
   }
 
   render () {
-    const btnClasses = classNames('btn btn-link', this.props.className, {
+    const btnClasses = classNames('btn', this.props.className, {
+      'btn-link': !this.props.button,
+      'btn-danger': this.props.button,
       'btn-sm': this.props.size === 'sm',
       'btn-lg': this.props.size === 'lg',
       'btn-xs': this.props.size === 'xs'
+    })
+
+    const textClasses = classNames({
+      'text-danger': !this.props.button
     })
 
     const deleteDescription = this.props.deleteDescription ? `"${this.props.deleteDescription}"` : 'this item'
 
     return (
       <button id={this.props.id} className={btnClasses} onClick={() => this._showPrompt()}>
-        <span className='text-danger'>{this.props.children}</span>
+        <span className={textClasses}>{this.props.children}</span>
         <Modal show={this.state.show} onHide={() => this._onHide()} aria-labelledby='confirmDeleteTitle'>
           <Modal.Header closeButton>
             <Modal.Title id='confirmDeleteTitle'>Confirm Delete</Modal.Title>
@@ -56,7 +62,9 @@ export class DeleteLink extends React.Component {
 
 DeleteLink.propTypes = Object.assign({}, React.Component.propTypes, {
   deleteDescription: React.PropTypes.string,
-  onDelete: React.PropTypes.func.isRequired
+  onDelete: React.PropTypes.func.isRequired,
+  size: React.PropTypes.oneOf(['sm', 'md', 'lg']),
+  button: React.PropTypes.bool
 })
 
 export default DeleteLink

@@ -1,6 +1,6 @@
 {
   "name": "ims-shared-client",
-  "version": "2.5.13",
+  "version": "2.5.15",
   "description": "",
   "babel": {
     "presets": [
