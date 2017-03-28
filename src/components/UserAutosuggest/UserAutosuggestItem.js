@@ -1,10 +1,13 @@
 import React from 'react'
+import classNames from 'classnames'
 import '../../styles/UserAutosuggestItem.css'
 
 export class UserAutosuggestItem extends React.Component {
   render () {
+    const containerClasses = classNames('ims-user-autosuggest-item__container', this.props.className)
+
     return (
-      <div className='ims-user-autosuggest-item__container'>
+      <div className={containerClasses}>
         <div className='ims-user-autosuggest-item__profile-image'>
           {this.renderProfileImage()}
         </div>
@@ -33,7 +36,7 @@ export class UserAutosuggestItem extends React.Component {
   }
 }
 
-UserAutosuggestItem.propTypes = {
+UserAutosuggestItem.propTypes = Object.assign({}, React.Component.propTypes, {
   user: React.PropTypes.shape({
     firstName: React.PropTypes.string.isRequired,
     lastName: React.PropTypes.string.isRequired,
@@ -41,6 +44,6 @@ UserAutosuggestItem.propTypes = {
     positionPath: React.PropTypes.string,
     profileImageUrl: React.PropTypes.string
   }).isRequired
-}
+})
 
 export default UserAutosuggestItem
