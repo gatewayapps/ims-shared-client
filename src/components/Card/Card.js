@@ -39,8 +39,10 @@ export class Card extends BaseComponent {
   render () {
     const renderHeader = this.props.renderHeader || this._renderHeader
 
+    const containerClasses = classNames('ims-card__container', this.props.className)
+
     return (
-      <div className='ims-card__container' style={this.props.style}>
+      <div className={containerClasses} style={this.props.style}>
         <div className={classNames('clearfix', 'ims-card__header')}>
           {this._renderRemoveButton()}
           {renderHeader()}
