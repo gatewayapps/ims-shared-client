@@ -72,6 +72,44 @@ export default class FileUploader extends React.Component {
       this.currentIndex++
     }
   }
+
+  _onDropFiles (e) {
+    e.preventDefault()
+
+    var items = e.dataTransfer.items
+    for (var i = 0; i < items.length; i++) {
+    // webkitGetAsEntry is where the magic happens
+      var item = items[i].webkitGetAsEntry()
+      if (item) {
+        this._traverseFiles(item)
+      }
+    }
+  }
+
+  _traverseFiles (item, path) {
+    path = path || ''
+    if (item.isFile) {
+    // Get file
+      const that = this
+      item.file(function (file) {
+        upload(this.props.uploadUrl, that.props.accessToken, file, this.currentIndex, this.props.onProgress ||
+        ((ev) => {
+          console.log(ev)
+        }))
+        this.currentIndex++
+      })
+    } else if (item.isDirectory) {
+    // Get folder contents
+      var dirReader = item.createReader()
+      var that = this
+      dirReader.readEntries(function (entries) {
+        console.log(entries)
+        for (var i = 0; i < entries.length; i++) {
+          that._traverseFiles(entries[i], path + item.name + '/')
+        }
+      })
+    }
+  }
 }
 
 FileUploader.propTypes = {
@@ -83,4 +121,3 @@ FileUploader.propTypes = {
   uploadUrl: React.PropTypes.string.isRequired,
   onProgress: React.PropTypes.func
 }
-
