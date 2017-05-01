@@ -64,13 +64,14 @@ export default class FileUploader extends React.Component {
     if (e.preventDefault) {
       e.preventDefault() // Necessary. Allows us to drop.
     }
-    for (var i = 0; i < e.dataTransfer.files.length; i++) {
-      upload(this.props.uploadUrl, this.props.accessToken, e.dataTransfer.files[i], this.currentIndex, this.props.onProgress ||
-      ((ev) => {
-        console.log(ev)
-      }))
-      this.currentIndex++
-    }
+    this._onDropFiles(e)
+    // for (var i = 0; i < e.dataTransfer.files.length; i++) {
+    //   upload(this.props.uploadUrl, this.props.accessToken, e.dataTransfer.files[i], this.currentIndex, this.props.onProgress ||
+    //   ((ev) => {
+    //     console.log(ev)
+    //   }))
+    //   this.currentIndex++
+    // }
   }
 
   _onDropFiles (e) {
@@ -88,22 +89,20 @@ export default class FileUploader extends React.Component {
 
   _traverseFiles (item, path) {
     path = path || ''
+    var that = this
     if (item.isFile) {
     // Get file
-      const that = this
       item.file(function (file) {
-        upload(this.props.uploadUrl, that.props.accessToken, file, this.currentIndex, this.props.onProgress ||
+        upload(that.props.uploadUrl, that.props.accessToken, file, that.currentIndex, that.props.onProgress ||
         ((ev) => {
           console.log(ev)
         }))
-        this.currentIndex++
+        that.currentIndex++
       })
     } else if (item.isDirectory) {
     // Get folder contents
       var dirReader = item.createReader()
-      var that = this
       dirReader.readEntries(function (entries) {
-        console.log(entries)
         for (var i = 0; i < entries.length; i++) {
           that._traverseFiles(entries[i], path + item.name + '/')
         }
