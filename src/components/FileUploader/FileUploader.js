@@ -64,7 +64,7 @@ export default class FileUploader extends React.Component {
     if (e.preventDefault) {
       e.preventDefault() // Necessary. Allows us to drop.
     }
-    this._onDropFiles(e)
+    this._onDropFilesMethod(e)
     // for (var i = 0; i < e.dataTransfer.files.length; i++) {
     //   upload(this.props.uploadUrl, this.props.accessToken, e.dataTransfer.files[i], this.currentIndex, this.props.onProgress ||
     //   ((ev) => {
@@ -74,7 +74,7 @@ export default class FileUploader extends React.Component {
     // }
   }
 
-  _onDropFiles (e) {
+  _onDropFilesMethod (e) {
     e.preventDefault()
 
     var items = e.dataTransfer.items
