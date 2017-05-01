@@ -65,24 +65,27 @@ export default class FileUploader extends React.Component {
       e.preventDefault() // Necessary. Allows us to drop.
     }
     this._onDropFilesMethod(e)
-    // for (var i = 0; i < e.dataTransfer.files.length; i++) {
-    //   upload(this.props.uploadUrl, this.props.accessToken, e.dataTransfer.files[i], this.currentIndex, this.props.onProgress ||
-    //   ((ev) => {
-    //     console.log(ev)
-    //   }))
-    //   this.currentIndex++
-    // }
   }
 
   _onDropFilesMethod (e) {
     e.preventDefault()
 
     var items = e.dataTransfer.items
-    for (var i = 0; i < items.length; i++) {
+    if (items && items.length > 0 && typeof items[0].webkitGetAsEntry === 'function') {
+      for (var i = 0; i < items.length; i++) {
     // webkitGetAsEntry is where the magic happens
-      var item = items[i].webkitGetAsEntry()
-      if (item) {
-        this._traverseFiles(item)
+        var item = items[i].webkitGetAsEntry()
+        if (item) {
+          this._traverseFiles(item)
+        }
+      }
+    } else {
+      for (var j = 0; j < e.dataTransfer.files.length; j++) {
+        upload(this.props.uploadUrl, this.props.accessToken, e.dataTransfer.files[j], this.currentIndex, this.props.onProgress ||
+        ((ev) => {
+          console.log(ev)
+        }))
+        this.currentIndex++
       }
     }
   }
