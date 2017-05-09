@@ -17,12 +17,15 @@ import RequiredIndicator from './components/RequiredIndicator'
 import PermissionCheck from './components/PermissionCheck'
 import ScopedBaseComponent from './components/ScopedBaseComponent'
 import FeedbackButton from './components/FeedbackButton'
+import ReleaseNotesButton from './components/ReleaseNotesButton'
 import ScopedComponent from './components/ScopedComponent'
 import SecureLink from './components/SecureLink'
 import SingleUserSelector from './components/SingleUserSelector'
 import SortableListHeader from './components/SortableListHeader'
 import UserAutosuggest from './components/UserAutosuggest'
 import UserProfileImage from './components/UserProfileImage'
+
+import PackageInformation from './PackageInformation'
 
 // ========================================
 
@@ -44,6 +47,7 @@ module.exports = {
   EquipmentAutosuggest: EquipmentAutosuggest,
   ErrorAlert: ErrorAlert,
   FeedbackButton: FeedbackButton,
+  ReleaseNotesButton: ReleaseNotesButton,
   FileUploader: FileUploader,
   FormGroup: FormGroup,
   LoadingIndicator: LoadingIndicator,
@@ -63,5 +67,6 @@ module.exports = {
     connectScoped: connectScoped,
     prepareScopedInjector: prepareInjector,
     injectScopedReducer: injectScopedReducer
-  }
+  },
+  PackageInformation: PackageInformation
 }

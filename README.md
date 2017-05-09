@@ -6,6 +6,21 @@ This is a package of shared react client components and utilities for build pack
 $ npm install --save ims-shared-client
 ```
 
+## Version 3.0 Breaking change
+Version 3.0 introduces a PackageInformation object that must be created at the app launch. You must call PackageInformation.configure with your package information.
+
+```js
+import { PackageInformation } from 'ims-shared-client'
+const packageInfo = require('../shared/ims.js')
+PackageInformation.configure(packageInfo)
+```
+
+If you do not, BaseComponent, ScopedComponent, request, and SecureLink will not work correctly.
+
+To do:
+- Refactor FeedbackButton to use PackageInformation
+- Refactor ReleaseNotesButton to use PackageInformation
+
 ## Version 2.0 Breaking change
 Version 2.0 introduces a new version of the request library that is connected with the redux store. Components from the shared library such as UserAutosuggest and AreaPicker require the request library be prepared to be used.
 

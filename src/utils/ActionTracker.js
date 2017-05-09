@@ -1,6 +1,7 @@
 import { getCookie } from './cookies'
 import { Constants } from 'ims-shared-core'
 import request from './request'
+import PackageInformation from '../../PackageInformation'
 /** options
  * include: array of action types to include
  * interval: how often to send.  Defaults to 0 - immediately(in seconds)
@@ -31,11 +32,6 @@ export default function (options) {
 
   log('Session started at ', SESSION_START_TIME)
 
-  const packageId = getCookie(Constants.Cookies.PackageId)
-  if (!packageId) {
-    throw new Error('"PACKAGE_ID" cookie has not been set')
-  }
-
   const hubUrl = getCookie(Constants.Cookies.HubUrl)
   if (!hubUrl) {
     throw new Error('"HUB_URL" cookie has not been set')
@@ -52,7 +48,7 @@ export default function (options) {
       usr: options.user,
       sid: options.sessionId,
       log: ACTION_QUEUE,
-      pid: packageId,
+      pid: PackageInformation.packageId,
       ua: navigator.userAgent,
       scr: {
         w: screen.width,

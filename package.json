@@ -1,6 +1,6 @@
 {
   "name": "ims-shared-client",
-  "version": "2.6.2",
+  "version": "3.0.10",
   "description": "",
   "babel": {
     "presets": [
@@ -38,7 +38,8 @@
     "react-bootstrap-modal": "^3.0.1",
     "react-dom": "^15.0.0",
     "react-redux": "^5.0.2",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "showdown": "^1.6.4"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

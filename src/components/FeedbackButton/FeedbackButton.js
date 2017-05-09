@@ -1,46 +1,25 @@
 import React from 'react'
 import Modal from 'react-bootstrap-modal'
-import { getCookie } from '../../utils/cookies'
 import request from '../../utils/request'
-import { Constants } from 'ims-shared-core'
 
 import classNames from 'classnames'
 
-export class DeleteLink extends React.Component {
+export class FeedbackButton extends React.Component {
   constructor (props) {
     super(props)
-
-    const packageId = getCookie(Constants.Cookies.PackageId)
-    const packageVersion = getCookie(Constants.Cookies.PackageVersion)
-    const packageCommit = getCookie(Constants.Cookies.PackageCommit)
-    if (!packageId) {
-      throw new Error('"PACKAGE_ID" cookie has not been set')
-    }
-    if (!packageVersion) {
-      throw new Error('"PACKAGE_VERSION" cookie has not been set')
-    }
-    if (!packageCommit) {
-      throw new Error('"PACKAGE_COMMIT" cookie has not been set')
-    }
-
-    this.state = { show: false, packageId: packageId, packageVersion: packageVersion, packageCommit: packageCommit }
+    this.state = { sending: false }
   }
-
   _onSendFeedback () {
-    const packageId = getCookie(Constants.Cookies.PackageId)
-    const packageVersion = getCookie(Constants.Cookies.PackageVersion)
-    const packageCommit = getCookie(Constants.Cookies.PackageCommit)
-    const hubUrl = getCookie(Constants.Cookies.HubUrl)
     this.setState({ sending: true })
-    return request(`${hubUrl}/feedback`, {
+    return request(`${this.props.hubUrl}/feedback`, {
       method: 'POST',
       body: JSON.stringify({
         user: this.props.user,
         type: this.refs.lstFeedbackType.value,
         description: this.refs.txtDescription.value,
-        packageId: packageId,
-        packageVersion: packageVersion,
-        packageCommit: packageCommit
+        packageId: this.props.packageId,
+        packageVersion: this.props.packageVersion,
+        packageCommit: this.props.packageCommit
       })
     }).then(() => {
       this.setState({ show: false, sending: false })
@@ -66,11 +45,11 @@ export class DeleteLink extends React.Component {
       this.state.sending ? 'fa fa-fw fa-circle-o-notch fa-spin' : 'fa fa-fw fa-send'
 
     return (
-      <button id={this.props.id} style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
+      <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
         <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
         <Modal show={this.state.show} onHide={() => this._onHide()} >
           <Modal.Header closeButton>
-            <Modal.Title id='confirmDeleteTitle'>Send Feedback</Modal.Title>
+            <Modal.Title>Send Feedback</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form className='form-horizontal'>
@@ -93,13 +72,13 @@ export class DeleteLink extends React.Component {
               <div className='form-group'>
                 <label className='col-sm-2 control-label'>Package</label>
                 <div className='col-sm-10'>
-                  <p className='form-control-static' >{this.state.packageId}</p>
+                  <p className='form-control-static' >{this.props.packageName} ({this.props.packageId})</p>
                 </div>
               </div>
               <div className='form-group'>
                 <label className='col-sm-2 control-label'>Version</label>
                 <div className='col-sm-10'>
-                  <p className='form-control-static' >{this.state.packageVersion} ({this.state.packageCommit})</p>
+                  <p className='form-control-static' >{this.props.packageVersion} ({this.props.packageCommit})</p>
                 </div>
               </div>
 
@@ -119,9 +98,15 @@ export class DeleteLink extends React.Component {
   }
 }
 
-DeleteLink.propTypes = Object.assign({}, React.Component.propTypes, {
+FeedbackButton.propTypes = Object.assign({}, React.Component.propTypes, {
   user: React.PropTypes.object.isRequired,
-  icon: React.PropTypes.string
+  icon: React.PropTypes.string,
+  packageVersion: React.PropTypes.string.isRequired,
+  packageName: React.PropTypes.string.isRequired,
+  packageId: React.PropTypes.string.isRequired,
+  packageCommit: React.PropTypes.string.isRequired,
+  hubUrl: React.PropTypes.string.isRequired
+
 })
 
-export default DeleteLink
+export default FeedbackButton
