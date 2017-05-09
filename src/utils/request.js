@@ -6,13 +6,13 @@ import { Constants } from 'ims-shared-core'
 import { getCookie } from './cookies'
 import * as HeaderUtils from './headers'
 import RequestError from './RequestError'
+import PackageInformation from '../PackageInformation'
 
 const REFRESH_ATTEMPT_DELAY = 5000
 let refreshAttempts = 0
 
 let storeInstance
 let tokensPathKey
-let packageId
 let hubUrl
 
 export const UPDATE_ACCESS_TOKEN = 'UPDATE_ACCESS_TOKEN'
@@ -30,11 +30,6 @@ export function prepareRequest (store, tokensPath) {
     tokensPathKey = tokensPath
   } else {
     throw new TypeError('Invalid "tokensPath" should be either a string or an array')
-  }
-
-  packageId = getCookie(Constants.Cookies.PackageId)
-  if (!packageId) {
-    throw new Error('"PACKAGE_ID" cookie has not been set')
   }
 
   hubUrl = getCookie(Constants.Cookies.HubUrl)
@@ -97,7 +92,7 @@ function scheduleRefreshAccessToken () {
 }
 
 function verifyInitialized () {
-  if (!storeInstance || !tokensPathKey || !packageId || !hubUrl) {
+  if (!storeInstance || !tokensPathKey || !PackageInformation.packageId || !hubUrl) {
     throw new Error('Request has not been prepared. You need to call "prepareRequest" to configure the request.')
   }
 }
@@ -105,13 +100,13 @@ function verifyInitialized () {
 function makeAuthenticatedRequest (url, requestOptions) {
   return getAccessToken()
     .then((accessToken) => {
-      requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(packageId, accessToken)
+      requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(PackageInformation.packageId, accessToken)
       return makeRequest(url, requestOptions)
     })
 }
 
 function makeUnauthenticatedRequest (url, requestOptions) {
-  requestOptions.headers = HeaderUtils.createRequestHeader(packageId)
+  requestOptions.headers = HeaderUtils.createRequestHeader(PackageInformation.packageId)
   return makeRequest(url, requestOptions)
 }
 
@@ -127,7 +122,7 @@ export function refreshAccessToken (scheduleRefresh) {
   }
 
   const refreshOptions = {
-    headers: HeaderUtils.createRequestHeader(packageId),
+    headers: HeaderUtils.createRequestHeader(PackageInformation.packageId),
     method: 'POST',
     body: JSON.stringify({ refreshToken: tokens.refreshToken })
   }

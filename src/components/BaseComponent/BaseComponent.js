@@ -1,16 +1,16 @@
 import React from 'react'
 import { PermissionHandler } from 'ims-shared-core'
-import cookie from 'react-cookie'
-
-var packageId = cookie.load('PACKAGE_ID') || __PACKAGE_ID__ || '__PACKAGE_ID__ NOT SET!!!'
-
-const permHandler = new PermissionHandler({
-  package: {
-    id: packageId
-  }
-})
+import PackageInformation from '../../PackageInformation'
 
 export default class BaseComponent extends React.Component {
+  constructor (props) {
+    super(props)
+    this.permHandler = new PermissionHandler({
+      package: {
+        id: PackageInformation.packageId
+      }
+    })
+  }
   bindFunctions () {
     var keys = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
 
@@ -29,7 +29,7 @@ export default class BaseComponent extends React.Component {
       return false
     }
 
-    return permHandler.checkPermission(permission, user.permissions, skipTreeNodeCheck)
+    return this.permHandler.checkPermission(permission, user.permissions, skipTreeNodeCheck)
   }
 
   _isUserInitialized (user) {

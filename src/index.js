@@ -25,6 +25,8 @@ import SortableListHeader from './components/SortableListHeader'
 import UserAutosuggest from './components/UserAutosuggest'
 import UserProfileImage from './components/UserProfileImage'
 
+import PackageInformation from './PackageInformation'
+
 // ========================================
 
 // Utilities ===============================
@@ -65,5 +67,6 @@ module.exports = {
     connectScoped: connectScoped,
     prepareScopedInjector: prepareInjector,
     injectScopedReducer: injectScopedReducer
-  }
+  },
+  PackageInformation: PackageInformation
 }

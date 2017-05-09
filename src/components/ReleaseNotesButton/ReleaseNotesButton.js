@@ -42,22 +42,27 @@ export class ReleaseNotesButton extends React.Component {
     }
 
     return (
-      <button id='whats-new-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
+      <button id='whats-new-button' style={this.props.style} className={btnClasses} title={this.props.buttonTitle || `See What's New!`} onClick={() => this._showPrompt()}>
         <i className={`fa fa-fw ${this.props.icon || 'fa-gift'}`} />
         <Modal show={this.state.show} onHide={() => this._onHide()} >
           <Modal.Header closeButton>
             <Modal.Title>What's New in {this.props.packageName} {this.props.packageVersion}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <ul className='fa-ul' >
+            <table >
               {releaseLocale.items.map((i, index) => {
                 var icon = getIconForItem(i)
 
-                return <li key={`rn-item-${index}`}>
-                  <i className={icon} /><span dangerouslySetInnerHTML={{ __html: converter.makeHtml(i.description) }} />
-                </li>
+                return <tr key={`release-note-${index}`} style={{ verticalAlign: 'top' }}>
+                  <td style={{ verticalAlign: 'top' }}>
+                    <i className={icon} />
+                  </td>
+                  <td style={{ verticalAlign: 'top' }}>
+                    <span dangerouslySetInnerHTML={{ __html: converter.makeHtml(i.description) }} />
+                  </td>
+                </tr>
               })}
-            </ul>
+            </table>
           </Modal.Body>
           <Modal.Footer>
             <Modal.Dismiss className='btn btn-link text-default'>
@@ -76,7 +81,8 @@ ReleaseNotesButton.propTypes = Object.assign({}, React.Component.propTypes, {
   packageCommit: React.PropTypes.string.isRequired,
   packageBuildTime: React.PropTypes.number,
   releaseNotes: React.PropTypes.array.isRequired,
-  releaseHeader: React.PropTypes.string
+  releaseHeader: React.PropTypes.string,
+  buttonTitle: React.PropTypes.string
 })
 
 function getIconForItem (item) {

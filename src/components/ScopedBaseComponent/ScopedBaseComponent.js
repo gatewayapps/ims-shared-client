@@ -1,17 +1,18 @@
 'use strict'
 import React from 'react'
 import { PermissionHandler } from 'ims-shared-core'
-import cookie from 'react-cookie'
-
 import ScopedComponent from '../ScopedComponent'
-var packageId = cookie.load('PACKAGE_ID') || __PACKAGE_ID__ || '__PACKAGE_ID__ NOT SET!!!'
+import PackageInformation from '../../PackageInformation'
 
-const permHandler = new PermissionHandler({
-  package: {
-    id: packageId
-  }
-})
 export default class ScopedBaseComponent extends ScopedComponent {
+  constructor (props) {
+    super(props)
+    this.permHandler = new PermissionHandler({
+      package: {
+        id: PackageInformation.packageId
+      }
+    })
+  }
 
   bindFunctions () {
     var keys = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
@@ -31,7 +32,7 @@ export default class ScopedBaseComponent extends ScopedComponent {
       return false
     }
 
-    return permHandler.checkPermission(permission, user.permissions, true)
+    return this.permHandler.checkPermission(permission, user.permissions, true)
   }
 
   _isUserInitialized (user) {
