@@ -11,7 +11,7 @@ Version 3.0 introduces a PackageInformation object that must be created at the a
 
 ```js
 import { PackageInformation } from 'ims-shared-client'
-const packageInfo = require('../../shared/ims.js')
+const packageInfo = require('../../shared/ims')
 PackageInformation.configure(packageInfo)
 ```
 
