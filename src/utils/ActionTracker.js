@@ -1,7 +1,7 @@
 import { getCookie } from './cookies'
 import { Constants } from 'ims-shared-core'
 import request from './request'
-import PackageInformation from '../../PackageInformation'
+import PackageInformation from '../PackageInformation'
 /** options
  * include: array of action types to include
  * interval: how often to send.  Defaults to 0 - immediately(in seconds)
