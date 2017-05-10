@@ -65,12 +65,16 @@ function getTokens () {
 
 function getAccessToken () {
   const tokens = getTokens()
-
-  if (tokens.expires < moment().add(1, 'minute').unix()) {
-    return refreshAccessToken()
+  if (tokens) {
+    if (tokens.expires < moment().add(1, 'minute').unix()) {
+      return refreshAccessToken()
       .then((response) => response.accessToken)
+    } else {
+      return Promise.resolve(tokens.accessToken)
+    }
   } else {
-    return Promise.resolve(tokens.accessToken)
+    console.log('NO TOKENS')
+    throw new Error('No tokens in the store')
   }
 }
 
@@ -88,6 +92,8 @@ function scheduleRefreshAccessToken () {
     }
 
     setTimeout(() => refreshAccessToken(true), refreshIn)
+  } else {
+    throw new Error('No tokens in the store')
   }
 }
 
