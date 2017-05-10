@@ -5,8 +5,8 @@ import ScopedComponent from '../ScopedComponent'
 import PackageInformation from '../../PackageInformation'
 
 export default class ScopedBaseComponent extends ScopedComponent {
-  constructor (props) {
-    super(props)
+  constructor (props, scopedProps) {
+    super(props, scopedProps)
     this.permHandler = new PermissionHandler({
       package: {
         id: PackageInformation.packageId
@@ -38,7 +38,6 @@ export default class ScopedBaseComponent extends ScopedComponent {
   _isUserInitialized (user) {
     return user && user.permissions
   }
-
 }
 
 ScopedBaseComponent.propTypes = {

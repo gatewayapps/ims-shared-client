@@ -18,8 +18,8 @@ PackageInformation.configure(packageInfo)
 If you do not, BaseComponent, ScopedComponent, request, and SecureLink will not work correctly.
 
 To do:
-- Refactor FeedbackButton to use PackageInformation
-- Refactor ReleaseNotesButton to use PackageInformation
+- ~~Refactor FeedbackButton to use PackageInformation~~ Completed in 3.0.12
+- ~~Refactor ReleaseNotesButton to use PackageInformation~~ Compelted in 3.0.12
 
 ## Version 2.0 Breaking change
 Version 2.0 introduces a new version of the request library that is connected with the redux store. Components from the shared library such as UserAutosuggest and AreaPicker require the request library be prepared to be used.

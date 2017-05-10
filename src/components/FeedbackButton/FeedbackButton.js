@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from 'react-bootstrap-modal'
 import request from '../../utils/request'
+import PackageInformation from '../../PackageInformation'
 
 import classNames from 'classnames'
 
@@ -17,9 +18,9 @@ export class FeedbackButton extends React.Component {
         user: this.props.user,
         type: this.refs.lstFeedbackType.value,
         description: this.refs.txtDescription.value,
-        packageId: this.props.packageId,
-        packageVersion: this.props.packageVersion,
-        packageCommit: this.props.packageCommit
+        packageId: PackageInformation.packageId,
+        packageVersion: PackageInformation.version,
+        packageCommit: PackageInformation.commit
       })
     }).then(() => {
       this.setState({ show: false, sending: false })
@@ -72,13 +73,13 @@ export class FeedbackButton extends React.Component {
               <div className='form-group'>
                 <label className='col-sm-2 control-label'>Package</label>
                 <div className='col-sm-10'>
-                  <p className='form-control-static' >{this.props.packageName} ({this.props.packageId})</p>
+                  <p className='form-control-static' >{PackageInformation.name} ({PackageInformation.packageId})</p>
                 </div>
               </div>
               <div className='form-group'>
                 <label className='col-sm-2 control-label'>Version</label>
                 <div className='col-sm-10'>
-                  <p className='form-control-static' >{this.props.packageVersion} ({this.props.packageCommit})</p>
+                  <p className='form-control-static' >{PackageInformation.version} ({PackageInformation.commit})</p>
                 </div>
               </div>
 
@@ -101,10 +102,6 @@ export class FeedbackButton extends React.Component {
 FeedbackButton.propTypes = Object.assign({}, React.Component.propTypes, {
   user: React.PropTypes.object.isRequired,
   icon: React.PropTypes.string,
-  packageVersion: React.PropTypes.string.isRequired,
-  packageName: React.PropTypes.string.isRequired,
-  packageId: React.PropTypes.string.isRequired,
-  packageCommit: React.PropTypes.string.isRequired,
   hubUrl: React.PropTypes.string.isRequired
 
 })

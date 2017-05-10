@@ -2,6 +2,8 @@ import React from 'react'
 import Modal from 'react-bootstrap-modal'
 import showdown from 'showdown'
 
+import PackageInformation from '../../PackageInformation'
+
 import classNames from 'classnames'
 
 // This is probably not the best approach, there are several listed here:
@@ -32,30 +34,30 @@ export class ReleaseNotesButton extends React.Component {
     })
 
     let releaseLocale
-    this.props.releaseNotes.forEach((rl) => {
+    PackageInformation.releaseNotes.forEach((rl) => {
       if (rl.locale === language) {
         releaseLocale = rl
       }
     })
     if (!releaseLocale) {
-      releaseLocale = this.props.releaseNotes[0]
+      releaseLocale = PackageInformation.releaseNotes[0]
     }
 
     return (
-      <button id='whats-new-button' style={this.props.style} className={btnClasses} title={this.props.buttonTitle || `See What's New!`} onClick={() => this._showPrompt()}>
+      <button id='whats-new-button' style={this.props.style} className={btnClasses} title={this.props.buttonTitle || `What's New?`} onClick={() => this._showPrompt()}>
         <i className={`fa fa-fw ${this.props.icon || 'fa-gift'}`} />
         <Modal show={this.state.show} onHide={() => this._onHide()} >
           <Modal.Header closeButton>
-            <Modal.Title>What's New in {this.props.packageName} {this.props.packageVersion}</Modal.Title>
+            <Modal.Title>What's New in {PackageInformation.name} {PackageInformation.version}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <table >
               {releaseLocale.items.map((i, index) => {
-                var icon = getIconForItem(i)
+                var icon = this.props.getIcon ? this.props.getIcon(i) : getIconForItem(i)
 
                 return <tr key={`release-note-${index}`} style={{ verticalAlign: 'top' }}>
                   <td style={{ verticalAlign: 'top' }}>
-                    <i className={icon} />
+                    {icon}
                   </td>
                   <td style={{ verticalAlign: 'top' }}>
                     <span dangerouslySetInnerHTML={{ __html: converter.makeHtml(i.description) }} />
@@ -76,26 +78,23 @@ export class ReleaseNotesButton extends React.Component {
 }
 
 ReleaseNotesButton.propTypes = Object.assign({}, React.Component.propTypes, {
-  packageName: React.PropTypes.string.isRequired,
-  packageVersion: React.PropTypes.string.isRequired,
-  packageCommit: React.PropTypes.string.isRequired,
-  packageBuildTime: React.PropTypes.number,
-  releaseNotes: React.PropTypes.array.isRequired,
-  releaseHeader: React.PropTypes.string,
-  buttonTitle: React.PropTypes.string
+  buttonTitle: React.PropTypes.string,
+  getIcon: React.PropTypes.func
 })
 
 function getIconForItem (item) {
+  let iconClass
   for (var i = 0; i < item.tags.length; i++) {
     const t = item.tags[i]
 
     switch (t) {
-      case 'feature' : return 'fa fa-fw fa-star text-success'
-      case 'bug-fix' : return 'fa fa-fw fa-bug text-danger'
-      case 'miscellaneous': return 'fa fa-fw fa-check-circle-o text-warning'
+      case 'feature' : iconClass = 'fa fa-fw fa-star text-success'; break
+      case 'bug-fix' : iconClass = 'fa fa-fw fa-bug text-danger'; break
+      case 'miscellaneous': iconClass = 'fa fa-fw fa-check-circle-o text-warning'; break
+      default: iconClass = 'fa fa-fw fa-circle-o'; break
     }
   }
-  return 'fa fa-fw fa-circle-o'
+  return <i className={iconClass} />
 }
 
 export default ReleaseNotesButton
