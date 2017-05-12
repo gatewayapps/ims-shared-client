@@ -1,6 +1,7 @@
 import Promise from 'bluebird'
 import { Map } from 'immutable'
 import fetch from 'isomorphic-fetch'
+import FileSaver from 'file-saver'
 import moment from 'moment'
 import { Constants } from 'ims-shared-core'
 import { getCookie } from './cookies'
@@ -52,6 +53,22 @@ export default function request (url, options) {
       return makeAuthenticatedRequest(url, opts.requestOptions)
     } else {
       return makeUnauthenticatedRequest(url, opts.requestOptions)
+    }
+  } catch (e) {
+    return Promise.reject(e)
+  }
+}
+
+export function download (url, options, destinationFilename = 'download') {
+  try {
+    verifyInitialized()
+
+    const opts = prepareOptions(options)
+
+    if (opts.authenticate) {
+      return makeAuthenticatedDownload(url, opts.requestOptions, destinationFilename)
+    } else {
+      return makeUnauthentiatedDownload(url, opts.requestOptions, destinationFilename)
     }
   } catch (e) {
     return Promise.reject(e)
@@ -112,6 +129,48 @@ function makeUnauthenticatedRequest (url, requestOptions) {
 
 function makeRequest (url, requestOptions) {
   return fetch(url, requestOptions).then(parseResponse)
+}
+
+function makeAuthenticatedDownload (url, requestOptions, destinationFilename) {
+  return getAccessToken()
+    .then((accessToken) => {
+      requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(PackageInformation.packageId, accessToken)
+      return makeDownloadRequest(url, requestOptions, destinationFilename)
+    })
+}
+
+function makeUnauthentiatedDownload (url, requestOptions, destinationFilename) {
+  requestOptions.headers = HeaderUtils.createRequestHeader(PackageInformation.packageId)
+  return makeDownloadRequest(url, requestOptions, destinationFilename)
+}
+
+function makeDownloadRequest (url, requestOptions, destinationFilename) {
+  return fetch(url, requestOptions).then(parseDownloadResponse(destinationFilename))
+}
+
+function parseDownloadResponse (destinationFilename) {
+  return (response) => {
+    if (response.status === 200) {
+      const contentType = response.headers.get('content-type')
+      console.log(contentType)
+
+      if (contentType.indexOf('application/json') === -1) {
+        return response.blob()
+          .then((blob) => {
+            const contentDisposition = response.headers.get('content-disposition')
+            const re = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
+            const result = re.exec(contentDisposition)
+            if (result && result[1]) {
+              destinationFilename = result[1].replace(/"/g, '').replace(/'/g, '')
+            }
+            FileSaver.saveAs(blob, destinationFilename)
+            return true
+          })
+      }
+    }
+
+    return response.json()
+  }
 }
 
 export function refreshAccessToken (scheduleRefresh) {
