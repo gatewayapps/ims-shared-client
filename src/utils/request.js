@@ -59,16 +59,16 @@ export default function request (url, options) {
   }
 }
 
-export function download (url, options, destinationFilename = 'download') {
+export function download (url, options) {
   try {
     verifyInitialized()
 
-    const opts = prepareOptions(options)
+    const opts = prepareDownloadOptions(options)
 
     if (opts.authenticate) {
-      return makeAuthenticatedDownload(url, opts.requestOptions, destinationFilename)
+      return makeAuthenticatedDownload(url, opts.requestOptions, opts.defaultFileName)
     } else {
-      return makeUnauthentiatedDownload(url, opts.requestOptions, destinationFilename)
+      return makeUnauthentiatedDownload(url, opts.requestOptions, opts.defaultFileName)
     }
   } catch (e) {
     return Promise.reject(e)
@@ -131,24 +131,24 @@ function makeRequest (url, requestOptions) {
   return fetch(url, requestOptions).then(parseResponse)
 }
 
-function makeAuthenticatedDownload (url, requestOptions, destinationFilename) {
+function makeAuthenticatedDownload (url, requestOptions, defaultFileName) {
   return getAccessToken()
     .then((accessToken) => {
       requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(PackageInformation.packageId, accessToken)
-      return makeDownloadRequest(url, requestOptions, destinationFilename)
+      return makeDownloadRequest(url, requestOptions, defaultFileName)
     })
 }
 
-function makeUnauthentiatedDownload (url, requestOptions, destinationFilename) {
+function makeUnauthentiatedDownload (url, requestOptions, defaultFileName) {
   requestOptions.headers = HeaderUtils.createRequestHeader(PackageInformation.packageId)
-  return makeDownloadRequest(url, requestOptions, destinationFilename)
+  return makeDownloadRequest(url, requestOptions, defaultFileName)
 }
 
-function makeDownloadRequest (url, requestOptions, destinationFilename) {
-  return fetch(url, requestOptions).then(parseDownloadResponse(destinationFilename))
+function makeDownloadRequest (url, requestOptions, defaultFileName) {
+  return fetch(url, requestOptions).then(parseDownloadResponse(defaultFileName))
 }
 
-function parseDownloadResponse (destinationFilename) {
+function parseDownloadResponse (defaultFileName) {
   return (response) => {
     if (response.status === 200) {
       const contentType = response.headers.get('content-type')
@@ -161,9 +161,9 @@ function parseDownloadResponse (destinationFilename) {
             const re = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
             const result = re.exec(contentDisposition)
             if (result && result[1]) {
-              destinationFilename = result[1].replace(/"/g, '').replace(/'/g, '')
+              defaultFileName = result[1].replace(/"/g, '').replace(/'/g, '')
             }
-            FileSaver.saveAs(blob, destinationFilename)
+            FileSaver.saveAs(blob, defaultFileName)
             return true
           })
       }
@@ -226,6 +226,16 @@ function updateAccessToken (accessToken, expires) {
     accessToken: accessToken,
     expires: expires
   }
+}
+
+function prepareDownloadOptions (options = {}) {
+  const opts = prepareOptions(options)
+
+  if (!opts.defaultFileName) {
+    opts.defaultFileName = 'download'
+  }
+
+  return opts
 }
 
 function prepareOptions (options = {}) {
