@@ -152,7 +152,6 @@ function parseDownloadResponse (defaultFileName) {
   return (response) => {
     if (response.status === 200) {
       const contentType = response.headers.get('content-type')
-      console.log(contentType)
 
       if (contentType.indexOf('application/json') === -1) {
         return response.blob()
