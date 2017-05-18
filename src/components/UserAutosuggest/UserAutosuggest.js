@@ -37,11 +37,23 @@ export class UserAutosuggest extends React.Component {
       isLoading: true
     })
 
+    const postBody = {
+      filter: search
+    }
+
+    if (Array.isArray(this.props.includeNodes) && this.props.includeNodes.length > 0) {
+      postBody.ancestors = {
+        include: this.props.includeNodes
+      }
+    } else if (typeof this.props.includeNodes === 'number' && this.props.includeNodes >= 0) {
+      postBody.ancestors = {
+        include: [ this.props.includeNodes ]
+      }
+    }
+
     const requestOptions = {
       method: 'POST',
-      body: JSON.stringify({
-        filter: search
-      })
+      body: JSON.stringify(postBody)
     }
 
     this.lastRequestId = setTimeout(() => {
@@ -134,6 +146,10 @@ export class UserAutosuggest extends React.Component {
 
 UserAutosuggest.propTypes = Object.assign({}, React.Component, {
   autosuggestId: React.PropTypes.string,
+  includeNodes: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.arrayOf(React.PropTypes.number)
+  ]),
   onSelect: React.PropTypes.func.isRequired,
   placeholder: React.PropTypes.string
 })
