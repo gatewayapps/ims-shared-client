@@ -10,6 +10,7 @@ import EquipmentAutosuggest from './components/EquipmentAutosuggest'
 import ErrorAlert from './components/ErrorAlert'
 import FileUploader from './components/FileUploader'
 import FormGroup from './components/FormGroup'
+import Image from './components/Image'
 import LoadingIndicator from './components/LoadingIndicator'
 import NodePath from './components/NodePath'
 import PersonCard from './components/PersonCard'
@@ -50,6 +51,7 @@ module.exports = {
   ReleaseNotesButton: ReleaseNotesButton,
   FileUploader: FileUploader,
   FormGroup: FormGroup,
+  Image: Image,
   LoadingIndicator: LoadingIndicator,
   NodePath: NodePath,
   PermissionCheck: PermissionCheck,
