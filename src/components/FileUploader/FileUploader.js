@@ -64,8 +64,16 @@ export default class FileUploader extends React.Component {
     if (e.preventDefault) {
       e.preventDefault() // Necessary. Allows us to drop.
     }
-    for (var i = 0; i < e.dataTransfer.files.length; i++) {
-      upload(this.props.uploadUrl, this.props.accessToken, e.dataTransfer.files[i], this.currentIndex, this.props.onProgress ||
+    this.uploadFiles(e.dataTransfer.files)
+  }
+
+  uploadFile (file) {
+    this.uploadFiles([file])
+  }
+
+  uploadFiles (files) {
+    for (var i = 0; i < files.length; i++) {
+      upload(this.props.uploadUrl, this.props.accessToken, files[i], this.currentIndex, this.props.onProgress ||
       ((ev) => {
         console.log(ev)
       }))
@@ -83,4 +91,3 @@ FileUploader.propTypes = {
   uploadUrl: React.PropTypes.string.isRequired,
   onProgress: React.PropTypes.func
 }
-
