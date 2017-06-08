@@ -1,6 +1,7 @@
 import Promise from 'bluebird'
 import { Map } from 'immutable'
 import fetch from 'isomorphic-fetch'
+import FileSaver from 'file-saver'
 import moment from 'moment'
 import { Constants } from 'ims-shared-core'
 import { getCookie } from './cookies'
@@ -52,6 +53,22 @@ export default function request (url, options) {
       return makeAuthenticatedRequest(url, opts.requestOptions)
     } else {
       return makeUnauthenticatedRequest(url, opts.requestOptions)
+    }
+  } catch (e) {
+    return Promise.reject(e)
+  }
+}
+
+export function download (url, options) {
+  try {
+    verifyInitialized()
+
+    const opts = prepareDownloadOptions(options)
+
+    if (opts.authenticate) {
+      return makeAuthenticatedDownload(url, opts.requestOptions, opts.defaultFileName)
+    } else {
+      return makeUnauthentiatedDownload(url, opts.requestOptions, opts.defaultFileName)
     }
   } catch (e) {
     return Promise.reject(e)
@@ -120,6 +137,47 @@ function makeRequest (url, requestOptions) {
   return fetch(url, requestOptions).then(parseResponse)
 }
 
+function makeAuthenticatedDownload (url, requestOptions, defaultFileName) {
+  return getAccessToken()
+    .then((accessToken) => {
+      requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(PackageInformation.packageId, accessToken)
+      return makeDownloadRequest(url, requestOptions, defaultFileName)
+    })
+}
+
+function makeUnauthentiatedDownload (url, requestOptions, defaultFileName) {
+  requestOptions.headers = HeaderUtils.createRequestHeader(PackageInformation.packageId)
+  return makeDownloadRequest(url, requestOptions, defaultFileName)
+}
+
+function makeDownloadRequest (url, requestOptions, defaultFileName) {
+  return fetch(url, requestOptions).then(parseDownloadResponse(defaultFileName))
+}
+
+function parseDownloadResponse (defaultFileName) {
+  return (response) => {
+    if (response.status === 200) {
+      const contentType = response.headers.get('content-type')
+
+      if (contentType.indexOf('application/json') === -1) {
+        return response.blob()
+          .then((blob) => {
+            const contentDisposition = response.headers.get('content-disposition')
+            const re = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
+            const result = re.exec(contentDisposition)
+            if (result && result[1]) {
+              defaultFileName = result[1].replace(/"/g, '').replace(/'/g, '')
+            }
+            FileSaver.saveAs(blob, defaultFileName)
+            return true
+          })
+      }
+    }
+
+    return response.json()
+  }
+}
+
 export function refreshAccessToken (scheduleRefresh) {
   const tokens = getTokens()
 
@@ -173,6 +231,16 @@ function updateAccessToken (accessToken, expires) {
     accessToken: accessToken,
     expires: expires
   }
+}
+
+function prepareDownloadOptions (options = {}) {
+  const opts = prepareOptions(options)
+
+  if (!opts.defaultFileName) {
+    opts.defaultFileName = 'download'
+  }
+
+  return opts
 }
 
 function prepareOptions (options = {}) {
