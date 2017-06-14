@@ -6,6 +6,9 @@ This is a package of shared react client components and utilities for build pack
 $ npm install --save ims-shared-client
 ```
 
+## Application Bootstrapping
+Version 3.5 introduces a bootstrapper to simplify wiring up the react application and to make that process more consistent. For details on using the application bootstrapper see the [IMS Application Bootstrapper](/docs/imsBootstrapper.md) documentation. 
+
 ## Version 3.0 Breaking change
 Version 3.0 introduces a PackageInformation object that must be created at the app launch. You must call PackageInformation.configure with your package information.
 
