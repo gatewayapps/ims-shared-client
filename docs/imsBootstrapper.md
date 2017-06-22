@@ -32,7 +32,6 @@ Configuration options is object with the following signature:
 | **routes***                  | function | Function to load application routes object or array. See [routes](#routes)                                           |
 | sagas                        | object   | Global sagas to be loaded into store at start up. key = saga name; value = root saga generator function              |
 | **stateInitializer.url***    | string   | URL path to execute a GET request to load initial state. See [State Initializer](#state-initializer)                 |
-| stateInitializer.customProps | object   | Object of custom props from state initializer to store in local storage. See [State Initializer](#state-initializer) |
 | tracking                     | object   | Override options for the configuring the ActionTracker redux middleware. See [Tracking](#tracking)                   |
 
 ### Configure HMR
@@ -80,38 +79,12 @@ The state initializer API should return a JSON object with the following structu
 {
   "success": true,
   "result": {
-    "global": {
-      "currentUser": { ... },
-      "tokens": {
-        "refreshToken": "...",
-        "accessToken": "...",
-        "expires": 123456789
-      }
-    }
+    // object containing your initial state data
   }
 }
 ```
 
-#### Initial State to Local Storage mapping
-The ```stateInitializer.customProps``` configuration option is used to pass custom mapping options map Initial State values to Local Storage item keys. The option value is object where the property key is the Local Storage key and the value is the path to the value in the initial state in dot notation. This object is merged with the default mappings for ```currentUser``` and ```tokens```.
-
-**Defaults**
-```js
-const defaultProps = {
-  currentUser: "global.currentUser",
-  tokens: "global.tokens"
-}
-```
-
-**Example**
-```js
-const stateInitializer = {
-  url: '/api/state/initialize',
-  customProps: {
-    packages: 'global.packages'
-  }
-}
-```
+The entire result object received from the server is stored in local storage under the `IMS-initialState` key. The next time the site is loaded, the `IMS-initialState` key is reloaded from local storage and provided as the initial state for to the client application. Then, a request is made to the server to get an updated initial state. The updated initial state from the server is stored in local storage and merged with the current application state.
 
 ### Tracking
 The ```tracking``` configuration option is used to provide overrides to the default ActionTracker options outlined below.
@@ -170,10 +143,7 @@ ImsBootstrapper({
     packages: packagesSagas
   },
   stateInitializer: {
-    url: '/api/state/initialize',
-    customProps: {
-      packages: 'global.packages'
-    }
+    url: '/api/state/initialize'
   },
   tracking: {
     shouldTrackAction: (a) => {

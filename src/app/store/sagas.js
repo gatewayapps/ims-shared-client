@@ -1,4 +1,5 @@
 import createSagaMiddleware from 'redux-saga'
+import { rootSaga as securityRootSaga } from '../modules/security'
 
 const sagaRegistry = {}
 
@@ -12,6 +13,8 @@ export const injectSaga = (key, saga) => {
 }
 
 export const initializeSagas = (sagas = {}) => {
+  injectSaga('security', securityRootSaga)
+
   Object.keys(sagas).forEach((key) => {
     injectSaga(key, sagas[key])
   })

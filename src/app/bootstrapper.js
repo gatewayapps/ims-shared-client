@@ -12,9 +12,10 @@ import { Constants } from 'ims-shared-core'
 import ImsApplication from '../components/App/'
 import { getCookie } from '../utils/cookies'
 import PackageInformation from '../PackageInformation'
-import { loadInitialState } from './stateInitializer'
+import { loadInitialState, loadInitialStateFromServer } from './stateInitializer'
 import createStore from './store/createStore'
 import { selectLocationState } from './modules/routing'
+import { serverInitialState } from './modules/universal'
 
 export default function imsBootstrapper (options = {}) {
   const opts = validateOptions(options)
@@ -29,6 +30,11 @@ export default function imsBootstrapper (options = {}) {
   // Load HUB URL from cookies
   // ========================================================
   window.__HUB_URL__ = getCookie(Constants.Cookies.HubUrl)
+
+  // ========================================================
+  // Set window variable for development mode
+  // ========================================================
+  window.__DEV__ = opts.isDev
 
   // ========================================================
   // Store and History Instantiation
@@ -58,10 +64,6 @@ function validateOptions (options) {
 
     if (!_.isString(lOpts.stateInitializer.url)) {
       throw new TypeError('options.stateInitializer.url is required and should be a string')
-    }
-
-    if (lOpts.stateInitializer.customProps && !_.isObjectLike(lOpts.stateInitializer.customProps)) {
-      throw new TypeError('options.stateInitializer.customProps should be an object')
     }
   }
 
@@ -97,7 +99,16 @@ function completeInitialization (options) {
     // ========================================================
     // Create Store and History
     // ========================================================
-    const store = createStore(state, browserHistory, options)
+    const store = createStore(state.initialState, browserHistory, options)
+
+    if (state.fromLocalStorage === true) {
+      loadInitialStateFromServer(options.stateInitializer.url)
+        .then((initialState) => {
+          if (initialState) {
+            store.dispatch(serverInitialState(initialState))
+          }
+        })
+    }
 
     const history = syncHistoryWithStore(browserHistory, store, {
       selectLocationState: selectLocationState()

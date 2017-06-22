@@ -12,6 +12,7 @@ import FileUploader from './components/FileUploader'
 import FormGroup from './components/FormGroup'
 import Image from './components/Image'
 import LoadingIndicator from './components/LoadingIndicator'
+import LogoutButton from './components/LogoutButton'
 import NodePath from './components/NodePath'
 import PersonCard from './components/PersonCard'
 import RequiredIndicator from './components/RequiredIndicator'
@@ -31,9 +32,13 @@ import PackageInformation from './PackageInformation'
 // ========================================
 
 // Utilities ===============================
+import { getAuthorizeUrl } from './utils/auth'
+import Cookies from './utils/cookies'
 import IconHelper from './utils/IconHelper'
 import connectScoped from './utils/ConnectScoped'
 import { prepareInjector, injectScopedReducer } from './utils/injectScopedReducer'
+import LocalStorage from './utils/localStorage'
+import { setLocation } from './utils/window'
 
 // =========================================
 
@@ -53,6 +58,7 @@ module.exports = {
   FormGroup: FormGroup,
   Image: Image,
   LoadingIndicator: LoadingIndicator,
+  LogoutButton: LogoutButton,
   NodePath: NodePath,
   PermissionCheck: PermissionCheck,
   PersonCard: PersonCard,
@@ -65,10 +71,14 @@ module.exports = {
   UserAutosuggest: UserAutosuggest,
   UserProfileImage: UserProfileImage,
   Utils: {
+    Cookies: Cookies,
     IconHelper: IconHelper,
     connectScoped: connectScoped,
+    getAuthorizeUrl: getAuthorizeUrl,
+    injectScopedReducer: injectScopedReducer,
+    LocalStorage: LocalStorage,
     prepareScopedInjector: prepareInjector,
-    injectScopedReducer: injectScopedReducer
+    setLocation: setLocation
   },
   PackageInformation: PackageInformation
 }
