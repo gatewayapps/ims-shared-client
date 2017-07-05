@@ -1,80 +1,78 @@
 import _ from 'lodash'
-import { fromJS, Map } from 'immutable'
 import fetch from 'isomorphic-fetch'
-import { getItems, setItems } from '../utils/localStorage'
+import { getItem, getItems, setItem, setItems } from '../utils/localStorage'
+import { makeRefreshAccessTokenRequest, parseResponse } from '../utils/request'
+import { createSecurityState } from './modules/security'
 
-const defaultInitialStateProps = {
-  currentUser: 'global.currentUser',
-  tokens: 'global.tokens'
-}
+export const INITIAL_STATE_STORAGE_KEY = 'IMS-initialState'
+export const SECURITY_STORAGE_KEY = 'IMS-security'
 
 export function loadInitialState (opts) {
-  const stateProps = Object.assign({}, defaultInitialStateProps, opts.customProps || {})
-
-  return loadInitialStateFromLocalStorage(stateProps)
+  return loadInitialStateFromLocalStorage()
     .then((initialState) => {
       if (initialState) {
+        return { fromLocalStorage: true, initialState: initialState }
+      } else {
+        return loadInitialStateFromServer(opts.url)
+          .then((initialState) => {
+            return { fromLocalStorage: false, initialState: initialState }
+          })
+      }
+    })
+}
+
+function loadInitialStateFromLocalStorage () {
+  return getItems([ INITIAL_STATE_STORAGE_KEY, SECURITY_STORAGE_KEY ])
+    .then((storageData) => {
+      if (_.isObjectLike(storageData) && _.isObjectLike(storageData[INITIAL_STATE_STORAGE_KEY])) {
+        const initialState = Object.assign({}, storageData[INITIAL_STATE_STORAGE_KEY], {
+          security: storageData[SECURITY_STORAGE_KEY] || {}
+        })
         return initialState
       } else {
-        return loadInitialStateFromServer(opts.url, stateProps)
-      }
-    })
-}
-
-function loadInitialStateFromLocalStorage (stateProps) {
-  const keys = Object.keys(stateProps)
-
-  return getItems(keys)
-    .then((data) => {
-      if (hasAllData(keys, data)) {
-        return createInitialState(stateProps, data)
-      } else {
         return undefined
       }
     })
 }
 
-function hasAllData (keys, data) {
-  for (let i = 0; i < keys.length; i++) {
-    const value = data[keys[i]]
-    if (_.isUndefined(value) || _.isNull(value)) {
-      return false
-    }
-  }
-
-  return true
-}
-
-function createInitialState (stateProps, data) {
-  let initialState = new Map()
-
-  Object.keys(stateProps).forEach((key) => {
-    const path = stateProps[key].split('.')
-    initialState = initialState.setIn(path, data[key])
-  })
-
-  return initialState.toJS()
-}
-
-function loadInitialStateFromServer (url, stateProps) {
-  return fetch(url, { credentials: 'same-origin' })
-    .then((res) => res.json())
-    .then((response) => {
-      if (response.success !== true || !_.isObjectLike(response.result) || _.keys(response.result).length === 0) {
+export function loadInitialStateFromServer (url) {
+  return fetchInitialStateFromServer(url)
+    .then((serverResponse) => {
+      if (serverResponse.success !== true || !_.isObjectLike(serverResponse.result) || _.keys(serverResponse.result).length === 0) {
         return undefined
       }
 
-      const initialState = fromJS(response.result)
+      return getItem(SECURITY_STORAGE_KEY)
+        .then((securityObj) => {
+          if (!_.isObjectLike(securityObj) || !_.isObjectLike(securityObj.currentUser)) {
+            return makeRefreshAccessTokenRequest()
+              .then((securityResponse) => {
+                let security
 
-      const items = {}
+                if (securityResponse.success === true) {
+                  security = createSecurityState(securityResponse.accessToken, securityResponse.expires)
+                }
 
-      Object.keys(stateProps).forEach((key) => {
-        const path = stateProps[key].split('.')
-        const value = initialState.getIn(path)
-        items[key] = value && value.toJS ? value.toJS() : value
-      })
+                const storageData = {
+                  [INITIAL_STATE_STORAGE_KEY]: serverResponse.result,
+                  [SECURITY_STORAGE_KEY]: security
+                }
 
-      return setItems(items)
-        .then(() => { return response.result })
+                return setItems(storageData)
+                  .then(() => {
+                    return Object.assign({}, serverResponse.result, {
+                      security: security || {}
+                    })
+                  })
+              })
+          } else {
+            return setItem(INITIAL_STATE_STORAGE_KEY, serverResponse.result)
+              .then(() => serverResponse.result)
+          }
+        })
     })
+}
+
+function fetchInitialStateFromServer (url) {
+  return fetch(url, { credentials: 'same-origin' }).then(parseResponse)
 }

@@ -1,6 +1,6 @@
 {
   "name": "ims-shared-client",
-  "version": "3.6.0",
+  "version": "4.0.0",
   "description": "",
   "babel": {
     "presets": [
@@ -16,7 +16,11 @@
     "prebuild": "npm run build:clean",
     "prepublish": "npm run build"
   },
-  "author": "Justin Neff <justin@gatewayapps.com> (http://www.gatewayapps.com), Daniel Gary <daniel@gatewayapps.com> (http://www.gatewayapps.com)",
+  "author": "Gateway Apps, LLC",
+  "contributors": [
+    "Daniel Gary <daniel@gatewayapps.com> (http://www.gatewayapps.com)",
+    "Justin Neff <justin@gatewayapps.com> (http://www.gatewayapps.com)"
+  ],
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.4.6",

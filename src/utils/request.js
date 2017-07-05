@@ -154,6 +154,23 @@ function makeDownloadRequest (url, requestOptions, defaultFileName) {
   return fetch(url, requestOptions).then(parseDownloadResponse(defaultFileName))
 }
 
+export function makeRefreshAccessTokenRequest () {
+  const refreshToken = getCookie(Constants.Cookies.RefreshToken)
+
+  if (!refreshToken) {
+    return Promise.resolve()
+  }
+
+  const refreshOptions = {
+    headers: HeaderUtils.createRequestHeader(PackageInformation.packageId),
+    method: 'POST',
+    body: JSON.stringify({ refreshToken: refreshToken })
+  }
+
+  return fetch(`${window.__HUB_URL__}/users/accessToken`, refreshOptions)
+    .then(parseResponse)
+}
+
 function parseDownloadResponse (defaultFileName) {
   return (response) => {
     if (response.status === 200) {
@@ -179,20 +196,7 @@ function parseDownloadResponse (defaultFileName) {
 }
 
 export function refreshAccessToken (scheduleRefresh) {
-  const tokens = getTokens()
-
-  if (!tokens || !tokens.refreshToken) {
-    return Promise.resolve()
-  }
-
-  const refreshOptions = {
-    headers: HeaderUtils.createRequestHeader(PackageInformation.packageId),
-    method: 'POST',
-    body: JSON.stringify({ refreshToken: tokens.refreshToken })
-  }
-
-  return fetch(`${hubUrl}/users/accessToken`, refreshOptions)
-    .then(parseResponse)
+  return makeRefreshAccessTokenRequest()
     .then((response) => {
       if (response.success === true) {
         storeInstance.dispatch(updateAccessToken(response.accessToken, response.expires))
@@ -213,7 +217,7 @@ export function refreshAccessToken (scheduleRefresh) {
     })
 }
 
-function parseResponse (response) {
+export function parseResponse (response) {
   if (!response || response.status >= 500) {
     throw new RequestError('Response received a server error')
   }

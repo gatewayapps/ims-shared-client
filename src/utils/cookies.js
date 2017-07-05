@@ -1,5 +1,15 @@
 import { Constants } from 'ims-shared-core'
 
+export default {
+  deleteCookie,
+  getCookie,
+  getHubUrl
+}
+
+export function deleteCookie (name) {
+  document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+}
+
 export function getCookie (name) {
   var re = new RegExp(name + '=([^;]+)')
   var value = re.exec(document.cookie)
