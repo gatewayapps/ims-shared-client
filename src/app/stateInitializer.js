@@ -24,11 +24,14 @@ export function loadInitialState (opts) {
 function loadInitialStateFromLocalStorage () {
   return getItems([ INITIAL_STATE_STORAGE_KEY, SECURITY_STORAGE_KEY ])
     .then((storageData) => {
-      if (_.isObjectLike(storageData) && _.isObjectLike(storageData[INITIAL_STATE_STORAGE_KEY])) {
-        const initialState = Object.assign({}, storageData[INITIAL_STATE_STORAGE_KEY], {
-          security: storageData[SECURITY_STORAGE_KEY] || {}
+      if (
+          _.isObjectLike(storageData) &&
+          _.isObjectLike(storageData[INITIAL_STATE_STORAGE_KEY]) &&
+          _.isObjectLike(storageData[SECURITY_STORAGE_KEY]) &&
+          _.isObjectLike(storageData[SECURITY_STORAGE_KEY].currentUser)) {
+        return Object.assign({}, storageData[INITIAL_STATE_STORAGE_KEY], {
+          security: storageData[SECURITY_STORAGE_KEY]
         })
-        return initialState
       } else {
         return undefined
       }
@@ -48,7 +51,7 @@ export function loadInitialStateFromServer (url) {
             return makeRefreshAccessTokenRequest()
               .then((securityResponse) => {
                 let security
-
+                console.log(securityResponse)
                 if (securityResponse && securityResponse.success === true) {
                   security = createSecurityState(securityResponse.accessToken, securityResponse.expires)
                 }
