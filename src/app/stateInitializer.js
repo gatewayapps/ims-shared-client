@@ -49,7 +49,7 @@ export function loadInitialStateFromServer (url) {
               .then((securityResponse) => {
                 let security
 
-                if (securityResponse.success === true) {
+                if (securityResponse && securityResponse.success === true) {
                   security = createSecurityState(securityResponse.accessToken, securityResponse.expires)
                 }
 
