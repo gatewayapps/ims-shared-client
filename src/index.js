@@ -17,6 +17,7 @@ import NodePath from './components/NodePath'
 import PersonCard from './components/PersonCard'
 import RequiredIndicator from './components/RequiredIndicator'
 import PermissionCheck from './components/PermissionCheck'
+import SecureRoute from './components/SecureRoute'
 import ScopedBaseComponent from './components/ScopedBaseComponent'
 import FeedbackButton from './components/FeedbackButton'
 import ReleaseNotesButton from './components/ReleaseNotesButton'
@@ -66,6 +67,7 @@ module.exports = {
   ScopedBaseComponent: ScopedBaseComponent,
   ScopedComponent: ScopedComponent,
   SecureLink: SecureLink,
+  SecureRoute: SecureRoute,
   SingleUserSelector: SingleUserSelector,
   SortableListHeader: SortableListHeader,
   UserAutosuggest: UserAutosuggest,
