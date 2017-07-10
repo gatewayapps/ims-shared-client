@@ -51,7 +51,6 @@ export function loadInitialStateFromServer (url) {
             return makeRefreshAccessTokenRequest()
               .then((securityResponse) => {
                 let security
-                console.log(securityResponse)
                 if (securityResponse && securityResponse.success === true) {
                   security = createSecurityState(securityResponse.accessToken, securityResponse.expires)
                 }
