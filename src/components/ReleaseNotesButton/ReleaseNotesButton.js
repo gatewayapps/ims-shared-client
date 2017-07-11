@@ -1,10 +1,12 @@
 import React from 'react'
 import Modal from 'react-bootstrap-modal'
 import showdown from 'showdown'
-
+import { getItem, setItem } from '../../utils/localStorage'
 import PackageInformation from '../../PackageInformation'
-
+import '../../styles/animate.min.css'
 import classNames from 'classnames'
+
+const RELEASE_NOTES_STORAGE_KEY = 'RELEASE_NOTES_LAST_VERSION'
 
 // This is probably not the best approach, there are several listed here:
 // http://stackoverflow.com/questions/1043339/javascript-for-detecting-browser-language-preference
@@ -16,14 +18,25 @@ const converter = new showdown.Converter()
 export class ReleaseNotesButton extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { show: false }
+    this.state = { show: false, isNew: false }
+    this.compareVersion()
   }
+
+  compareVersion () {
+    getItem(RELEASE_NOTES_STORAGE_KEY).then((lastVersion) => {
+      if (!lastVersion || lastVersion !== PackageInformation.version) {
+        this.setState({ isNew: true })
+      }
+    })
+  }
+
   _onHide () {
     this.setState({ show: false, sending: false })
   }
 
   _showPrompt () {
-    this.setState({ show: true })
+    this.setState({ show: true, isNew: false })
+    setItem(RELEASE_NOTES_STORAGE_KEY, PackageInformation.version)
   }
 
   getReleaseLocale (release) {
@@ -102,10 +115,12 @@ export class ReleaseNotesButton extends React.Component {
   }
 
   render () {
+    const animatedProperty = `animated ${this.props.newAnimationEffect}`
     const btnClasses = classNames('btn btn-link', this.props.buttonClassName, {
       'btn-sm': this.props.size === 'sm',
       'btn-lg': this.props.size === 'lg',
-      'btn-xs': this.props.size === 'xs'
+      'btn-xs': this.props.size === 'xs',
+      [animatedProperty]: this.state.isNew
     })
 
     // Old PackageInformations contained a single release
@@ -147,11 +162,13 @@ ReleaseNotesButton.propTypes = Object.assign({}, React.Component.propTypes, {
   renderRelease: React.PropTypes.func,
   renderReleaseHeader: React.PropTypes.func,
   renderItem: React.PropTypes.func,
-  getReleaseLocale: React.PropTypes.func
+  getReleaseLocale: React.PropTypes.func,
+  newAnimationEffect: React.PropTypes.string
 })
 
 ReleaseNotesButton.defaultProps = {
   buttonIcon: 'fa-gift',
+  newAnimationEffect: 'infinite rubberBand',
   buttonTitle: `What's New?`
 }
 
