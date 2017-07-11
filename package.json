@@ -1,6 +1,6 @@
 {
   "name": "ims-shared-client",
-  "version": "5.0.7",
+  "version": "5.1.0",
   "description": "",
   "babel": {
     "presets": [
@@ -23,6 +23,7 @@
   ],
   "license": "ISC",
   "dependencies": {
+    "animate.css": "^3.5.2",
     "bluebird": "^3.4.6",
     "classnames": "^2.2.5",
     "event-source-polyfill": "0.0.9",
