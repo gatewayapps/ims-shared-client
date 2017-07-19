@@ -64,7 +64,7 @@ export default (initialState = {}, history, options) => {
   store.asyncReducers = {}
 
   // Prepare request object
-  prepareRequest(store, 'security.tokens')
+  prepareRequest(store, 'security.tokens', 'security.packages')
 
   // Prepare scoped component injector
   prepareInjector(store, injectReducer)

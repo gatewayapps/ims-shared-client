@@ -13,7 +13,7 @@ import {
   removeItems,
   setItem
 } from '../../utils/localStorage'
-import { UPDATE_ACCESS_TOKEN } from '../../utils/request'
+import { UPDATE_ACCESS_TOKEN, UPDATE_PACKAGE_ACCESS_TOKENS } from '../../utils/request'
 import { setLocation } from '../../utils/window'
 import PackageInformation from '../../PackageInformation'
 
@@ -35,17 +35,30 @@ export function logout () {
 // Action Handlers
 // ------------------------------------
 export function createSecurityState (accessToken, expires) {
+  console.log('In createSecurityState', accessToken)
+  return {
+    currentUser: decodeAccessToken(accessToken.token),
+    tokens: {
+      accessToken: accessToken.token,
+      expires: accessToken.expires
+    }
+  }
+}
+
+export function createPackageSecurityObject (packageInfo) {
+  console.log('In createPackageSecurityObject', packageInfo)
+  return {
+    userInfo: decodeAccessToken(packageInfo.accessToken.token),
+    expires: packageInfo.accessToken.expires,
+    ...packageInfo
+  }
+}
+
+function decodeAccessToken (accessToken) {
   const decoded = decodeJWT(accessToken)
   const permHandler = new PermissionHandler({ package:{ id: PackageInformation.packageId } })
   decoded.permissions = permHandler.createPermissionsArrayFromStringsArray(decoded.claims)
-
-  return {
-    currentUser: decoded,
-    tokens: {
-      accessToken: accessToken,
-      expires: expires
-    }
-  }
+  return decoded
 }
 
 const ACTION_HANDLERS = {
@@ -53,6 +66,10 @@ const ACTION_HANDLERS = {
     const newSecurityState = createSecurityState(action.accessToken, action.expires)
 
     return state.merge(fromJS(newSecurityState))
+  },
+  [UPDATE_PACKAGE_ACCESS_TOKENS]: (state, action) => {
+    const packages = action.accessTokens.map((p) => createPackageSecurityObject(p))
+    return state.set('packages', fromJS(packages))
   }
 }
 
@@ -65,7 +82,8 @@ const initialState = {
     refreshToken: undefined,
     accessToken: undefined,
     expires: 0
-  }
+  },
+  packages: []
 }
 export default function Reducer (state = fromJS(initialState), action) {
   const handler = ACTION_HANDLERS[action.type]
