@@ -170,7 +170,6 @@ function combineUrlParts (base, endpoint) {
 }
 
 function makeAuthenticatedRequest (url, requestOptions) {
-  console.log('Making authenticated request', url, requestOptions)
   if (requestOptions.packageId) {
     const pkg = getPackage(requestOptions.packageId)
     if (pkg) {
@@ -273,7 +272,6 @@ export function refreshAccessToken (scheduleRefresh) {
     .then((response) => {
       if (response.success === true) {
         if (response.results) {
-          console.log(response.results)
           storeInstance.dispatch(updatePackageAccessTokens(response.results))
           for (var i = 0; i < response.results.length; i++) {
             if (response.results[i].packageId === PackageInformation.packageId) {

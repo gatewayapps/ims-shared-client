@@ -35,7 +35,6 @@ export function logout () {
 // Action Handlers
 // ------------------------------------
 export function createSecurityState (accessToken, expires) {
-  console.log('In createSecurityState', accessToken)
   return {
     currentUser: decodeAccessToken(accessToken.token),
     tokens: {
@@ -46,7 +45,6 @@ export function createSecurityState (accessToken, expires) {
 }
 
 export function createPackageSecurityObject (packageInfo) {
-  console.log('In createPackageSecurityObject', packageInfo)
   return {
     userInfo: decodeAccessToken(packageInfo.accessToken.token),
     expires: packageInfo.accessToken.expires,
