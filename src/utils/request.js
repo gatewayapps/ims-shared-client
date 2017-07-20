@@ -275,7 +275,7 @@ export function refreshAccessToken (scheduleRefresh) {
           storeInstance.dispatch(updatePackageAccessTokens(response.results))
           for (var i = 0; i < response.results.length; i++) {
             if (response.results[i].packageId === PackageInformation.packageId) {
-              storeInstance.dispatch(updateAccessToken(response.results[i].accessToken, response.results[i].expires))
+              storeInstance.dispatch(updateAccessToken(response.results[i].accessToken.token, response.results[i].accessToken.expires))
             }
           }
         } else {

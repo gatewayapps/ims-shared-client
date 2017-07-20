@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import fetch from 'isomorphic-fetch'
+import PackageInformation from '../PackageInformation'
 import { getItem, getItems, setItem, setItems } from '../utils/localStorage'
 import { makeRefreshAccessTokenRequest, parseResponse } from '../utils/request'
-import { createSecurityState } from './modules/security'
+import { createSecurityState, createPackageSecurityObject } from './modules/security'
 
 export const INITIAL_STATE_STORAGE_KEY = 'IMS-initialState'
 export const SECURITY_STORAGE_KEY = 'IMS-security'
@@ -38,6 +39,23 @@ function loadInitialStateFromLocalStorage () {
     })
 }
 
+function createSecurityStateFromResponse (response) {
+  if (response.results) {
+    const packages = []
+    let securityObject = {}
+    for (var i = 0; i < response.results.length; i++) {
+      packages.push(createPackageSecurityObject(response.results[i]))
+      if (response.results[i].packageId === PackageInformation.packageId) {
+        securityObject = createSecurityState(response.results[i].accessToken.token, response.results[i].accessToken.expires)
+      }
+    }
+    securityObject.packages = packages
+    return securityObject
+  } else {
+    return createSecurityState(response.accessToken, response.expires)
+  }
+}
+
 export function loadInitialStateFromServer (url) {
   return fetchInitialStateFromServer(url)
     .then((serverResponse) => {
@@ -52,7 +70,7 @@ export function loadInitialStateFromServer (url) {
               .then((securityResponse) => {
                 let security
                 if (securityResponse && securityResponse.success === true) {
-                  security = createSecurityState(securityResponse.accessToken, securityResponse.expires)
+                  security = createSecurityStateFromResponse(securityResponse)
                 }
 
                 const storageData = {
