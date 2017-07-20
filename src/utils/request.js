@@ -1,5 +1,5 @@
 import Promise from 'bluebird'
-import { Map } from 'immutable'
+import { Map, List } from 'immutable'
 import fetch from 'isomorphic-fetch'
 import FileSaver from 'file-saver'
 import moment from 'moment'
@@ -13,18 +13,26 @@ const REFRESH_ATTEMPT_DELAY = 5000
 let refreshAttempts = 0
 
 let storeInstance
+let packagesPathKey
 let tokensPathKey
 let hubUrl
 
 export const UPDATE_ACCESS_TOKEN = 'UPDATE_ACCESS_TOKEN'
+export const UPDATE_PACKAGE_ACCESS_TOKENS = 'UPDATE_PACKAGE_ACCESS_TOKENS'
 
-export function prepareRequest (store, tokensPath) {
+export function prepareRequest (store, tokensPath, packagesPath) {
   if (store && store.getState && store.dispatch) {
     storeInstance = store
   } else {
     throw new TypeError('Invalid "store" should be an instance of a redux store')
   }
-
+  if (typeof packagesPath === 'string') {
+    packagesPathKey = packagesPath.split('.')
+  } else if (Array.isArray(packagesPath)) {
+    packagesPathKey = packagesPath
+  } else {
+    throw new TypeError('Invalid "packagesPath" should be either a string or an array')
+  }
   if (typeof tokensPath === 'string') {
     tokensPathKey = tokensPath.split('.')
   } else if (Array.isArray(tokensPath)) {
@@ -95,6 +103,37 @@ function getAccessToken () {
   }
 }
 
+function getPackage (packageId) {
+  const packagesList = storeInstance.getState().getIn(packagesPathKey)
+
+  const packages = List.isList(packagesList) ? packagesList.toJS() : undefined
+  if (packages) {
+    const filtered = packages.filter((p) => p.packageId === packageId)
+    if (filtered.length > 0) {
+      return filtered[0]
+    }
+  }
+  return undefined
+}
+
+function getAccessTokenForPackage (packageId) {
+  const pkg = getPackage(packageId)
+  if (pkg) {
+    const token = pkg.accessToken
+    if (token) {
+      if (token.expires < moment().add(1, 'minute').unix()) {
+        return refreshAccessToken()
+      .then(() => getAccessTokenForPackage(packageId))
+      } else {
+        return Promise.resolve(token.token)
+      }
+    }
+  } else {
+    console.log('NO PACKAGE')
+    throw new Error('The requested package is not present in the store.  You need to add ' + packageId + ' to your packageDependencies.')
+  }
+}
+
 function scheduleRefreshAccessToken () {
   verifyInitialized()
 
@@ -120,12 +159,34 @@ function verifyInitialized () {
   }
 }
 
+function combineUrlParts (base, endpoint) {
+  if (endpoint.indexOf('/') !== 0) {
+    endpoint = '/' + endpoint
+  }
+  if (base.lastIndexOf('/') === base.length - 1) {
+    base = base.substr(0, base.length - 1)
+  }
+  return `${base}${endpoint}`
+}
+
 function makeAuthenticatedRequest (url, requestOptions) {
-  return getAccessToken()
+  if (requestOptions.packageId) {
+    const pkg = getPackage(requestOptions.packageId)
+    if (pkg) {
+      return getAccessTokenForPackage(pkg.packageId).then((accessToken) => {
+        requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(requestOptions.packageId, accessToken)
+        return makeRequest(combineUrlParts(pkg.packageUrl, url), requestOptions)
+      })
+    } else {
+      throw new Error(`Package ${requestOptions.packageId} was not found in ${packagesPathKey.join('.')}.  Make sure you have added the package to your packageDependencies`)
+    }
+  } else {
+    return getAccessToken()
     .then((accessToken) => {
       requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(PackageInformation.packageId, accessToken)
       return makeRequest(url, requestOptions)
     })
+  }
 }
 
 function makeUnauthenticatedRequest (url, requestOptions) {
@@ -161,13 +222,24 @@ export function makeRefreshAccessTokenRequest () {
     return Promise.resolve()
   }
 
+  const body = { refreshToken: refreshToken }
+  let accessTokenEndpoint = 'accessToken'
+
+  // If a package has packageDependencies set, use those
+  if (PackageInformation.packageDependencies) {
+    body.packages = PackageInformation.packageDependencies
+    if (body.packages.indexOf(PackageInformation.packageId) === -1) {
+      body.packages.push(PackageInformation.packageId)
+    }
+    accessTokenEndpoint = 'accessTokens'
+  }
   const refreshOptions = {
     headers: HeaderUtils.createRequestHeader(PackageInformation.packageId),
     method: 'POST',
-    body: JSON.stringify({ refreshToken: refreshToken })
+    body: JSON.stringify(body)
   }
 
-  return fetch(`${window.__HUB_URL__}/users/accessToken`, refreshOptions)
+  return fetch(`${window.__HUB_URL__}/users/${accessTokenEndpoint}`, refreshOptions)
     .then(parseResponse)
 }
 
@@ -199,7 +271,17 @@ export function refreshAccessToken (scheduleRefresh) {
   return makeRefreshAccessTokenRequest()
     .then((response) => {
       if (response.success === true) {
-        storeInstance.dispatch(updateAccessToken(response.accessToken, response.expires))
+        if (response.results) {
+          storeInstance.dispatch(updatePackageAccessTokens(response.results))
+          for (var i = 0; i < response.results.length; i++) {
+            if (response.results[i].packageId === PackageInformation.packageId) {
+              storeInstance.dispatch(updateAccessToken(response.results[i].accessToken, response.results[i].expires))
+            }
+          }
+        } else {
+          storeInstance.dispatch(updateAccessToken(response.accessToken, response.expires))
+        }
+
         if (scheduleRefresh === true) {
           scheduleRefreshAccessToken()
         }
@@ -226,6 +308,13 @@ export function parseResponse (response) {
     return response.json()
   } else {
     return response.status === 200
+  }
+}
+
+function updatePackageAccessTokens (accessTokens) {
+  return {
+    type: UPDATE_PACKAGE_ACCESS_TOKENS,
+    accessTokens: accessTokens
   }
 }
 
@@ -265,6 +354,7 @@ function prepareOptions (options = {}) {
   const requestOptions = {
     method: opts.method,
     credentials: opts.credentials,
+    packageId: opts.packageId,
     body: opts.body,
     headers: {
       'content-type': 'application/json',
