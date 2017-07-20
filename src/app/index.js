@@ -4,6 +4,7 @@ import { injectSaga } from './store/sagas'
 import { selectLocationState } from './modules/routing'
 
 /* Layouts */
+import CoreLayout from './layouts/CoreLayout'
 import ReactiveLayout from './layouts/ReactiveLayout'
 
 import {
@@ -20,9 +21,14 @@ module.exports = {
   injectSaga: injectSaga,
   logout: logout,
   SECURITY_LOGOUT: SECURITY_LOGOUT,
+
+  /* Selectors */
   selectAccessToken: selectAccessToken,
   selectCurrentUser: selectCurrentUser,
   selectLocationState: selectLocationState,
   selectTokens: selectTokens,
+
+  /* Layouts */
+  CoreLayout: CoreLayout,
   ReactiveLayout: ReactiveLayout
 }
