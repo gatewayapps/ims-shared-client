@@ -36,10 +36,10 @@ export function logout () {
 // ------------------------------------
 export function createSecurityState (accessToken, expires) {
   return {
-    currentUser: decodeAccessToken(accessToken.token),
+    currentUser: decodeAccessToken(accessToken),
     tokens: {
-      accessToken: accessToken.token,
-      expires: accessToken.expires
+      accessToken: accessToken,
+      expires: accessToken
     }
   }
 }
