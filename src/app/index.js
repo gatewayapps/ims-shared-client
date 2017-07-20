@@ -2,6 +2,10 @@ import ImsBootstrapper from './bootstrapper'
 import { injectReducer } from './store/reducers'
 import { injectSaga } from './store/sagas'
 import { selectLocationState } from './modules/routing'
+
+/* Layouts */
+import ReactiveLayout from './layouts/ReactiveLayout'
+
 import {
   logout,
   SECURITY_LOGOUT,
@@ -19,5 +23,6 @@ module.exports = {
   selectAccessToken: selectAccessToken,
   selectCurrentUser: selectCurrentUser,
   selectLocationState: selectLocationState,
-  selectTokens: selectTokens
+  selectTokens: selectTokens,
+  ReactiveLayout: ReactiveLayout
 }
