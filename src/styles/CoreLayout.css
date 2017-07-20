@@ -1,0 +1,28 @@
+.CLContainer {
+  position: fixed;
+  touch-action: pan-x;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+}
+
+.CLHeaderContainer {
+  width: 100%;
+}
+
+.CLPageContainer {
+  flex: 1;
+  width: 100%;
+  display: flex;
+}
+.CLContentContainer {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+}
