@@ -1,10 +1,9 @@
 import React from 'react'
 import $ from 'jquery'
 import classNames from 'classnames'
-import  '../../../styles/ReactiveLayout.css'
+import '../../../styles/ReactiveLayout.css'
 
 export default class ReactiveLayout extends React.Component {
-
   constructor (props) {
     super(props)
     this.state = { open: false, tx: 0, headerHeight: 54, sidebarReady: false }
@@ -22,7 +21,7 @@ export default class ReactiveLayout extends React.Component {
 
   processTouchStart = (e) => {
     if (this.touch) {
-      return
+      
     } else {
       this.touch = {
         start: new Date().getTime(),
@@ -78,7 +77,7 @@ export default class ReactiveLayout extends React.Component {
   componentDidMount () {
     const headerHeight = $('nav.navbar').height()
     const sidebarWidth = $('#sidebarContainer').width()
-    this.setState((nextState, props) => { return { headerHeight: headerHeight, sidebarWidth: sidebarWidth, tx: -sidebarWidth } })
+    this.setState((nextState, props) => { return { headerHeight: headerHeight, sidebarWidth: sidebarWidth, tx: -sidebarWidth, sidebarReady: true } })
   }
 
   renderSidebar () {
