@@ -39,7 +39,7 @@ export function createSecurityState (accessToken, expires) {
     currentUser: decodeAccessToken(accessToken),
     tokens: {
       accessToken: accessToken,
-      expires: accessToken
+      expires: expires
     }
   }
 }
