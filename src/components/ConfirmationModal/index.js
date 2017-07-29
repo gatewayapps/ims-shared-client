@@ -1,2 +1,2 @@
 import ConfirmationModal from './ConfirmationModal'
-module.exports = ConfirmationModal
+export default ConfirmationModal

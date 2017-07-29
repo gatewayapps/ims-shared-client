@@ -1,14 +1,10 @@
 import React from 'react'
 import Modal from 'react-bootstrap-modal'
 
-export class ConfirmationModal extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
+export default class ConfirmationModal extends React.Component {
   render () {
     return (
-      <Modal onHide={() => this.props.onCancel} aria-labelledby='confirmHeader'>
+      <Modal show onHide={() => this.props.onCancel} aria-labelledby='confirmHeader'>
         {this.props.header ? <Modal.Header closeButton>
           <Modal.Title id='confirmHeader'>{this.props.header}</Modal.Title>
         </Modal.Header> : null}
@@ -16,7 +12,7 @@ export class ConfirmationModal extends React.Component {
           {this.props.actionMessage}
         </Modal.Body>
         <Modal.Footer>
-          <Modal.Dismiss className='btn btn-link text-default'>
+          <Modal.Dismiss onClick={this.props.onCancel} className='btn btn-link text-default'>
             {this.props.cancelButtonContent}
           </Modal.Dismiss>
           <button type='button' className={this.props.confirmButtonClassNames || 'btn btn-primary'} onClick={this.props.onConfirm}>
@@ -37,5 +33,3 @@ ConfirmationModal.propTypes = Object.assign({}, React.Component.propTypes, {
   onConfirm: React.PropTypes.func.isRequired,
   onCancel: React.PropTypes.func.isRequired
 })
-
-export default ConfirmationModal
