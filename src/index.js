@@ -4,6 +4,7 @@ import AreaPicker from './components/AreaPicker'
 import BaseComponent from './components/BaseComponent'
 import Card from './components/Card'
 import Conditional from './components/Conditional'
+import ConfirmationModal from './components/ConfirmationModal'
 import DeleteLink from './components/DeleteLink'
 import DisplayName from './components/DisplayName'
 import EquipmentAutosuggest from './components/EquipmentAutosuggest'
@@ -49,6 +50,7 @@ module.exports = {
   BaseComponent: BaseComponent,
   Card: Card,
   Conditional: Conditional,
+  ConfirmationModal: ConfirmationModal,
   DeleteLink: DeleteLink,
   DisplayName: DisplayName,
   EquipmentAutosuggest: EquipmentAutosuggest,
