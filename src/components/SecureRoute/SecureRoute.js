@@ -7,8 +7,9 @@ import { getAuthorizeUrl } from '../../utils/auth'
 import { selectCurrentUser, selectLocationState } from '../../app'
 
 export default class SecureRoute {
-  constructor (store) {
+  constructor (store, notAuthorizedUrl = '/notAuthorized') {
     this.store = store
+    this.notAuthorizedUrl = notAuthorizedUrl
     this.permHandler = new PermissionHandler({
       package: {
         id: PackageInformation.packageId
@@ -33,7 +34,7 @@ export default class SecureRoute {
 
     if (_.isArray(this.requiredPermissions) && this.requiredPermissions.length > 0) {
       if (!this.permHandler.checkPermissions(this.requiredPermissions, context.currentUser.permissions)) {
-        replace(this.props.NotAuthorizedUrl)
+        replace(this.notAuthorizedUrl)
       }
     } else {
       const requiredPermission = {
@@ -42,14 +43,10 @@ export default class SecureRoute {
       }
 
       if (!this.permHandler.checkPermission(requiredPermission, context.currentUser.permissions)) {
-        replace(this.props.NotAuthorizedUrl)
+        replace(this.notAuthorizedUrl)
       }
     }
 
     return callback()
   }
-}
-
-SecureRoute.propTypes = {
-  NotAuthorizedUrl: React.PropTypes.string.isRequired
 }
