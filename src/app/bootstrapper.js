@@ -12,10 +12,11 @@ import { Constants } from 'ims-shared-core'
 import ImsApplication from '../components/App/'
 import { getCookie } from '../utils/cookies'
 import PackageInformation from '../PackageInformation'
-import { loadInitialState, loadInitialStateFromServer } from './stateInitializer'
+import { loadInitialState, loadInitialStateFromServer, loadPackagesFromHub } from './stateInitializer'
 import createStore from './store/createStore'
 import { selectLocationState } from './modules/routing'
 import { serverInitialState } from './modules/universal'
+import { createPackageState } from './modules/packages'
 
 export default function imsBootstrapper (options = {}) {
   const opts = validateOptions(options)
@@ -109,6 +110,13 @@ function completeInitialization (options) {
           }
         })
     }
+
+    // Load packages access from the hub
+    loadPackagesFromHub().then((result) => {
+      if (result.success) {
+        store.dispatch(createPackageState(result.packages))
+      }
+    })
 
     const history = syncHistoryWithStore(browserHistory, store, {
       selectLocationState: selectLocationState()

@@ -1,0 +1,44 @@
+.package-tile{
+    width: 110px;
+    height: 110px;
+    float:left;
+    margin: 3px;
+}
+.package-tile-opacity{
+    transition: 0.2s;
+    position: relative;
+    color: white;
+    background-color: #737373;
+    width:100%;
+    height: 100%;
+}
+.package-tile-opacity:hover{
+    background-color: transparent;
+}
+.package-tile-link{
+    color: white;
+    text-decoration: none;
+}
+.package-tile-link:hover{
+    color: white;
+    text-decoration: none;
+}
+.package-tile-icon{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size:xx-large;
+}
+.package-tile-title{
+    position: absolute;
+    bottom: 0px;
+    padding: 6px;
+    width:100%;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    font-size: 0.7em;
+    overflow-x:hidden;
+}

@@ -2,6 +2,7 @@ import { routerReducer } from 'react-router-redux'
 import combineReducers from './combineReducers'
 import securityReducer from '../modules/security'
 import universalReducer from '../modules/universal'
+import packagesReducer from '../modules/packages'
 
 let _globalReducers
 
@@ -10,6 +11,7 @@ export const makeRootReducer = (globalReducers = {}, asyncReducers) => {
   return combineReducers({
     routing: routerReducer,
     security: securityReducer,
+    packages: packagesReducer,
     ...globalReducers,
     ...asyncReducers
   }, universalReducer)

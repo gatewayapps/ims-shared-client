@@ -15,6 +15,7 @@ import Image from './components/Image'
 import LoadingIndicator from './components/LoadingIndicator'
 import LogoutButton from './components/LogoutButton'
 import NodePath from './components/NodePath'
+import PackagesDropdown from './components/PackagesDropdown'
 import PersonCard from './components/PersonCard'
 import RequiredIndicator from './components/RequiredIndicator'
 import PermissionCheck from './components/PermissionCheck'
@@ -63,6 +64,7 @@ module.exports = {
   LoadingIndicator: LoadingIndicator,
   LogoutButton: LogoutButton,
   NodePath: NodePath,
+  PackagesDropdown: PackagesDropdown,
   PermissionCheck: PermissionCheck,
   PersonCard: PersonCard,
   RequiredIndicator: RequiredIndicator,
