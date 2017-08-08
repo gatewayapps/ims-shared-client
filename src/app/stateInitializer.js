@@ -2,8 +2,9 @@ import _ from 'lodash'
 import fetch from 'isomorphic-fetch'
 import PackageInformation from '../PackageInformation'
 import { getItem, getItems, setItem, setItems } from '../utils/localStorage'
-import { makeRefreshAccessTokenRequest, parseResponse } from '../utils/request'
+import { makeRefreshAccessTokenRequest, parseResponse, default as request } from '../utils/request'
 import { createSecurityState, createPackageSecurityObject } from './modules/security'
+import { createPackagesState } from './modules/universal'
 
 export const INITIAL_STATE_STORAGE_KEY = 'IMS-initialState'
 export const SECURITY_STORAGE_KEY = 'IMS-security'
@@ -91,6 +92,10 @@ export function loadInitialStateFromServer (url) {
           }
         })
     })
+}
+
+export function loadPackagesFromHub () {
+  return request('/api/userAccounts/me/packages', { packageId: 'ims.core.administration' })
 }
 
 function fetchInitialStateFromServer (url) {
