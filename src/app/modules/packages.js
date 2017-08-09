@@ -41,7 +41,7 @@ export default function Reducer (state = fromJS(initialState), action) {
 // ------------------------------------
 // Selectors
 // ------------------------------------
-const selectModuleState = () => (state) => state.get('packages')
+const selectModuleState = () => (state) => state.get('__USER__PACKAGES')
 
 export const selectPackages = () => createSelector(
   selectModuleState(),
