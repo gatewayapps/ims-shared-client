@@ -11,7 +11,7 @@ export const makeRootReducer = (globalReducers = {}, asyncReducers) => {
   return combineReducers({
     routing: routerReducer,
     security: securityReducer,
-    packages: packagesReducer,
+    __USER__PACKAGES: packagesReducer,
     ...globalReducers,
     ...asyncReducers
   }, universalReducer)
