@@ -118,8 +118,10 @@ function getPackage (packageId) {
 
 function getAccessTokenForPackage (packageId) {
   const pkg = getPackage(packageId)
+
   if (pkg) {
     const token = pkg.accessToken
+
     if (token) {
       if (token.expires < moment().add(1, 'minute').unix()) {
         return refreshAccessToken()
@@ -175,6 +177,7 @@ function makeAuthenticatedRequest (url, requestOptions) {
     if (pkg) {
       return getAccessTokenForPackage(pkg.packageId).then((accessToken) => {
         requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(requestOptions.packageId, accessToken)
+
         return makeRequest(combineUrlParts(pkg.packageUrl, url), requestOptions)
       })
     } else {
