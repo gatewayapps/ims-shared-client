@@ -100,80 +100,80 @@ function completeInitialization (options) {
     // ========================================================
     // Create Store and History
     // ========================================================
-    const store = createStore(state.initialState, browserHistory, options)
-
-    if (state.fromLocalStorage === true) {
-      loadInitialStateFromServer(options.stateInitializer.url)
+    createStore(state.initialState, browserHistory, options).then((store) => {
+      if (state.fromLocalStorage === true) {
+        loadInitialStateFromServer(options.stateInitializer.url)
         .then((initialState) => {
           if (initialState) {
             store.dispatch(serverInitialState(initialState))
           }
         })
-    }
+      }
 
     // Load packages access from the hub
-    loadPackagesFromHub().then((result) => {
-      if (result.success) {
-        store.dispatch(createPackageState(result.packages))
-      }
-    })
+      loadPackagesFromHub().then((result) => {
+        if (result.success) {
+          store.dispatch(createPackageState(result.packages))
+        }
+      })
 
-    const history = syncHistoryWithStore(browserHistory, store, {
-      selectLocationState: selectLocationState()
-    })
+      const history = syncHistoryWithStore(browserHistory, store, {
+        selectLocationState: selectLocationState()
+      })
 
     // ========================================================
     // Render Setup
     // ========================================================
-    const MOUNT_NODE = document.getElementById('root')
+      const MOUNT_NODE = document.getElementById('root')
 
-    let render = () => {
-      const routes = options.routes(store)
+      let render = () => {
+        const routes = options.routes(store)
 
-      const appComponent = (
-        <ImsApplication
-          store={store}
-          history={history}
-          routes={routes}
-          onAppWillMount={options.onAppWillMount} />
+        const appComponent = (
+          <ImsApplication
+            store={store}
+            history={history}
+            routes={routes}
+            onAppWillMount={options.onAppWillMount} />
       )
 
-      ReactDOM.render(appComponent, MOUNT_NODE)
-    }
+        ReactDOM.render(appComponent, MOUNT_NODE)
+      }
 
-    if (options.isDev === true) {
-      if (module.hot) {
+      if (options.isDev === true) {
+        if (module.hot) {
         // Development render functions
-        const renderApp = render
-        const renderError = (error) => {
-          const RedBox = require('redbox-react').default
+          const renderApp = render
+          const renderError = (error) => {
+            const RedBox = require('redbox-react').default
 
-          ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
-        }
+            ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
+          }
 
         // Wrap render in try/catch
-        render = () => {
-          try {
-            renderApp()
-          } catch (error) {
-            renderError(error)
+          render = () => {
+            try {
+              renderApp()
+            } catch (error) {
+              renderError(error)
+            }
+          }
+
+          if (options.configureHMR) {
+            options.configureHMR(() => {
+              setTimeout(() => {
+                ReactDOM.unmountComponentAtNode(MOUNT_NODE)
+                render()
+              })
+            })
           }
         }
-
-        if (options.configureHMR) {
-          options.configureHMR(() => {
-            setTimeout(() => {
-              ReactDOM.unmountComponentAtNode(MOUNT_NODE)
-              render()
-            })
-          })
-        }
       }
-    }
 
     // ========================================================
     // Go!
     // ========================================================
-    render()
+      render()
+    })
   }
 }

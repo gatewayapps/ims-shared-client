@@ -4,7 +4,6 @@ import PackageInformation from '../PackageInformation'
 import { getItem, getItems, setItem, setItems } from '../utils/localStorage'
 import { makeRefreshAccessTokenRequest, parseResponse, default as request } from '../utils/request'
 import { createSecurityState, createPackageSecurityObject } from './modules/security'
-import { createPackagesState } from './modules/universal'
 
 export const INITIAL_STATE_STORAGE_KEY = 'IMS-initialState'
 export const SECURITY_STORAGE_KEY = 'IMS-security'

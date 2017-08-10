@@ -62,11 +62,7 @@ export default (initialState = {}, history, options) => {
     )
   )
   store.asyncReducers = {}
-
-  // Prepare request object
-  prepareRequest(store, 'security.tokens', 'security.packages')
-
-  // Prepare scoped component injector
+    // Prepare scoped component injector
   prepareInjector(store, injectReducer)
 
   // Initialize global sagas
@@ -79,5 +75,8 @@ export default (initialState = {}, history, options) => {
     })
   }
 
-  return store
+  // Prepare request object
+  return prepareRequest(store, 'security.tokens', 'security.packages').then(() => {
+    return store
+  })
 }
