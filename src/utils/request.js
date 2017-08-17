@@ -222,7 +222,7 @@ export function makeRefreshAccessTokenRequest () {
   const refreshToken = getCookie(Constants.Cookies.RefreshToken)
 
   if (!refreshToken) {
-    return Promise.resolve()
+    return Promise.resolve({ success: false, message: 'Refresh token not found.' })
   }
 
   const body = { refreshToken: refreshToken }
