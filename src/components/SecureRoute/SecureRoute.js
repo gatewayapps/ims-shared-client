@@ -1,9 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
 import { createStructuredSelector } from 'reselect'
-import { PermissionHandler } from 'ims-shared-core'
+import { PermissionHandler, Constants } from 'ims-shared-core'
 import PackageInformation from '../../PackageInformation'
 import { getAuthorizeUrl } from '../../utils/auth'
+import { getCookie } from '../../utils/cookies'
 import { selectCurrentUser, selectLocationState } from '../../app'
 
 export default class SecureRoute {
@@ -23,7 +24,9 @@ export default class SecureRoute {
       currentUser: selectCurrentUser()
     })(this.store.getState())
 
-    if (!context.currentUser.userAccountId) {
+    const rt = getCookie(Constants.Cookies.RefreshToken)
+
+    if (!context.currentUser.userAccountId || !rt) {
       // Use window.location here to force the request to go to the server. The server
       // handles "/users/authorize" will check windows and other auth before redirecting
       // to the local login page.

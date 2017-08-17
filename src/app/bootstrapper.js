@@ -10,7 +10,9 @@ import {
 } from 'react-router-redux'
 import { Constants } from 'ims-shared-core'
 import ImsApplication from '../components/App/'
+import { getAuthorizeUrl } from '../utils/auth'
 import { getCookie } from '../utils/cookies'
+import { setLocation } from '../utils/window'
 import PackageInformation from '../PackageInformation'
 import { loadInitialState, loadInitialStateFromServer, loadPackagesFromHub } from './stateInitializer'
 import createStore from './store/createStore'
@@ -36,6 +38,18 @@ export default function imsBootstrapper (options = {}) {
   // Set window variable for development mode
   // ========================================================
   window.__DEV__ = opts.isDev
+
+  // ========================================================
+  // If no guest access is enabled and there is no
+  // refresh token redirect to login
+  // ========================================================
+  if (opts.noGuestAccess) {
+    const rt = getCookie(Constants.Cookies.RefreshToken)
+    if (!rt) {
+      setLocation(getAuthorizeUrl(window.location.pathname))
+      return
+    }
+  }
 
   // ========================================================
   // Store and History Instantiation
@@ -90,6 +104,10 @@ function validateOptions (options) {
 
   if (!_.isBoolean(lOpts.isDev)) {
     lOpts.isDev = false
+  }
+
+  if (!_.isBoolean(lOpts.noGuestAccess)) {
+    lOpts.noGuestAccess = true
   }
 
   return lOpts
