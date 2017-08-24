@@ -86,7 +86,7 @@ export class AreaPicker extends React.Component {
   }
 
   render () {
-    const btnClasses = classNames('btn btn-link', {
+    const btnClasses = classNames('btn btn-info', {
       'btn-sm': this.props.size === 'sm',
       'btn-lg': this.props.size === 'lg',
       'btn-xs': this.props.size === 'xs'
@@ -168,15 +168,19 @@ export class AreaPicker extends React.Component {
   }
 
   _renderNodeTitle (node) {
+    const icon = node.nodeDetailTypeId === 1
+           ? 'fa fa-fw fa-folder-o'
+           : null
     return (
-      <div className='react-tree-node-title'>{node.name}</div>
+      <div className='react-tree-node-title'>
+      {icon ? <i className={icon} /> : null} {node.name}</div>
     )
   }
 
   _renderNodeToggle (node, clickHandler) {
     const toggleClasses = classNames('fa', {
-      'fa-folder': !node.open,
-      'fa-folder-open': node.open
+      'fa-caret-right': !node.open,
+      'fa-caret-down': node.open
     })
     return (
       <button className='btn btn-link btn-xs react-tree-node-toggle' onClick={clickHandler}>
@@ -186,14 +190,14 @@ export class AreaPicker extends React.Component {
   }
 
   _onNodeToggle (node) {
-    node.open = !node.open
-    this.setState({
-      treeData: this.state.treeData
-    })
     this._onNodeSelect(node)
   }
 
   _onNodeSelect (node) {
+    node.open = !node.open
+    this.setState({
+      treeData: this.state.treeData
+    })
     if (this.state.selectedNode) {
       this.state.selectedNode.active = false
     }
