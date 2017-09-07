@@ -56,7 +56,12 @@ export class DeleteLink extends React.Component {
 
 DeleteLink.propTypes = Object.assign({}, React.Component.propTypes, {
   deleteDescription: React.PropTypes.string,
+  bootstrapVersion: React.PropTypes.number,
   onDelete: React.PropTypes.func.isRequired
 })
+
+DeleteLink.defaultProps = {
+  bootstrapVersion: 3
+}
 
 export default DeleteLink
