@@ -22,17 +22,20 @@ export class DeleteLink extends React.Component {
   }
 
   render () {
-    const btnClasses = classNames('btn', this.props.className, {
+    const btnClasses = classNames('btn', this.props.useDefaultStyling ? 'btn-link' : '', this.props.className, {
       'btn-sm': this.props.size === 'sm',
       'btn-lg': this.props.size === 'lg',
       'btn-xs': this.props.size === 'xs'
     })
 
     const deleteDescription = this.props.deleteDescription ? `"${this.props.deleteDescription}"` : 'this item'
+    const spanClass = this.props.useDefaultStyling ? 'text-danger' : ''
     if (this.props.bootstrapVersion === 3) {
       return (
         <button id={this.props.id} className={btnClasses} onClick={() => this._showPrompt()}>
-          {this.props.children}
+          <span className={spanClass}>
+            {this.props.children}
+          </span>
           <Modal3 show={this.state.show} onHide={() => this._onHide()} aria-labelledby='confirmDeleteTitle'>
             <Modal3.Header closeButton>
               <Modal3.Title id='confirmDeleteTitle'>Confirm Delete</Modal3.Title>
@@ -54,7 +57,9 @@ export class DeleteLink extends React.Component {
     } else {
       return (
         <button id={this.props.id} className={btnClasses} onClick={() => this._showPrompt()}>
-          {this.props.children}
+          <span className={spanClass}>
+            {this.props.children}
+          </span>
           <Modal isOpen={this.state.show} toggle={() => this._onHide()} aria-labelledby='confirmDeleteTitle'>
             <ModalHeader>
               Confirm Delete
@@ -80,11 +85,13 @@ export class DeleteLink extends React.Component {
 DeleteLink.propTypes = Object.assign({}, React.Component.propTypes, {
   deleteDescription: React.PropTypes.string,
   bootstrapVersion: React.PropTypes.number,
+  useDefaultStyling: React.PropTypes.bool,
   onDelete: React.PropTypes.func.isRequired
 })
 
 DeleteLink.defaultProps = {
-  bootstrapVersion: 3
+  bootstrapVersion: 3,
+  useDefaultStyling: true
 }
 
 export default DeleteLink
