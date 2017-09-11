@@ -32,7 +32,7 @@ export class DeleteLink extends React.Component {
     if (this.props.bootstrapVersion === 3) {
       return (
         <button id={this.props.id} className={btnClasses} onClick={() => this._showPrompt()}>
-          <span className='text-danger'>{this.props.children}</span>
+          {this.props.children}
           <Modal3 show={this.state.show} onHide={() => this._onHide()} aria-labelledby='confirmDeleteTitle'>
             <Modal3.Header closeButton>
               <Modal3.Title id='confirmDeleteTitle'>Confirm Delete</Modal3.Title>
@@ -54,7 +54,7 @@ export class DeleteLink extends React.Component {
     } else {
       return (
         <button id={this.props.id} className={btnClasses} onClick={() => this._showPrompt()}>
-          <span className='text-danger'>{this.props.children}</span>
+          {this.props.children}
           <Modal isOpen={this.state.show} toggle={() => this._onHide()} aria-labelledby='confirmDeleteTitle'>
             <ModalHeader>
               Confirm Delete
