@@ -22,7 +22,7 @@ export class DeleteLink extends React.Component {
   }
 
   render () {
-    const btnClasses = classNames('btn btn-link', this.props.className, {
+    const btnClasses = classNames('btn', this.props.className, {
       'btn-sm': this.props.size === 'sm',
       'btn-lg': this.props.size === 'lg',
       'btn-xs': this.props.size === 'xs'
