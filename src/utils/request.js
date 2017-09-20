@@ -103,6 +103,17 @@ function getAccessToken () {
   }
 }
 
+export function isPackageAvailable (packageId) {
+  const packagesList = storeInstance.getState().getIn(packagesPathKey)
+
+  const packages = List.isList(packagesList) ? packagesList.toJS() : undefined
+  if (packages) {
+    const filtered = packages.filter((p) => p.packageId === packageId)
+    return filtered.length > 0
+  }
+  return false
+}
+
 function getPackage (packageId) {
   const packagesList = storeInstance.getState().getIn(packagesPathKey)
 
@@ -230,10 +241,11 @@ export function makeRefreshAccessTokenRequest () {
 
   // If a package has packageDependencies set, use those
   if (PackageInformation.packageDependencies) {
-    body.packages = PackageInformation.packageDependencies
-    if (body.packages.indexOf(PackageInformation.packageId) === -1) {
-      body.packages.push(PackageInformation.packageId)
+    const packages = Object.keys(PackageInformation.packageDependencies)
+    if (packages.indexOf(PackageInformation.packageId) === -1) {
+      packages.push(PackageInformation.packageId)
     }
+    body.packages = packages
     accessTokenEndpoint = 'accessTokens'
   }
   const refreshOptions = {
