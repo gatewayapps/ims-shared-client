@@ -241,7 +241,9 @@ export function makeRefreshAccessTokenRequest () {
 
   // If a package has packageDependencies set, use those
   if (PackageInformation.packageDependencies) {
-    const packages = Object.keys(PackageInformation.packageDependencies)
+    const packages = Array.isArray(PackageInformation.packageDependencies)
+    ? PackageInformation.packageDependencies
+    : Object.keys(PackageInformation.packageDependencies)
     if (packages.indexOf(PackageInformation.packageId) === -1) {
       packages.push(PackageInformation.packageId)
     }
