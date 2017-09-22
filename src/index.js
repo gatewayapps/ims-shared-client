@@ -28,6 +28,7 @@ import SecureLink from './components/SecureLink'
 import SingleUserSelector from './components/SingleUserSelector'
 import SortableListHeader from './components/SortableListHeader'
 import UserAutosuggest from './components/UserAutosuggest'
+import Notifications from 'react-notification-system-redux'
 import UserProfileImage from './components/UserProfileImage'
 
 import PackageInformation from './PackageInformation'
@@ -86,5 +87,6 @@ module.exports = {
     prepareScopedInjector: prepareInjector,
     setLocation: setLocation
   },
+  Notifications: Notifications,
   PackageInformation: PackageInformation
 }
