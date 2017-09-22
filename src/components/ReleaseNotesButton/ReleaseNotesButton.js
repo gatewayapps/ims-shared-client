@@ -74,12 +74,13 @@ export class ReleaseNotesButton extends React.Component {
       return this.props.renderRelease(release)
     }
     const releaseLocale = this.getReleaseLocale(release)
+    const key = release.major + '-' + release.minor + '-' + release.patch
     return (
-      <div>
+      <div key={key}>
         {this.renderReleaseHeader(release)}
         <table className='table table-condensed table-sm'>
           <tbody>
-            {releaseLocale.items.map((i, index) => this.renderItem(i, index))}
+            {releaseLocale.items.map((i, index) => this.renderItem(i, index, key))}
           </tbody>
         </table>
       </div>
@@ -99,13 +100,13 @@ export class ReleaseNotesButton extends React.Component {
       return <h4>{release.version}</h4>
     }
   }
-  renderItem (item, index) {
+  renderItem (item, index, key) {
     if (this.props.renderItem) {
-      return this.props.renderItem(item, index)
+      return this.props.renderItem(item, index, key)
     }
     var icon = this.getIcon(item)
 
-    return <tr key={`release-note-${index}`} style={{ verticalAlign: 'top' }}>
+    return <tr key={`release-note-${index}-${key}`} style={{ verticalAlign: 'top' }}>
       <td style={{ verticalAlign: 'top', paddingRight: '5px', width: '30px' }}>
         {icon}
       </td>

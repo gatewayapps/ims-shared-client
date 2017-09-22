@@ -132,7 +132,7 @@ FeedbackButton.propTypes = Object.assign({}, React.Component.propTypes, {
   user: React.PropTypes.object.isRequired,
   icon: React.PropTypes.string,
   bootstrapVersion: React.PropTypes.number,
-  hubUrl: React.PropTypes.string.isRequired
+  hubUrl: React.PropTypes.string
 
 })
 
