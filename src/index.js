@@ -85,8 +85,8 @@ module.exports = {
     injectScopedReducer: injectScopedReducer,
     LocalStorage: LocalStorage,
     prepareScopedInjector: prepareInjector,
-    Notifications: Notifications,
     setLocation: setLocation
   },
+  Notifications: Notifications,
   PackageInformation: PackageInformation
 }
