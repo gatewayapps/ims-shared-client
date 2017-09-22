@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Router } from 'react-router'
+import NotificationContainer from './Notifications'
 import { Provider } from 'react-redux'
 
 export class AppComponent extends Component {
@@ -24,7 +25,11 @@ export class AppComponent extends Component {
 
     return (
       <Provider store={store}>
-        <Router history={history} children={routes} />
+        <div>
+          <NotificationContainer />
+          <Router history={history} children={routes} />
+
+        </div>
       </Provider>
     )
   }

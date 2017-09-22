@@ -1,4 +1,5 @@
 import { routerReducer } from 'react-router-redux'
+import { reducer as notifications } from 'react-notification-system-redux'
 import combineReducers from './combineReducers'
 import securityReducer from '../modules/security'
 import universalReducer from '../modules/universal'
@@ -11,6 +12,7 @@ export const makeRootReducer = (globalReducers = {}, asyncReducers) => {
   return combineReducers({
     routing: routerReducer,
     security: securityReducer,
+    notifications: notifications,
     __USER__PACKAGES: packagesReducer,
     ...globalReducers,
     ...asyncReducers
