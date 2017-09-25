@@ -18,7 +18,7 @@ export default class PackagesDropdown extends React.Component {
           <span className='caret' />
           {
             badgeCount > 0
-            ? <span className='badge'>{badgeCount}</span>
+            ? <span className='badge badge-danger'>{badgeCount}</span>
             : undefined
           }
         </IndexLink>
