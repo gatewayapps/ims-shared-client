@@ -9,6 +9,7 @@ import { createSelector } from 'reselect'
 // Constants
 // ------------------------------------
 export const SET_PACKAGES_STATE = '@@PACKAGES/SET_PACKAGES_STATE'
+export const SET_PACKAGE_BADGE_COUNT = '@@PACKAGES/SET_PACKAGE_BADGE_COUNT'
 
 // ------------------------------------
 // Actions
@@ -20,12 +21,29 @@ export function createPackageState (packages) {
   }
 }
 
+export function setPackageBadgeCount (id, count) {
+  return {
+    type: SET_PACKAGE_BADGE_COUNT,
+    id,
+    count
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_PACKAGES_STATE]: (state, action) => {
     return fromJS(action.packages)
+  },
+  [SET_PACKAGE_BADGE_COUNT]: (state, action) => {
+    const packages = state.toJS()
+    for (var i = 0; i < packages.length; i++) {
+      if (packages[i].id === action.id) {
+        packages[i].badgeCount = action.count
+      }
+    }
+    return fromJS(packages)
   }
 }
 // ------------------------------------
