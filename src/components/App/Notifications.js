@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 class NotificationContainer extends Component {
   render () {
-    console.log('Rendering notifications container', this.props.notifications)
     return (
 
       <Notifications notifications={this.props.notifications} />
