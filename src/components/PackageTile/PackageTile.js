@@ -14,7 +14,7 @@ export default class PackageTile extends React.Component {
             {
               /* Badge support */
               this.props.package.badgeCount > 0
-              ? <div className='package-tile-badge badge'>{this.props.package.badgeCount}</div>
+              ? <div className='package-tile-badge badge badge-danger'>{this.props.package.badgeCount}</div>
               : null
             }
           </div>
