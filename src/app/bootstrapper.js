@@ -14,11 +14,11 @@ import { getAuthorizeUrl } from '../utils/auth'
 import { getCookie } from '../utils/cookies'
 import { setLocation } from '../utils/window'
 import PackageInformation from '../PackageInformation'
-import { loadInitialState, loadInitialStateFromServer, loadPackagesFromHub } from './stateInitializer'
+import { loadInitialState, loadInitialStateFromServer, loadPackagesFromHub, getPackageBadgeCount } from './stateInitializer'
 import createStore from './store/createStore'
 import { selectLocationState } from './modules/routing'
 import { serverInitialState } from './modules/universal'
-import { createPackageState } from './modules/packages'
+import { createPackageState, setPackageBadgeCount } from './modules/packages'
 
 export default function imsBootstrapper (options = {}) {
   const opts = validateOptions(options)
@@ -113,6 +113,22 @@ function validateOptions (options) {
   return lOpts
 }
 
+    // Load packages access from the hub
+function updatePackages (store) {
+  loadPackagesFromHub().then((result) => {
+    if (result.success) {
+      store.dispatch(createPackageState(result.packages))
+
+      // Badge support
+      for (var i = 0; i < result.packages.length; i++) {
+        getPackageBadgeCount(result.packages[i]).then((countResponse) => {
+          store.dispatch(setPackageBadgeCount(countResponse.id, countResponse.count))
+        })
+      }
+    }
+  })
+}
+
 function completeInitialization (options) {
   return (state) => {
     // ========================================================
@@ -128,12 +144,8 @@ function completeInitialization (options) {
         })
       }
 
-    // Load packages access from the hub
-      loadPackagesFromHub().then((result) => {
-        if (result.success) {
-          store.dispatch(createPackageState(result.packages))
-        }
-      })
+      window.setTimeout(() => { updatePackages(store) }, 0)
+      window.setInterval(() => { updatePackages(store) }, 60000)
 
       const history = syncHistoryWithStore(browserHistory, store, {
         selectLocationState: selectLocationState()

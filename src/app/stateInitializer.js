@@ -97,6 +97,36 @@ export function loadPackagesFromHub () {
   return request('/api/userAccounts/me/packages', { packageId: 'ims.core.administration' })
 }
 
+export function getPackageBadgeCount (pkgDef) {
+  if (pkgDef.badgeUrl) {
+    return request(pkgDef.badgeUrl).then((result) => {
+      if (result.success && !isNaN(result.count)) {
+        return {
+          id: pkgDef.id,
+          count: result.count
+        }
+      } else {
+        return {
+          id: pkgDef.id,
+          count: 0
+        }
+      }
+    }).catch(() => {
+      // We never want to hold up the app for a badge request
+      // So don't do anything, just return 0
+      return {
+        id: pkgDef.id,
+        count: 0
+      }
+    })
+  } else {
+    return Promise.resolve({
+      id: pkgDef.id,
+      count: 0
+    })
+  }
+}
+
 function fetchInitialStateFromServer (url) {
   return fetch(url, { credentials: 'same-origin' }).then(parseResponse)
 }

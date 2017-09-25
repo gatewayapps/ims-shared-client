@@ -10,6 +10,13 @@ export default class PackageTile extends React.Component {
           <div className='package-tile-opacity' >
             <div className='package-tile-icon'><i className={packageIcon} /></div>
             <div className='package-tile-title'>{this.props.package.name}</div>
+
+            {
+              /* Badge support */
+              this.props.package.badgeCount > 0
+              ? <div className='package-tile-badge badge'>{this.props.package.badgeCount}</div>
+              : null
+            }
           </div>
         </a>
       </div>
