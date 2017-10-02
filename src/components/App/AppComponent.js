@@ -25,7 +25,7 @@ export class AppComponent extends Component {
 
     return (
       <Provider store={store}>
-        <div>
+        <div style={{ height: '100%' }}>
           <NotificationContainer />
           <Router history={history} children={routes} />
 
