@@ -17,6 +17,8 @@ let packagesPathKey
 let tokensPathKey
 let hubUrl
 
+let REFRESH_ACCESS_TOKEN_TIMEOUT
+
 export const UPDATE_ACCESS_TOKEN = 'UPDATE_ACCESS_TOKEN'
 export const UPDATE_PACKAGE_ACCESS_TOKENS = 'UPDATE_PACKAGE_ACCESS_TOKENS'
 
@@ -159,8 +161,10 @@ function scheduleRefreshAccessToken () {
     if (refreshIn < 0) {
       refreshIn = 0
     }
-
-    setTimeout(() => refreshAccessToken(true), refreshIn)
+    if (REFRESH_ACCESS_TOKEN_TIMEOUT) {
+      clearTimeout(REFRESH_ACCESS_TOKEN_TIMEOUT)
+    }
+    REFRESH_ACCESS_TOKEN_TIMEOUT = setTimeout(() => refreshAccessToken(true), refreshIn)
   } else {
     throw new Error('No tokens in the store')
   }
@@ -299,9 +303,8 @@ export function refreshAccessToken (scheduleRefresh) {
           storeInstance.dispatch(updateAccessToken(response.accessToken, response.expires))
         }
 
-        if (scheduleRefresh === true) {
-          scheduleRefreshAccessToken()
-        }
+        scheduleRefreshAccessToken()
+
         refreshAttempts = 0
       } else {
         console.error(`Received success false from refreshAccessToken with message: ${response.message}`)
