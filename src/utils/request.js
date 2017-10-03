@@ -186,6 +186,15 @@ function combineUrlParts (base, endpoint) {
   return `${base}${endpoint}`
 }
 
+export function getUrlForPackage (packageId, endpoint) {
+  const pkg = getPackage(packageId)
+  if (pkg) {
+    return combineUrlParts(pkg.packageUrl, endpoint)
+  } else {
+    return undefined
+  }
+}
+
 function makeAuthenticatedRequest (url, requestOptions) {
   if (requestOptions.packageId) {
     const pkg = getPackage(requestOptions.packageId)
