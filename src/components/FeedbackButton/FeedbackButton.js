@@ -66,6 +66,26 @@ export class FeedbackButton extends React.Component {
             <p className='form-control-static' >{PackageInformation.version} ({PackageInformation.commit})</p>
           </div>
         </div>
+        {
+          PackageInformation.coreVersion && (
+            <div className='form-group'>
+              <label className='col-sm-2 control-label'>Core Components Version</label>
+              <div className='col-sm-10'>
+                <p className='form-control-static' >{PackageInformation.coreVersion}</p>
+              </div>
+            </div>
+          )
+        }
+        {
+          PackageInformation.clientVersion && (
+            <div className='form-group'>
+              <label className='col-sm-2 control-label'>Client Components Version</label>
+              <div className='col-sm-10'>
+                <p className='form-control-static' >{PackageInformation.clientVersion}</p>
+              </div>
+            </div>
+          )
+        }
 
       </form>
     )
