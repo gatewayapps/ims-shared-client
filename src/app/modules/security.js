@@ -8,7 +8,7 @@ import { fromJS, Map } from 'immutable'
 import { Constants, PermissionHandler } from 'ims-shared-core'
 import { INITIAL_STATE_STORAGE_KEY, SECURITY_STORAGE_KEY } from '../stateInitializer'
 import { getAuthorizeUrl, decodeJWT } from '../../utils/auth'
-import { deleteCookie } from '../../utils/cookies'
+import { deleteCookie, deleteSpecificCookie } from '../../utils/cookies'
 import {
   removeItems,
   setItem
@@ -95,7 +95,8 @@ export default function Reducer (state = fromJS(initialState), action) {
 export function * logoutSaga (action) {
   // delete the refreshToken cookie
   yield call(deleteCookie, Constants.Cookies.RefreshToken)
-  yield call(deleteCookie, 'SSO')
+  // #TODO
+  yield call(deleteSpecificCookie, 'SSO', 'nucor-yamato.com')
 
   // remove initialState from localStorage
   yield call(removeItems, [ INITIAL_STATE_STORAGE_KEY, SECURITY_STORAGE_KEY ])
