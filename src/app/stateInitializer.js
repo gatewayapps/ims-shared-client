@@ -98,7 +98,7 @@ export function loadPackagesFromHub () {
 }
 
 export function getPackageBadgeCount (pkgDef) {
-  if (pkgDef.badgeUrl) {
+  if (pkgDef.badgeUrl) { // could just do direct check here to see if it fixes issue
     return request(pkgDef.badgeUrl).then((result) => {
       if (result.success && !isNaN(result.count)) {
         return {

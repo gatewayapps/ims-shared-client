@@ -95,6 +95,7 @@ export default function Reducer (state = fromJS(initialState), action) {
 export function * logoutSaga (action) {
   // delete the refreshToken cookie
   yield call(deleteCookie, Constants.Cookies.RefreshToken)
+  yield call(deleteCookie, 'SSO')
 
   // remove initialState from localStorage
   yield call(removeItems, [ INITIAL_STATE_STORAGE_KEY, SECURITY_STORAGE_KEY ])
