@@ -76,7 +76,10 @@ export default (initialState = {}, history, options) => {
   }
 
   // Prepare request object
-  return prepareRequest(store, 'security.tokens', 'security.packages').then(() => {
+  return prepareRequest(store, 'security.tokens', 'security.packages').then((response) => {
+    if (!response || !response.success) {
+      throw new Error(response.message || 'Unable to prepare request')
+    }
     return store
   })
 }

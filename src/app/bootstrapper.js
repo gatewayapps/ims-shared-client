@@ -205,5 +205,9 @@ function completeInitialization (options) {
     // ========================================================
       render()
     })
+    .catch((err) => {
+      // A rejection here likely means that you are being redirected to the login page
+      console.log(err.message)
+    })
   }
 }
