@@ -7,6 +7,8 @@ import { Constants } from 'ims-shared-core'
 import { getCookie } from './cookies'
 import * as HeaderUtils from './headers'
 import RequestError from './RequestError'
+import { setLocation } from './window'
+import { getAuthorizeUrl } from './auth'
 import PackageInformation from '../PackageInformation'
 
 const REFRESH_ATTEMPT_DELAY = 5000
@@ -302,13 +304,19 @@ export function refreshAccessToken (scheduleRefresh) {
     .then((response) => {
       if (response.success === true) {
         if (response.results) {
-          storeInstance.dispatch(updatePackageAccessTokens(response.results))
           for (var i = 0; i < response.results.length; i++) {
             if (response.results[i].packageId === PackageInformation.packageId) {
+              if (!response.results[i].accessToken || !response.results[i].accessToken.token) {
+                return goToLogin(response.results[i].loginUrl)
+              }
               storeInstance.dispatch(updateAccessToken(response.results[i].accessToken.token, response.results[i].accessToken.expires))
             }
           }
+          storeInstance.dispatch(updatePackageAccessTokens(response.results))
         } else {
+          if (!response.accessToken) {
+            return goToLogin(response.loginUrl)
+          }
           storeInstance.dispatch(updateAccessToken(response.accessToken, response.expires))
         }
 
@@ -317,6 +325,7 @@ export function refreshAccessToken (scheduleRefresh) {
         refreshAttempts = 0
       } else {
         console.error(`Received success false from refreshAccessToken with message: ${response.message}`)
+        return goToLogin(response.loginUrl)
       }
 
       return response
@@ -398,4 +407,10 @@ function prepareOptions (options = {}) {
   }
 
   return opts
+}
+
+function goToLogin (loginUrl) {
+  loginUrl = loginUrl || getAuthorizeUrl(window.location.pathname)
+  setLocation(loginUrl)
+  return { success: false, message: 'Invalid refreshToken redirecting to login' }
 }
