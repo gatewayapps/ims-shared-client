@@ -156,7 +156,7 @@ export class ReleaseNotesButton extends React.Component {
         <span>
           <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
             <i className={`fa fa-fw ${this.props.buttonIcon}`} />
-            <Modal isOpen={this.state.show} toggle={() => this._onHide()}>
+            <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()}>
               <ModalHeader>
                 {this.props.modalTitle || `What's New in ${PackageInformation.name}`}
               </ModalHeader>
@@ -189,14 +189,19 @@ ReleaseNotesButton.propTypes = Object.assign({}, React.Component.propTypes, {
   renderItem: React.PropTypes.func,
   getReleaseLocale: React.PropTypes.func,
   newAnimationEffect: React.PropTypes.string,
-  bootstrapVersion: React.PropTypes.number
+  bootstrapVersion: React.PropTypes.number,
+  zIndex: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.string
+  ])
 })
 
 ReleaseNotesButton.defaultProps = {
   buttonIcon: 'fa-gift',
   newAnimationEffect: 'infinite rubberBand',
   buttonTitle: `What's New?`,
-  bootstrapVersion: 3
+  bootstrapVersion: 3,
+  zIndex: 1050
 }
 
 export default ReleaseNotesButton
