@@ -107,7 +107,7 @@ export class FeedbackButton extends React.Component {
       return (
         <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
           <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
-          <Modal isOpen={this.state.show} onHide={() => this._onHide()} >
+          <Modal zIndex={this.props.zIndex} isOpen={this.state.show} onHide={() => this._onHide()} >
             <ModalHeader closeButton>
               Send Feedback
             </ModalHeader>
@@ -133,12 +133,16 @@ FeedbackButton.propTypes = Object.assign({}, React.Component.propTypes, {
   user: React.PropTypes.object.isRequired,
   icon: React.PropTypes.string,
   bootstrapVersion: React.PropTypes.number,
-  hubUrl: React.PropTypes.string.isRequired
-
+  hubUrl: React.PropTypes.string.isRequired,
+  zIndex: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.string
+  ])
 })
 
 FeedbackButton.defaultProps = {
-  bootstrapVersion: 3
+  bootstrapVersion: 3,
+  zIndex: 1050
 }
 
 export default FeedbackButton
