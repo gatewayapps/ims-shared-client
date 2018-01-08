@@ -107,7 +107,7 @@ export class FeedbackButton extends React.Component {
       return (
         <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
           <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
-          <Modal zIndex={this.props.zIndex} isOpen={this.state.show} onHide={() => this._onHide()} >
+          <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()} onHide={() => this._onHide()} >
             <ModalHeader closeButton>
               Send Feedback
             </ModalHeader>
