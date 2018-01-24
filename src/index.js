@@ -30,6 +30,7 @@ import SortableListHeader from './components/SortableListHeader'
 import UserAutosuggest from './components/UserAutosuggest'
 import Notifications from 'react-notification-system-redux'
 import UserProfileImage from './components/UserProfileImage'
+import Tooltip from './components/Tooltip'
 
 import PackageInformation from './PackageInformation'
 
@@ -75,6 +76,7 @@ module.exports = {
   SecureRoute: SecureRoute,
   SingleUserSelector: SingleUserSelector,
   SortableListHeader: SortableListHeader,
+  Tooltip: Tooltip,
   UserAutosuggest: UserAutosuggest,
   UserProfileImage: UserProfileImage,
   Utils: {

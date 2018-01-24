@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Router } from 'react-router'
 import NotificationContainer from './Notifications'
 import { Provider } from 'react-redux'
+import { fetchTooltips } from '../../app/modules/tooltips'
 
 export class AppComponent extends Component {
   static propTypes = {
@@ -18,6 +19,7 @@ export class AppComponent extends Component {
     if (this.props.onAppWillMount) {
       this.props.onAppWillMount(this.props.store)
     }
+    this.props.store.dispatch(fetchTooltips())
   }
 
   render () {

@@ -1,0 +1,21 @@
+.ims-tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.ims-tooltip-popup {
+  position: absolute;
+  bottom: 15px;
+  background-color: white;
+  border: 1px solid #333;
+  border-radius: 5px;
+  font-weight: initial;
+  min-width: 200px;
+  max-width: 80%;
+  cursor: initial;
+}
+
+.ims-tooltip-popup-content {
+  padding: 10px;
+}
