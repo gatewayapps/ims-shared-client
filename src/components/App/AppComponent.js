@@ -20,6 +20,17 @@ export class AppComponent extends Component {
       this.props.onAppWillMount(this.props.store)
     }
     this.props.store.dispatch(fetchTooltips())
+    // Refresh tooltips every 5 minutes
+    this.tooltipsRefreshInterval = setInterval(() => {
+      this.props.store.dispatch(fetchTooltips())
+    }, 5 * 60 * 1000)
+  }
+
+  componentWillUnmount () {
+    if (this.tooltipsRefreshInterval) {
+      clearInterval(this.tooltipsRefreshInterval)
+      this.tooltipsRefreshInterval = undefined
+    }
   }
 
   render () {
