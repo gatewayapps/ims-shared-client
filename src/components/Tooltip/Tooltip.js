@@ -1,6 +1,10 @@
+import classNames from 'classnames'
 import React from 'react'
+import { Manager, Target, Popper, Arrow } from 'react-popper'
 import PropTypes from 'prop-types'
 import BaseComponent from '../BaseComponent'
+import TooltipEditor from './TooltipEditorContainer'
+import TooltipViewer from './TooltipViewer'
 import '../../styles/Tooltip.css'
 
 export default class Tooltip extends BaseComponent {
@@ -10,56 +14,84 @@ export default class Tooltip extends BaseComponent {
     this.bindFunctions()
   }
 
+  _onEdit (tooltip) {
+    this.props.beginEdit(tooltip)
+  }
+
   _showPopup () {
-    this.setState({ show: !this.state.show })
+    if (this.props.isEditing === true) {
+      this.setState({ show: true })
+    } else {
+      this.setState({ show: !this.state.show })  
+    }
   }
 
   render () {
     const canEdit = this.checkPermission('admin:edit-tooltips')
 
     if (this.props.tooltip.content || this.props.tooltip.link || canEdit === true) {
+      const iconClasses = classNames('fa fa-info-circle fa-fw', {
+        'text-muted': !this.props.tooltip.content && !this.props.tooltip.link
+      })
+
       return (
-        <div className='ims-tooltip-container'>
-          <span className='fa fa-info-circle fa-fw' onClick={this._showPopup} />
+        <Manager className='ims-tooltip-container'>
+          <Target>
+            <span className={iconClasses} onClick={this._showPopup} />
+          </Target>
           {this.renderPopup(canEdit)}
-        </div>
+        </Manager>
       )
     } else {
       return null
     }
   }
 
-  
-
   renderPopup (canEdit) {
     if (!this.state.show) {
       return null
     }
+
+    const popperClasses = classNames('ims-tooltip clearfix', {
+      editing: canEdit && this.props.isEditing
+    })
     
     return (
-      <div className='ims-tooltip-popup clearfix'>
-        {canEdit === true && this.renderEditButton()}
-        <div className='ims-tooltip-popup-content'>
-          {this.props.tooltip.content && (<div>{this.props.tooltip.content}</div>)}
-          {this.props.tooltip.link && (<a href={this.props.tooltip.link} target='_blank'>more info</a>)}
-        </div>
-      </div>
+      <Popper placement='top' className={popperClasses}>
+        <Arrow className='ims-tooltip-arrow' />
+        {this.renderPopupContent(canEdit)}
+      </Popper>
     )
   }
 
-  renderEditButton () {
-    return (<a className='btn btn-link btn-sm pull-right' onClick={() => alert('Edit clicked for ' + this.props.id)}><i className='fa fa-fw fa-pencil' /></a>)
+  renderPopupContent (canEdit) {
+    if (canEdit === true && this.props.isEditing === true) {
+      return (
+        <TooltipEditor
+          tooltipId={this.props.id} />
+      )
+    } else {
+      return (
+        <TooltipViewer
+          canEdit={canEdit}
+          onEdit={this._onEdit}
+          tooltip={this.props.tooltip} />
+      )
+    }
   }
 }
 
 Tooltip.propTypes = {
+  beginEdit: PropTypes.func.isRequired,
+  cancelEdit: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  user: PropTypes.object,
+  isEditing: PropTypes.bool.isRequired,
   tooltip: PropTypes.shape({
     packageTooltipId: PropTypes.number,
     packageId: PropTypes.string.isRequired,
     tooltipId: PropTypes.string.isRequired,
     content: PropTypes.string,
     link: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  user: PropTypes.object
 }
