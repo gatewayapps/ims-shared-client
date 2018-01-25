@@ -1,6 +1,7 @@
 // ------------------------------------
 // Imports
 // ------------------------------------
+import _ from 'lodash'
 import { fromJS, Map } from 'immutable'
 import { takeEvery, takeLatest } from 'redux-saga'
 import { call, put, fork } from 'redux-saga/effects'
@@ -206,7 +207,7 @@ function * saveTooltipSaga (action) {
 
     const reqOpts = {
       method: 'POST',
-      body: JSON.stringify(action.tooltip)
+      body: JSON.stringify(_.pickBy(action.tooltip, (x) => x !== null))
     }
     const url = `${window.__HUB_URL__}/api/packages/${PackageInformation.packageId}/tooltips`
 
