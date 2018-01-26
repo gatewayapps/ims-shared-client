@@ -1,6 +1,6 @@
 {
   "name": "ims-shared-client",
-  "version": "5.9.11",
+  "version": "6.0.0",
   "description": "",
   "babel": {
     "presets": [
@@ -35,11 +35,14 @@
     "localforage": "^1.4.3",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
+    "prop-types": "^15.6.0",
     "react": "^15.0.0",
     "react-autosuggest": "^7.0.2",
     "react-bootstrap-modal": "^3.0.1",
     "react-dom": "^15.0.0",
+    "react-markdown": "^3.1.4",
     "react-notification-system-redux": "1.1.4",
+    "react-popper": "^0.7.5",
     "react-redux": "^5.0.2",
     "react-router": "^3.0.2",
     "react-router-redux": "^4.0.8",
