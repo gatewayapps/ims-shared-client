@@ -18,11 +18,39 @@ export default class Tooltip extends BaseComponent {
     this.props.beginEdit(tooltip)
   }
 
+  _onMouseEnter () {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout)
+      this.hideTimeout = undefined
+    }
+    this.showTimeout = setTimeout(this._showPopup, 500)
+  }
+
+  _onMouseLeave () {
+    if (this.showTimeout) {
+      clearTimeout(this.showTimeout)
+      this.showTimeout = undefined
+    }
+    this.hideTimeout = setTimeout(this._hidePopup, 1000)
+  }
+
   _showPopup () {
-    if (this.props.isEditing === true) {
-      this.setState({ show: true })
+    this.showTimeout = undefined
+    this.setState({ show: true })
+  }
+
+  _hidePopup () {
+    this.hideTimeout = undefined
+    if (this.props.isEditing !== true) {
+      this.setState({ show: false })
+    }
+  }
+
+  _togglePopup () {
+    if (this.state.show === true) {
+      this._hidePopup()
     } else {
-      this.setState({ show: !this.state.show })  
+      this._showPopup()
     }
   }
 
@@ -37,7 +65,7 @@ export default class Tooltip extends BaseComponent {
       return (
         <Manager className='ims-tooltip-container'>
           <Target>
-            <span className={iconClasses} onClick={this._showPopup} />
+            <span className={iconClasses} onClick={this._togglePopup} onMouseEnter={this._onMouseEnter} onMouseLeave={this._onMouseLeave} />
           </Target>
           {this.renderPopup(canEdit)}
         </Manager>
@@ -57,7 +85,7 @@ export default class Tooltip extends BaseComponent {
     })
     
     return (
-      <Popper placement='top' className={popperClasses}>
+      <Popper placement='top' className={popperClasses} onMouseEnter={this._onMouseEnter} onMouseLeave={this._onMouseLeave}>
         <Arrow className='ims-tooltip-arrow' />
         {this.renderPopupContent(canEdit)}
       </Popper>
