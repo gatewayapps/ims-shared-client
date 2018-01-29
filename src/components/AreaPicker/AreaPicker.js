@@ -1,5 +1,5 @@
 import React from 'react'
-import Modal from 'react-bootstrap-modal'
+import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import classNames from 'classnames'
 import * as ReactTree from 'gateway-react-tree'
 import ErrorAlert from '../ErrorAlert'
@@ -103,14 +103,14 @@ export class AreaPicker extends React.Component {
   renderModal () {
     return (
       <Modal
-        show={this.state.show}
-        onEntering={() => this._onEntering()}
-        onHide={() => this._onHide()}
+        isOpen={this.state.show}
+        onEnter={() => this._onEntering()}
+        onExit={() => this._onHide()}
         aria-labelledby='areaPickerTitle'>
-        <Modal.Header closeButton>
-          <Modal.Title id='areaPickerTitle'>Select Area</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+        <ModalHeader toggle={this._onHide}>
+          <div id='areaPickerTitle'>Select Area</div>
+        </ModalHeader>
+        <ModalBody>
           <ErrorAlert message={this.state.error} />
           <div className='panel panel-default'>
             <div className='panel-heading ims-area-picker__tree-header-container'>
@@ -125,11 +125,11 @@ export class AreaPicker extends React.Component {
               {this.renderModalBody()}
             </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Modal.Dismiss className='btn btn-link'>
+        </ModalBody>
+        <ModalFooter>
+          <a className='btn btn-link' onClick={this._onHide}>
             <i className='fa fa-times' aria-hidden='true' /> Cancel
-          </Modal.Dismiss>
+          </a>
           <button
             type='button'
             className='btn btn-primary'
@@ -137,7 +137,7 @@ export class AreaPicker extends React.Component {
             disabled={this._disableSelect()}>
             <i className='fa fa-link' aria-hidden='true' /> Select
           </button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     )
   }
