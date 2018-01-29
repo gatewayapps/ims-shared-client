@@ -1,5 +1,4 @@
 import React from 'react'
-import ModalOld from 'react-bootstrap-modal'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import showdown from 'showdown'
 import { getItem, setItem } from '../../utils/localStorage'
@@ -130,49 +129,27 @@ export class ReleaseNotesButton extends React.Component {
     const releases = PackageInformation.releaseNotes instanceof Array
     ? PackageInformation.releaseNotes
     : [PackageInformation.releaseNotes]
-    if (this.props.bootstrapVersion === 3) {
-      return (
+
+    return (
+      <span>
         <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
           <i className={`fa fa-fw ${this.props.buttonIcon}`} />
-          <ModalOld show={this.state.show} onHide={() => this._onHide()} >
-            <ModalOld.Header closeButton>
-              <ModalOld.Title>{this.props.modalTitle || `What's New in ${PackageInformation.name}`}</ModalOld.Title>
-            </ModalOld.Header>
-            <ModalOld.Body>
+          <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()}>
+            <ModalHeader>
+              {this.props.modalTitle || `What's New in ${PackageInformation.name}`}
+            </ModalHeader>
+            <ModalBody>
               <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
                 {releases.map((rn) => this.renderRelease(rn))}
               </div>
-            </ModalOld.Body>
-            <ModalOld.Footer>
-              <ModalOld.Dismiss className='btn btn-link text-default'>
-                <i className='fa fa-times' aria-hidden='true' /> Close
-            </ModalOld.Dismiss>
-            </ModalOld.Footer>
-          </ModalOld>
+            </ModalBody>
+            <ModalFooter>
+              <button className='btn btn-secondary' onClick={() => this._onHide()}><i className='fa fa-times' aria-hidden='true' /> Close</button>
+            </ModalFooter>
+          </Modal>
         </button>
-      )
-    } else {
-      return (
-        <span>
-          <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
-            <i className={`fa fa-fw ${this.props.buttonIcon}`} />
-            <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()}>
-              <ModalHeader>
-                {this.props.modalTitle || `What's New in ${PackageInformation.name}`}
-              </ModalHeader>
-              <ModalBody>
-                <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                  {releases.map((rn) => this.renderRelease(rn))}
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <button className='btn btn-secondary' onClick={() => this._onHide()}><i className='fa fa-times' aria-hidden='true' /> Close</button>
-              </ModalFooter>
-            </Modal>
-          </button>
-        </span>
-      )
-    }
+      </span>
+    )
   }
 }
 
@@ -189,7 +166,6 @@ ReleaseNotesButton.propTypes = Object.assign({}, React.Component.propTypes, {
   renderItem: React.PropTypes.func,
   getReleaseLocale: React.PropTypes.func,
   newAnimationEffect: React.PropTypes.string,
-  bootstrapVersion: React.PropTypes.number,
   zIndex: React.PropTypes.oneOfType([
     React.PropTypes.number,
     React.PropTypes.string
@@ -200,7 +176,6 @@ ReleaseNotesButton.defaultProps = {
   buttonIcon: 'fa-gift',
   newAnimationEffect: 'infinite rubberBand',
   buttonTitle: `What's New?`,
-  bootstrapVersion: 3,
   zIndex: 1050
 }
 

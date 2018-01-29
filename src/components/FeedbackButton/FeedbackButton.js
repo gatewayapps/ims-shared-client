@@ -1,5 +1,4 @@
 import React from 'react'
-import ModalOld from 'react-bootstrap-modal'
 import request from '../../utils/request'
 import PackageInformation from '../../PackageInformation'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
@@ -81,58 +80,34 @@ export class FeedbackButton extends React.Component {
 
     const sendIcon =
       this.state.sending ? 'fa fa-fw fa-circle-o-notch fa-spin' : 'fa fa-fw fa-send'
-    if (this.props.bootstrapVersion === 3) {
-      return (
-        <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
-          <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
-          <ModalOld show={this.state.show} onHide={() => this._onHide()} >
-            <ModalOld.Header closeButton>
-              <ModalOld.Title>Send Feedback</ModalOld.Title>
-            </ModalOld.Header>
-            <ModalOld.Body >
-              {this.renderBody()}
-            </ModalOld.Body>
-            <ModalOld.Footer>
-              <ModalOld.Dismiss className='btn btn-link text-default'>
-                <i className='fa fa-times' aria-hidden='true' /> Cancel
-            </ModalOld.Dismiss>
-              <button type='button' disabled={this.state.sending} className='btn btn-success' onClick={() => this._onSendFeedback()}>
-                <i className={sendIcon} aria-hidden='true' /> {this.state.sending ? 'Sending...' : 'Send'}
-              </button>
-            </ModalOld.Footer>
-          </ModalOld>
-        </button>
-      )
-    } else {
-      return (
-        <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
-          <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
-          <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()} onHide={() => this._onHide()} >
-            <ModalHeader closeButton>
-              Send Feedback
-            </ModalHeader>
-            <ModalBody >
-              {this.renderBody()}
-            </ModalBody>
-            <ModalFooter>
-              <button className='btn btn-link text-default' onClick={() => this._onHide()}>
-                <i className='fa fa-times' aria-hidden='true' /> Cancel
+
+    return (
+      <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
+        <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
+        <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()} onHide={() => this._onHide()} >
+          <ModalHeader closeButton>
+            Send Feedback
+          </ModalHeader>
+          <ModalBody >
+            {this.renderBody()}
+          </ModalBody>
+          <ModalFooter>
+            <button className='btn btn-link text-default' onClick={() => this._onHide()}>
+              <i className='fa fa-times' aria-hidden='true' /> Cancel
+          </button>
+            <button type='button' disabled={this.state.sending} className='btn btn-success' onClick={() => this._onSendFeedback()}>
+              <i className={sendIcon} aria-hidden='true' /> {this.state.sending ? 'Sending...' : 'Send'}
             </button>
-              <button type='button' disabled={this.state.sending} className='btn btn-success' onClick={() => this._onSendFeedback()}>
-                <i className={sendIcon} aria-hidden='true' /> {this.state.sending ? 'Sending...' : 'Send'}
-              </button>
-            </ModalFooter>
-          </Modal>
-        </button>
-      )
-    }
+          </ModalFooter>
+        </Modal>
+      </button>
+    )
   }
 }
 
 FeedbackButton.propTypes = Object.assign({}, React.Component.propTypes, {
   user: React.PropTypes.object.isRequired,
   icon: React.PropTypes.string,
-  bootstrapVersion: React.PropTypes.number,
   hubUrl: React.PropTypes.string.isRequired,
   zIndex: React.PropTypes.oneOfType([
     React.PropTypes.number,
@@ -141,7 +116,6 @@ FeedbackButton.propTypes = Object.assign({}, React.Component.propTypes, {
 })
 
 FeedbackButton.defaultProps = {
-  bootstrapVersion: 3,
   zIndex: 1050
 }
 

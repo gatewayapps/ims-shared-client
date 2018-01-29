@@ -4,6 +4,7 @@ import combineReducers from './combineReducers'
 import securityReducer from '../modules/security'
 import universalReducer from '../modules/universal'
 import packagesReducer from '../modules/packages'
+import tooltipsReducer from '../modules/tooltips'
 
 let _globalReducers
 
@@ -12,6 +13,7 @@ export const makeRootReducer = (globalReducers = {}, asyncReducers) => {
   return combineReducers({
     routing: routerReducer,
     security: securityReducer,
+    tooltips: tooltipsReducer,
     notifications: notifications,
     __USER__PACKAGES: packagesReducer,
     ...globalReducers,
