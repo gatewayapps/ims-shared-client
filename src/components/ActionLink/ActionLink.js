@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export class ActionLink extends React.Component {
@@ -18,8 +19,8 @@ export class ActionLink extends React.Component {
 }
 
 ActionLink.propTypes = Object.assign({}, React.Component.propTypes, {
-  onClick: React.PropTypes.func,
-  size: React.PropTypes.oneOf([ 'sm', 'md', 'lg', 'xs' ])
+  onClick: PropTypes.func,
+  size: PropTypes.oneOf([ 'sm', 'md', 'lg', 'xs' ])
 })
 
 export default ActionLink

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export class ActionLink extends React.Component {
   render () {
@@ -9,9 +10,9 @@ export class ActionLink extends React.Component {
 }
 
 ActionLink.propTypes = Object.assign({}, React.Component.propTypes, {
-  condition: React.PropTypes.any,
-  value: React.PropTypes.any,
-  children: React.PropTypes.any
+  condition: PropTypes.any,
+  value: PropTypes.any,
+  children: PropTypes.any
 })
 
 export default ActionLink

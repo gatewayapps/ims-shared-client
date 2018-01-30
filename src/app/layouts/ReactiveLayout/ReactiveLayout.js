@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import $ from 'jquery'
 import classNames from 'classnames'
 import '../../../styles/ReactiveLayout.css'
@@ -21,7 +22,7 @@ export default class ReactiveLayout extends React.Component {
 
   processTouchStart = (e) => {
     if (this.touch) {
-      
+
     } else {
       this.touch = {
         start: new Date().getTime(),
@@ -113,7 +114,7 @@ export default class ReactiveLayout extends React.Component {
 }
 
 ReactiveLayout.propTypes = {
-  Header: React.PropTypes.element,
-  Sidebar: React.PropTypes.element,
-  Content: React.PropTypes.element
+  Header: PropTypes.element,
+  Sidebar: PropTypes.element,
+  Content: PropTypes.element
 }

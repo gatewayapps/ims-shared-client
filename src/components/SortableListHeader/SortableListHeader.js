@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import '../../styles/SortableListHeader.css'
 
@@ -40,12 +41,12 @@ export class SortableListHeader extends React.Component {
 }
 
 SortableListHeader.propTypes = Object.assign({}, React.Component.propTypes, {
-  sortKey: React.PropTypes.string.isRequired,
-  sort: React.PropTypes.shape({
-    key: React.PropTypes.string.isRequired,
-    reverse: React.PropTypes.bool.isRequired
+  sortKey: PropTypes.string.isRequired,
+  sort: PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    reverse: PropTypes.bool.isRequired
   }),
-  onSortChange: React.PropTypes.func.isRequired
+  onSortChange: PropTypes.func.isRequired
 })
 
 export default SortableListHeader

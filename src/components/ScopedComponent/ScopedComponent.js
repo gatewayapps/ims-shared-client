@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { injectScopedReducer } from '../../utils/injectScopedReducer'
 
 export default class ScopedComponent extends React.Component {
@@ -12,5 +13,5 @@ export default class ScopedComponent extends React.Component {
 }
 
 ScopedComponent.propTypes = {
-  scope: React.PropTypes.string.isRequired
+  scope: PropTypes.string.isRequired
 }

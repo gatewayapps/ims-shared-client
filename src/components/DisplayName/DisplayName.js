@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 export class DisplayName extends React.Component {
   render () {
     const { user, ...spanProps } = this.props
@@ -14,10 +14,10 @@ export class DisplayName extends React.Component {
 }
 
 DisplayName.propTypes = {
-  user: React.PropTypes.shape({
-    firstName: React.PropTypes.string.isRequired,
-    lastName: React.PropTypes.string.isRequired,
-    displayName: React.PropTypes.string
+  user: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    displayName: PropTypes.string
   })
 }
 

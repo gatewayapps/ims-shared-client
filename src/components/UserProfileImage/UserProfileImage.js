@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import '../../styles/UserProfileImage.css'
 
@@ -14,7 +15,7 @@ export class UserProfileImage extends React.Component {
 }
 
 UserProfileImage.propTypes = {
-  src: React.PropTypes.string
+  src: PropTypes.string
 }
 
 export default UserProfileImage

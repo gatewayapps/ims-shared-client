@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import moment from 'moment'
 import BaseComponent from '../BaseComponent'
@@ -57,24 +58,24 @@ export class PersonCard extends BaseComponent {
 }
 
 PersonCard.propTypes = Object.assign({}, React.Component.propTypes, {
-  person: React.PropTypes.shape({
-    firstName: React.PropTypes.string.isRequired,
-    lastName: React.PropTypes.string.isRequired,
-    displayName: React.PropTypes.string,
-    positionPath: React.PropTypes.string,
-    hireDate: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.instanceOf(moment),
-      React.PropTypes.object
+  person: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    displayName: PropTypes.string,
+    positionPath: PropTypes.string,
+    hireDate: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.instanceOf(moment),
+      PropTypes.object
     ]),
-    positionStartDate: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.instanceOf(moment),
-      React.PropTypes.object
+    positionStartDate: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.instanceOf(moment),
+      PropTypes.object
     ])
   }).isRequired,
-  showHireDate: React.PropTypes.bool,
-  showPositionStartDate: React.PropTypes.bool
+  showHireDate: PropTypes.bool,
+  showPositionStartDate: PropTypes.bool
 })
 
 export default PersonCard

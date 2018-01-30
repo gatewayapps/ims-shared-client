@@ -1,6 +1,6 @@
 import React from 'react'
 import { upload } from '../../utils/upload'
-
+import PropTypes from 'prop-types'
 export default class FileUploader extends React.Component {
   constructor (props) {
     super(props)
@@ -83,11 +83,11 @@ export default class FileUploader extends React.Component {
 }
 
 FileUploader.propTypes = {
-  children: React.PropTypes.any,
-  dropEffect: React.PropTypes.string,
-  style: React.PropTypes.object,
-  className: React.PropTypes.string,
-  accessToken: React.PropTypes.string.isRequired,
-  uploadUrl: React.PropTypes.string.isRequired,
-  onProgress: React.PropTypes.func
+  children: PropTypes.any,
+  dropEffect: PropTypes.string,
+  style: PropTypes.object,
+  className: PropTypes.string,
+  accessToken: PropTypes.string.isRequired,
+  uploadUrl: PropTypes.string.isRequired,
+  onProgress: PropTypes.func
 }

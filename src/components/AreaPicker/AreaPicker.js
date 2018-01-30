@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import classNames from 'classnames'
 import * as ReactTree from 'gateway-react-tree'
@@ -209,9 +210,9 @@ export class AreaPicker extends React.Component {
 }
 
 AreaPicker.propTypes = Object.assign({}, React.Component.propTypes, {
-  buttonProps: React.PropTypes.object,
-  onSelect: React.PropTypes.func,
-  size: React.PropTypes.oneOf([ 'sm', 'md', 'lg', 'xs' ])
+  buttonProps: PropTypes.object,
+  onSelect: PropTypes.func,
+  size: PropTypes.oneOf([ 'sm', 'md', 'lg', 'xs' ])
 })
 
 export default AreaPicker

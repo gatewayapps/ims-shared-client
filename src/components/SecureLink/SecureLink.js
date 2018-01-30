@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import BaseComponent from '../BaseComponent'
 import PackageInformation from '../../PackageInformation'
@@ -21,11 +22,11 @@ export default class SecureLink extends BaseComponent {
 }
 
 SecureLink.propTypes = {
-  children: React.PropTypes.any,
-  packageId: React.PropTypes.string,
-  user: React.PropTypes.object.isRequired,
-  role: React.PropTypes.string,
-  permission: React.PropTypes.string.isRequired,
-  className: React.PropTypes.any,
-  to: React.PropTypes.string.isRequired
+  children: PropTypes.any,
+  packageId: PropTypes.string,
+  user: PropTypes.object.isRequired,
+  role: PropTypes.string,
+  permission: PropTypes.string.isRequired,
+  className: PropTypes.any,
+  to: PropTypes.string.isRequired
 }
