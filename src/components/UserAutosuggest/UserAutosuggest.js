@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
 import request from '../../utils/request'
 import { getHubUrl } from '../../utils/cookies'
@@ -145,13 +146,13 @@ export class UserAutosuggest extends React.Component {
 }
 
 UserAutosuggest.propTypes = Object.assign({}, React.Component, {
-  autosuggestId: React.PropTypes.string,
-  includeNodes: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.arrayOf(React.PropTypes.number)
+  autosuggestId: PropTypes.string,
+  includeNodes: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.arrayOf(PropTypes.number)
   ]),
-  onSelect: React.PropTypes.func.isRequired,
-  placeholder: React.PropTypes.string
+  onSelect: PropTypes.func.isRequired,
+  placeholder: PropTypes.string
 })
 
 export default UserAutosuggest

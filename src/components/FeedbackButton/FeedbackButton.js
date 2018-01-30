@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import request from '../../utils/request'
 import PackageInformation from '../../PackageInformation'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
@@ -82,9 +83,11 @@ export class FeedbackButton extends React.Component {
       this.state.sending ? 'fa fa-fw fa-circle-o-notch fa-spin' : 'fa fa-fw fa-send'
 
     return (
-      <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
-        <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
-        <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()} onHide={() => this._onHide()} >
+      <span>
+        <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
+          <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
+        </button>
+        <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()} >
           <ModalHeader closeButton>
             Send Feedback
           </ModalHeader>
@@ -100,18 +103,18 @@ export class FeedbackButton extends React.Component {
             </button>
           </ModalFooter>
         </Modal>
-      </button>
+      </span>
     )
   }
 }
 
 FeedbackButton.propTypes = Object.assign({}, React.Component.propTypes, {
-  user: React.PropTypes.object.isRequired,
-  icon: React.PropTypes.string,
-  hubUrl: React.PropTypes.string.isRequired,
-  zIndex: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string
+  user: PropTypes.object.isRequired,
+  icon: PropTypes.string,
+  hubUrl: PropTypes.string.isRequired,
+  zIndex: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
   ])
 })
 

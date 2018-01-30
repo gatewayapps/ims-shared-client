@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export const FormGroup = (props) => {
@@ -32,8 +33,8 @@ export const FormGroup = (props) => {
 }
 
 FormGroup.propTypes = Object.assign({}, React.Component.propTypes, {
-  messageProps: React.PropTypes.object,
-  validationMessage: React.PropTypes.string
+  messageProps: PropTypes.object,
+  validationMessage: PropTypes.string
 })
 
 export default FormGroup

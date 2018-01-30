@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { PermissionHandler } from 'ims-shared-core'
 import PackageInformation from '../../PackageInformation'
 
@@ -38,7 +39,7 @@ export default class BaseComponent extends React.Component {
 }
 
 BaseComponent.propTypes = {
-  user: React.PropTypes.shape({
-    permissions: React.PropTypes.array
+  user: PropTypes.shape({
+    permissions: PropTypes.array
   })
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 export class DeleteLink extends React.Component {
@@ -56,9 +57,9 @@ export class DeleteLink extends React.Component {
 }
 
 DeleteLink.propTypes = Object.assign({}, React.Component.propTypes, {
-  deleteDescription: React.PropTypes.string,
-  useDefaultStyling: React.PropTypes.bool,
-  onDelete: React.PropTypes.func.isRequired
+  deleteDescription: PropTypes.string,
+  useDefaultStyling: PropTypes.bool,
+  onDelete: PropTypes.func.isRequired
 })
 
 DeleteLink.defaultProps = {

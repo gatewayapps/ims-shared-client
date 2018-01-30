@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import request from '../../utils/request'
 export class PermissionCheck extends React.Component {
   constructor (props) {
@@ -49,9 +50,9 @@ export class PermissionCheck extends React.Component {
 }
 
 PermissionCheck.propTypes = Object.assign({}, React.Component.propTypes, {
-  permission: React.PropTypes.string,
-  nodeId: React.PropTypes.string,
-  children: React.PropTypes.any
+  permission: PropTypes.string,
+  nodeId: PropTypes.string,
+  children: PropTypes.any
 })
 
 export default PermissionCheck

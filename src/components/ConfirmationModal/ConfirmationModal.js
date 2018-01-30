@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 export default class ConfirmationModal extends React.Component {
   render () {
@@ -22,12 +23,12 @@ export default class ConfirmationModal extends React.Component {
 }
 
 ConfirmationModal.propTypes = Object.assign({}, React.Component.propTypes, {
-  header: React.PropTypes.string,
-  confirmButtonContent: React.PropTypes.any,
-  confirmButtonClassNames: React.PropTypes.string,
-  cancelButtonContent: React.PropTypes.any,
-  actionMessage: React.PropTypes.string.isRequired,
-  isOpen: React.PropTypes.bool.isRequired,
-  onConfirm: React.PropTypes.func.isRequired,
-  onCancel: React.PropTypes.func.isRequired
+  header: PropTypes.string,
+  confirmButtonContent: PropTypes.any,
+  confirmButtonClassNames: PropTypes.string,
+  cancelButtonContent: PropTypes.any,
+  actionMessage: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 })

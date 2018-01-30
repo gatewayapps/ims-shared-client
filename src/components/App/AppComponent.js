@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { Router } from 'react-router'
 import NotificationContainer from './Notifications'
 import { Provider } from 'react-redux'
 import { fetchTooltips } from '../../app/modules/tooltips'
-
+import PropTypes from 'prop-types'
 export class AppComponent extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,

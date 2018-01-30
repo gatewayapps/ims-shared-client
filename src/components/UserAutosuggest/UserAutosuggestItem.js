@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import '../../styles/UserAutosuggestItem.css'
 
 export class UserAutosuggestItem extends React.Component {
@@ -34,12 +35,12 @@ export class UserAutosuggestItem extends React.Component {
 }
 
 UserAutosuggestItem.propTypes = {
-  user: React.PropTypes.shape({
-    firstName: React.PropTypes.string.isRequired,
-    lastName: React.PropTypes.string.isRequired,
-    displayName: React.PropTypes.string,
-    positionPath: React.PropTypes.string,
-    profileImageUrl: React.PropTypes.string
+  user: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    displayName: PropTypes.string,
+    positionPath: PropTypes.string,
+    profileImageUrl: PropTypes.string
   }).isRequired
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 export class NodePath extends React.Component {
   _getNodePath () {
     if (this.props.removeFirst === true) {
@@ -24,8 +24,8 @@ export class NodePath extends React.Component {
 }
 
 NodePath.propTypes = {
-  path: React.PropTypes.string,
-  removeFirst: React.PropTypes.bool
+  path: PropTypes.string,
+  removeFirst: PropTypes.bool
 }
 
 export default NodePath

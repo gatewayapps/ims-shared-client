@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import showdown from 'showdown'
 import { getItem, setItem } from '../../utils/localStorage'
@@ -154,21 +155,21 @@ export class ReleaseNotesButton extends React.Component {
 }
 
 ReleaseNotesButton.propTypes = Object.assign({}, React.Component.propTypes, {
-  buttonClassName: React.PropTypes.string,
-  buttonIcon: React.PropTypes.string,
-  size: React.PropTypes.string,
-  buttonTitle: React.PropTypes.string,
-  modalTitle: React.PropTypes.string,
-  buttonStyle: React.PropTypes.object,
-  getIcon: React.PropTypes.func,
-  renderRelease: React.PropTypes.func,
-  renderReleaseHeader: React.PropTypes.func,
-  renderItem: React.PropTypes.func,
-  getReleaseLocale: React.PropTypes.func,
-  newAnimationEffect: React.PropTypes.string,
-  zIndex: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string
+  buttonClassName: PropTypes.string,
+  buttonIcon: PropTypes.string,
+  size: PropTypes.string,
+  buttonTitle: PropTypes.string,
+  modalTitle: PropTypes.string,
+  buttonStyle: PropTypes.object,
+  getIcon: PropTypes.func,
+  renderRelease: PropTypes.func,
+  renderReleaseHeader: PropTypes.func,
+  renderItem: PropTypes.func,
+  getReleaseLocale: PropTypes.func,
+  newAnimationEffect: PropTypes.string,
+  zIndex: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
   ])
 })
 
