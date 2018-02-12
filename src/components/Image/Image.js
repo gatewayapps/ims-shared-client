@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 export class Image extends React.Component {
   render () {
     const {
@@ -30,9 +30,9 @@ export class Image extends React.Component {
 }
 
 Image.propTypes = {
-  src: React.PropTypes.string.isRequired,
-  height: React.PropTypes.number,
-  width: React.PropTypes.number
+  src: PropTypes.string.isRequired,
+  height: PropTypes.number,
+  width: PropTypes.number
 }
 
 export default Image

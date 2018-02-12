@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import '../../styles/PackageTile.css'
 export default class PackageTile extends React.Component {
   render () {
@@ -25,5 +26,5 @@ export default class PackageTile extends React.Component {
 }
 
 PackageTile.propTypes = {
-  package: React.PropTypes.object.isRequired
+  package: PropTypes.object.isRequired
 }

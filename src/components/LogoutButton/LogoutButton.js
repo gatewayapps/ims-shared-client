@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 class LogoutButton extends React.Component {
   render () {
     const {
@@ -19,7 +19,7 @@ class LogoutButton extends React.Component {
 }
 
 LogoutButton.propTypes = Object.assign({}, React.Component.propTypes, {
-  logout: React.PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired
 })
 
 export default LogoutButton

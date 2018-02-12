@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import BaseComponent from '../BaseComponent'
 import classNames from 'classnames'
 import '../../styles/Card.css'
@@ -54,11 +55,11 @@ export class Card extends BaseComponent {
 }
 
 Card.propTypes = Object.assign({}, React.Component.propTypes, {
-  title: React.PropTypes.node,
-  subtitle: React.PropTypes.node,
-  removeButton: React.PropTypes.bool,
-  renderHeader: React.PropTypes.func,
-  onRemove: React.PropTypes.func
+  title: PropTypes.node,
+  subtitle: PropTypes.node,
+  removeButton: PropTypes.bool,
+  renderHeader: PropTypes.func,
+  onRemove: PropTypes.func
 })
 
 export default Card

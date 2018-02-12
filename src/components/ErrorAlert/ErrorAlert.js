@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export const ErrorAlert = (props) => {
   if (!props.message) {
@@ -13,7 +14,7 @@ export const ErrorAlert = (props) => {
 }
 
 ErrorAlert.propTypes = {
-  message: React.PropTypes.string
+  message: PropTypes.string
 }
 
 export default ErrorAlert

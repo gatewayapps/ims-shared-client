@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import '../../styles/EquipmentAutosuggestItem.css'
 
 export class EquipmentAutosuggestItem extends React.Component {
@@ -13,10 +14,10 @@ export class EquipmentAutosuggestItem extends React.Component {
 }
 
 EquipmentAutosuggestItem.propTypes = {
-  equipment: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired,
-    equipmentType: React.PropTypes.string,
-    areaPath: React.PropTypes.string
+  equipment: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    equipmentType: PropTypes.string,
+    areaPath: PropTypes.string
   }).isRequired
 }
 

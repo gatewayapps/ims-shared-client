@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import DisplayName from '../DisplayName'
 import UserAutosuggest from '../UserAutosuggest'
@@ -103,19 +104,19 @@ export class SingleUserSelector extends React.Component {
 }
 
 SingleUserSelector.propTypes = {
-  autosuggestId: React.PropTypes.string,
-  clearButton: React.PropTypes.bool,
-  inputProps: React.PropTypes.object,
-  label: React.PropTypes.string,
-  renderSelectedUser: React.PropTypes.func,
-  onChange: React.PropTypes.func.isRequired,
-  placeholder: React.PropTypes.string,
-  size: React.PropTypes.oneOf(['sm', 'md', 'lg', 'xs']),
-  value: React.PropTypes.shape({
-    userAccountId: React.PropTypes.number.isRequired,
-    firstName: React.PropTypes.string.isRequired,
-    lastName: React.PropTypes.string.isRequired,
-    displayName: React.PropTypes.string
+  autosuggestId: PropTypes.string,
+  clearButton: PropTypes.bool,
+  inputProps: PropTypes.object,
+  label: PropTypes.string,
+  renderSelectedUser: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  size: PropTypes.oneOf(['sm', 'md', 'lg', 'xs']),
+  value: PropTypes.shape({
+    userAccountId: PropTypes.number.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    displayName: PropTypes.string
   })
 }
 

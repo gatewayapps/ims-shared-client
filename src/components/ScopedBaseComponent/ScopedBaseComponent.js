@@ -1,4 +1,5 @@
 'use strict'
+import PropTypes from 'prop-types'
 import React from 'react'
 import { PermissionHandler } from 'ims-shared-core'
 import ScopedComponent from '../ScopedComponent'
@@ -41,5 +42,5 @@ export default class ScopedBaseComponent extends ScopedComponent {
 }
 
 ScopedBaseComponent.propTypes = {
-  user: React.PropTypes.object
+  user: PropTypes.object
 }

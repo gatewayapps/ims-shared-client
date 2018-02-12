@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
 import request from '../../utils/request'
 import { getHubUrl } from '../../utils/cookies'
@@ -131,8 +132,8 @@ export class EquipmentAutosuggest extends React.Component {
 }
 
 EquipmentAutosuggest.propTypes = Object.assign({}, React.Component, {
-  autosuggestId: React.PropTypes.string,
-  onSelect: React.PropTypes.func.isRequired
+  autosuggestId: PropTypes.string,
+  onSelect: PropTypes.func.isRequired
 })
 
 export default EquipmentAutosuggest
