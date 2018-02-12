@@ -190,7 +190,7 @@ function combineUrlParts (base, endpoint) {
 
 export function getUrlForPackage (packageId, endpoint) {
   const pkg = getPackage(packageId)
-  if (pkg) {
+  if (pkg && pkg.packageUrl) {
     return combineUrlParts(pkg.packageUrl, endpoint)
   } else {
     return undefined
@@ -200,7 +200,7 @@ export function getUrlForPackage (packageId, endpoint) {
 function makeAuthenticatedRequest (url, requestOptions) {
   if (requestOptions.packageId) {
     const pkg = getPackage(requestOptions.packageId)
-    if (pkg) {
+    if (pkg && pkg.packageUrl) {
       return getAccessTokenForPackage(pkg.packageId).then((accessToken) => {
         requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(requestOptions.packageId, accessToken)
 
