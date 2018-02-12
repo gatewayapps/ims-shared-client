@@ -45,10 +45,16 @@ export function createSecurityState (accessToken, expires) {
 }
 
 export function createPackageSecurityObject (packageInfo) {
-  return {
-    userInfo: decodeAccessToken(packageInfo.accessToken.token),
-    expires: packageInfo.accessToken.expires,
-    ...packageInfo
+  if (packageInfo && packageInfo.accessToken && packageInfo.accessToken.token) {
+    return {
+      userInfo: decodeAccessToken(packageInfo.accessToken.token),
+      expires: packageInfo.accessToken.expires,
+      ...packageInfo
+    }
+  } else {
+    return {
+      ...packageInfo
+    }
   }
 }
 
