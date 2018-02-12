@@ -45,7 +45,6 @@ function createSecurityStateFromResponse (response) {
     let securityObject = {}
     for (var i = 0; i < response.results.length; i++) {
       packages.push(createPackageSecurityObject(response.results[i]))
-
       if (response.results[i].packageId === PackageInformation.packageId) {
         securityObject = createSecurityState(response.results[i].accessToken.token, response.results[i].accessToken.expires)
       }
