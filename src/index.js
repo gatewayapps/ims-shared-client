@@ -17,6 +17,7 @@ import LogoutButton from './components/LogoutButton'
 import NodePath from './components/NodePath'
 import PackageTile from './components/PackageTile'
 import PackagesDropdown from './components/PackagesDropdown'
+import PackageTile from './components/PackageTile'
 import PersonCard from './components/PersonCard'
 import RequiredIndicator from './components/RequiredIndicator'
 import PermissionCheck from './components/PermissionCheck'
@@ -31,6 +32,7 @@ import SortableListHeader from './components/SortableListHeader'
 import UserAutosuggest from './components/UserAutosuggest'
 import Notifications from 'react-notification-system-redux'
 import UserProfileImage from './components/UserProfileImage'
+import Tooltip from './components/Tooltip'
 
 import PackageInformation from './PackageInformation'
 
@@ -68,6 +70,7 @@ module.exports = {
   NodePath: NodePath,
   PackageTile: PackageTile,
   PackagesDropdown: PackagesDropdown,
+  PackageTile: PackageTile,
   PermissionCheck: PermissionCheck,
   PersonCard: PersonCard,
   RequiredIndicator: RequiredIndicator,
@@ -77,6 +80,7 @@ module.exports = {
   SecureRoute: SecureRoute,
   SingleUserSelector: SingleUserSelector,
   SortableListHeader: SortableListHeader,
+  Tooltip: Tooltip,
   UserAutosuggest: UserAutosuggest,
   UserProfileImage: UserProfileImage,
   Utils: {
