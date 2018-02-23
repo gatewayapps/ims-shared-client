@@ -41,16 +41,20 @@ export class ReleaseNotesButton extends React.Component {
   }
 
   getReleaseLocale (release) {
-    let releaseLocale
-    release.notes.forEach((rl) => {
-      if (rl.locale === language) {
-        releaseLocale = rl
+    if (release && release.notes) {
+      let releaseLocale
+      release.notes.forEach((rl) => {
+        if (rl.locale === language) {
+          releaseLocale = rl
+        }
+      })
+      if (!releaseLocale) {
+        releaseLocale = release.notes[0]
       }
-    })
-    if (!releaseLocale) {
-      releaseLocale = release.notes[0]
+      return releaseLocale
+    } else {
+      return undefined
     }
-    return releaseLocale
   }
   getIcon (item) {
     if (this.props.getIcon) {
@@ -74,17 +78,20 @@ export class ReleaseNotesButton extends React.Component {
       return this.props.renderRelease(release)
     }
     const releaseLocale = this.getReleaseLocale(release)
-    const key = release.major + '-' + release.minor + '-' + release.patch
-    return (
-      <div key={key}>
-        {this.renderReleaseHeader(release)}
-        <table className='table table-condensed table-sm'>
-          <tbody>
-            {releaseLocale.items.map((i, index) => this.renderItem(i, index, key))}
-          </tbody>
-        </table>
-      </div>
-    )
+    if (releaseLocale) {
+      const key = release.major + '-' + release.minor + '-' + release.patch
+      return (
+        <div key={key}>
+          {this.renderReleaseHeader(release)}
+          <table className='table table-condensed table-sm'>
+            <tbody>
+              {releaseLocale.items.map((i, index) => this.renderItem(i, index, key))}
+            </tbody>
+          </table>
+        </div>)
+    } else {
+      return <div key='no-release-info'><h4>No release information available</h4></div>
+    }
   }
   renderReleaseHeader (release) {
     if (this.props.renderReleaseHeader) {
