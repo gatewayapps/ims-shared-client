@@ -143,11 +143,19 @@ export class ReleaseNotesButton extends React.Component {
       [animatedProperty]: this.state.isNew
     })
 
+    let releasesContent
+    if (PackageInformation.releaseNotes && typeof PackageInformation.releaseNotes === 'string') {
+      releasesContent = <div dangerouslySetInnerHTML={{ __html: PackageInformation.releaseNotes }} />
+    } else {
+      const releases = PackageInformation.releaseNotes instanceof Array
+      ? PackageInformation.releaseNotes
+      : [PackageInformation.releaseNotes]
+      releasesContent = releases.map((rn) => this.renderRelease(rn))
+    }
+
     // Old PackageInformations contained a single release
     // This should wrap old releases as an array so everything continues working
-    const releases = PackageInformation.releaseNotes instanceof Array
-    ? PackageInformation.releaseNotes
-    : [PackageInformation.releaseNotes]
+
     if (this.props.bootstrapVersion === 3) {
       return (
         <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
@@ -157,8 +165,8 @@ export class ReleaseNotesButton extends React.Component {
               <ModalOld.Title>{this.props.modalTitle || `What's New in ${PackageInformation.name}`}</ModalOld.Title>
             </ModalOld.Header>
             <ModalOld.Body>
-              <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                {releases.map((rn) => this.renderRelease(rn))}
+              <div style={{ maxHeight: '600px', overflowY: 'auto' }} >
+                {releasesContent}
               </div>
             </ModalOld.Body>
             <ModalOld.Footer>
@@ -180,7 +188,7 @@ export class ReleaseNotesButton extends React.Component {
               </ModalHeader>
               <ModalBody>
                 <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                  {releases.map((rn) => this.renderRelease(rn))}
+                  {releasesContent}
                 </div>
               </ModalBody>
               <ModalFooter>
