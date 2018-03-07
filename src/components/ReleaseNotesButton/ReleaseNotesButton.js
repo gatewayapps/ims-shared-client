@@ -52,6 +52,14 @@ export class ReleaseNotesButton extends React.Component {
         releaseLocale = release.notes[0]
       }
       return releaseLocale
+    } if (release && release.locales) {
+      // new style from Parcel
+      const l = release.locales.find((l) => l.locale === language)
+      if (l) {
+        return l
+      } else {
+        return release.locales[0]
+      }
     } else {
       return undefined
     }
@@ -77,15 +85,18 @@ export class ReleaseNotesButton extends React.Component {
     if (this.props.renderRelease) {
       return this.props.renderRelease(release)
     }
+
     const releaseLocale = this.getReleaseLocale(release)
     if (releaseLocale) {
+      const notes = releaseLocale.items || releaseLocale.notes || []
       const key = release.major + '-' + release.minor + '-' + release.patch
       return (
         <div key={key}>
           {this.renderReleaseHeader(release)}
           <table className='table table-condensed table-sm'>
             <tbody>
-              {releaseLocale.items.map((i, index) => this.renderItem(i, index, key))}
+
+              {notes.map((i, index) => this.renderItem(i, index, key))}
             </tbody>
           </table>
         </div>)
