@@ -52,6 +52,14 @@ export class ReleaseNotesButton extends React.Component {
         releaseLocale = release.notes[0]
       }
       return releaseLocale
+    } if (release && release.locales) {
+      // new style from Parcel
+      const l = release.locales.find((l) => l.locale === language)
+      if (l) {
+        return l
+      } else {
+        return release.locales[0]
+      }
     } else {
       return undefined
     }
