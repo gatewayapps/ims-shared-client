@@ -85,15 +85,18 @@ export class ReleaseNotesButton extends React.Component {
     if (this.props.renderRelease) {
       return this.props.renderRelease(release)
     }
+
     const releaseLocale = this.getReleaseLocale(release)
     if (releaseLocale) {
+      const notes = releaseLocale.items || releaseLocale.notes || []
       const key = release.major + '-' + release.minor + '-' + release.patch
       return (
         <div key={key}>
           {this.renderReleaseHeader(release)}
           <table className='table table-condensed table-sm'>
             <tbody>
-              {releaseLocale.items.map((i, index) => this.renderItem(i, index, key))}
+
+              {notes.map((i, index) => this.renderItem(i, index, key))}
             </tbody>
           </table>
         </div>)
