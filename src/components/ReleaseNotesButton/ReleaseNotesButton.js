@@ -24,7 +24,7 @@ export class ReleaseNotesButton extends React.Component {
 
   compareVersion () {
     getItem(RELEASE_NOTES_STORAGE_KEY).then((lastVersion) => {
-      if (!lastVersion || lastVersion !== PackageInformation.version) {
+      if (!lastVersion || lastVersion !== PackageInformation.buildTime) {
         this.setState({ isNew: true })
       }
     })
@@ -36,20 +36,32 @@ export class ReleaseNotesButton extends React.Component {
 
   _showPrompt () {
     this.setState({ show: true, isNew: false })
-    setItem(RELEASE_NOTES_STORAGE_KEY, PackageInformation.version)
+    setItem(RELEASE_NOTES_STORAGE_KEY, PackageInformation.buildTime)
   }
 
   getReleaseLocale (release) {
-    let releaseLocale
-    release.notes.forEach((rl) => {
-      if (rl.locale === language) {
-        releaseLocale = rl
+    if (release && release.notes) {
+      let releaseLocale
+      release.notes.forEach((rl) => {
+        if (rl.locale === language) {
+          releaseLocale = rl
+        }
+      })
+      if (!releaseLocale) {
+        releaseLocale = release.notes[0]
       }
-    })
-    if (!releaseLocale) {
-      releaseLocale = release.notes[0]
+      return releaseLocale
+    } if (release && release.locales) {
+      // new style from Parcel
+      const l = release.locales.find((l) => l.locale === language)
+      if (l) {
+        return l
+      } else {
+        return release.locales[0]
+      }
+    } else {
+      return undefined
     }
-    return releaseLocale
   }
   getIcon (item) {
     if (this.props.getIcon) {
@@ -72,18 +84,24 @@ export class ReleaseNotesButton extends React.Component {
     if (this.props.renderRelease) {
       return this.props.renderRelease(release)
     }
+
     const releaseLocale = this.getReleaseLocale(release)
-    const key = release.major + '-' + release.minor + '-' + release.patch
-    return (
-      <div key={key}>
-        {this.renderReleaseHeader(release)}
-        <table className='table table-condensed table-sm'>
-          <tbody>
-            {releaseLocale.items.map((i, index) => this.renderItem(i, index, key))}
-          </tbody>
-        </table>
-      </div>
-    )
+    if (releaseLocale) {
+      const notes = releaseLocale.items || releaseLocale.notes || []
+      const key = release.major + '-' + release.minor + '-' + release.patch
+      return (
+        <div key={key}>
+          {this.renderReleaseHeader(release)}
+          <table className='table table-condensed table-sm'>
+            <tbody>
+
+              {notes.map((i, index) => this.renderItem(i, index, key))}
+            </tbody>
+          </table>
+        </div>)
+    } else {
+      return <div key='no-release-info'><h4>No release information available</h4></div>
+    }
   }
   renderReleaseHeader (release) {
     if (this.props.renderReleaseHeader) {
@@ -126,10 +144,16 @@ export class ReleaseNotesButton extends React.Component {
 
     // Old PackageInformations contained a single release
     // This should wrap old releases as an array so everything continues working
-    const releases = PackageInformation.releaseNotes instanceof Array
-    ? PackageInformation.releaseNotes
-    : [PackageInformation.releaseNotes]
 
+    let releasesContent
+    if (PackageInformation.releaseNotes && typeof PackageInformation.releaseNotes === 'string') {
+      releasesContent = <div dangerouslySetInnerHTML={{ __html: PackageInformation.releaseNotes }} />
+    } else {
+      const releases = PackageInformation.releaseNotes instanceof Array
+      ? PackageInformation.releaseNotes
+      : [PackageInformation.releaseNotes]
+      releasesContent = releases.map((rn) => this.renderRelease(rn))
+    }
     return (
       <span>
         <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
@@ -140,7 +164,7 @@ export class ReleaseNotesButton extends React.Component {
             </ModalHeader>
             <ModalBody>
               <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                {releases.map((rn) => this.renderRelease(rn))}
+                {releasesContent}
               </div>
             </ModalBody>
             <ModalFooter>
