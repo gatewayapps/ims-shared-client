@@ -101,6 +101,11 @@ export default function Reducer (state = fromJS(initialState), action) {
 export function * logoutSaga (action) {
   // delete the refreshToken cookie
   yield call(deleteCookie, Constants.Cookies.RefreshToken)
+
+  // Call to delete universal refresh token
+  const parentDomain = `.${window.__HUB_URL__.replace('http://', '')}`
+  yield call(deleteSpecificCookie, Constants.Cookies.RefreshToken, parentDomain)
+
   // #TODO
   yield call(deleteSpecificCookie, 'SSO', 'nucor-yamato.com')
 
