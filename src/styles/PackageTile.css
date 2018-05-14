@@ -1,6 +1,6 @@
 .package-tile{
-    width: 110px;
-    height: 110px;
+    width: 128px;
+    height: 128px;
     float:left;
     margin: 3px;
 }
@@ -11,6 +11,9 @@
     background-color: #737373;
     width:100%;
     height: 100%;
+}
+.package-tile-image{
+    width: 50%;
 }
 .package-tile-opacity:hover{
     background-color: transparent;
