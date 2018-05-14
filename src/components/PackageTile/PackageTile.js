@@ -1,4 +1,5 @@
 import React from 'react'
+import PackageIcon from '../PackageIcon'
 import '../../styles/PackageTile.css'
 export default class PackageTile extends React.Component {
   render () {
@@ -8,7 +9,7 @@ export default class PackageTile extends React.Component {
       <div className='package-tile' style={{ backgroundColor: backgroundColor, cursor: 'pointer' }}>
         <a className='package-tile-link' href={this.props.package.url} target='__blank'>
           <div className='package-tile-opacity' >
-            <div className='package-tile-icon'><i className={packageIcon} /></div>
+            <PackageIcon package={this.props.package} />
             <div className='package-tile-title'>{this.props.package.name}</div>
 
             {

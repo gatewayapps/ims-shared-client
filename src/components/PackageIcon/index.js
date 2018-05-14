@@ -1,0 +1,30 @@
+import React from 'react'
+
+export default class PackageIcon extends React.PureComponent {
+  render () {
+    switch (this.props.package.source) {
+      case 'fa': {
+        return (
+          <div className='package-tile-icon'>
+            <i className={`fa fa-fw ${this.props.package.icon}`} />
+          </div>)
+      }
+      case 'img': {
+        const imageSources = [
+          `${this.props.package.url}/icons/tile-64.png`,
+          `${this.props.package.url}/icons/tile-128.png 1.5x`,
+          `${this.props.package.url}/icons/tile-256.png 2x`,
+          `${this.props.package.url}/icons/tile-512.png 3x`
+        ]
+        return <img className='package-tile-image' src={imageSources[0]} srcSet={imageSources.join(', ')} alt={this.props.package.name} />
+      }
+      default: {
+        return null
+      }
+    }
+  }
+}
+
+PackageIcon.propTypes = {
+  package: React.PropTypes.object.isRequired
+}
