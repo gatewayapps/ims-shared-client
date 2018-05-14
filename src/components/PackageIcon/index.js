@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 export default class PackageIcon extends React.PureComponent {
   render () {
-    switch (this.props.package.source) {
+    switch (this.props.package.iconSource) {
       case 'fa': {
         return (
 
