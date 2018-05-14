@@ -15,6 +15,9 @@
 .package-tile-opacity:hover{
     background-color: transparent;
 }
+.package-tile-image{
+    width:50%;
+}
 .package-tile-link{
     color: white;
     text-decoration: none;

@@ -5,9 +5,9 @@ export default class PackageIcon extends React.PureComponent {
     switch (this.props.package.source) {
       case 'fa': {
         return (
-          <div className='package-tile-icon'>
-            <i className={`fa fa-fw ${this.props.package.icon}`} />
-          </div>)
+
+          <i className={`fa fa-fw ${this.props.package.icon}`} />
+        )
       }
       case 'img': {
         const imageSources = [
