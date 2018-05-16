@@ -58,7 +58,7 @@ export class LoggedInUser extends BaseComponent {
           {this._renderProfileImage()} {this.props.user.displayName} <span className='caret' />
         </a>
         <ul className='dropdown-menu' style={this.props.style}>
-          {this.props.profileDropdown()}
+          {this.props.profileDropdownItems()}
           <div className='dropdown-divider' />
           <li className='dropdown-item nav-link'>
             <a role='button' href='#' onClick={this._onLogout}>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router'
-import SecureLink from '../SecureLink'
 import BaseComponent from '../BaseComponent'
 import FeedbackButton from '../FeedbackButton'
 import ReleaseNotesButton from '../ReleaseNotesButton'
@@ -18,25 +17,15 @@ class Header extends BaseComponent {
     console.log(this.props)
   }
 
-  renderLinkChildren (parentText, children) {
+  renderMenuItemChildren (parentText, children) {
     const linkChildren = children.map((link) => {
-      if (link.isSecure) {
-        return (
-          <li key={link.text} className='dropdown-item nav-link'>
-            <SecureLink key={link.text} to={link.url} permission={link.permission} role={link.role} label={link.text} user={this.props.user}>
-              <i className={link.faIcon} /> {link.text}
-            </SecureLink>
-          </li>
-        )
-      } else {
-        return (
-          <li key={link.text} className='dropdown-item nav-link'>
-            <Link key={link.text} to={link.url} permission='can-view-trees' role='user' label={link.text}>
-              <i className={link.faIcon} /> {link.text}
-            </Link>
-          </li>
-        )
-      }
+      return (
+        <li key={link.text} className='dropdown-item nav-link'>
+          <Link key={link.text} to={link.url} permission='can-view-trees' role='user' label={link.text}>
+            <i className={link.faIcon} /> {link.text}
+          </Link>
+        </li>
+      )
     })
 
     return (
@@ -47,9 +36,9 @@ class Header extends BaseComponent {
     )
   }
 
-  renderLinks () {
-    if (this.props.links) {
-      const linkElements = this.props.links.map((link) => {
+  renderMenuItems () {
+    if (this.props.menuItems) {
+      const linkElements = this.props.menuItems.map((link) => {
         if (link.children && link.children.length > 0) {
           return (
             <li className='nav-item dropdown'>
@@ -57,27 +46,17 @@ class Header extends BaseComponent {
                 data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                 <i className={link.faIcon} /> {link.text}
               </a>
-              {this.renderLinkChildren(link.text, link.children)}
+              {this.renderMenuItemChildren(link.text, link.children)}
             </li>
           )
         } else {
-          if (link.isSecure) {
-            return (
-              <li key={link.text} className='nav-item'>
-                <SecureLink key={link.text} to={link.url} className='nav-link' label={link.text} permission={link.permission} role={link.role}>
-                  <i className={link.faIcon} aria-hidden='true' user={this.props.user} /> {link.text}
-                </SecureLink>
-              </li>
-            )
-          } else {
-            return (
-              <li key={link.text} className='nav-item'>
-                <Link key={link.text} to={link.url} className='nav-link' label={link.text}>
-                  <i className={link.faIcon} aria-hidden='true' /> {link.text}
-                </Link>
-              </li>
-            )
-          }
+          return (
+            <li key={link.text} className='nav-item'>
+              <Link key={link.text} to={link.url} className='nav-link' label={link.text}>
+                <i className={link.faIcon} aria-hidden='true' /> {link.text}
+              </Link>
+            </li>
+          )
         }
       })
 
@@ -93,11 +72,11 @@ class Header extends BaseComponent {
     }
   }
 
-  renderExtraButtons () {
+  renderActionIcons () {
     // this could eventually render an array of buttons
     return (
       <li className='my-auto'>
-        {this.props.extraButton}
+        {this.props.actionIcons}
       </li>
     )
   }
@@ -118,10 +97,10 @@ class Header extends BaseComponent {
         </button>
 
         <div id='header-menu' className='collapse navbar-collapse' style={{ backgroundColor:this.props.backgroundColor }}>
-          {this.renderLinks()}
+          {this.renderMenuItems()}
           <div style={{ flex: 1 }}>
             <ul className='navbar-nav justify-content-end'>
-              {this.renderExtraButtons()}
+              {this.renderActionIcons()}
               <li className='my-auto'>
                 <ReleaseNotesButton
                   packageName={PackageInformation.name}
@@ -136,8 +115,7 @@ class Header extends BaseComponent {
               </li>
               <LoggedInUser user={this.props.user}
                 style={navBarStyle}
-                Permissions={this.props.Permissions}
-                profileDropdown={this.props.profileDropdown}
+                profileDropdownItems={this.props.profileDropdownItems}
                 flushNotificationQueue={this.props.flushNotificationQueue}
                 isFlushingNotificationQueue={this.props.isFlushingNotificationQueue} />
             </ul>
