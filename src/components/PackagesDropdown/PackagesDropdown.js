@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, IndexLink } from 'react-router'
+import { IndexLink } from 'react-router'
 import PackageInformation from '../../PackageInformation'
 import PackageTile from '../PackageTile'
 export default class PackagesDropdown extends React.Component {
@@ -22,7 +22,7 @@ export default class PackagesDropdown extends React.Component {
             : undefined
           }
         </IndexLink>
-        <div className='dropdown-menu' aria-labelledby='packageDropDownLink' style={{ width: '410px', padding: '3px' }} >
+        <div className='dropdown-menu' aria-labelledby='packageDropDownLink' style={{ padding: '3px' }} >
           {this.props.packages.map((p, index) => <PackageTile key={`${index}`} package={p} />)}
         </div>
 

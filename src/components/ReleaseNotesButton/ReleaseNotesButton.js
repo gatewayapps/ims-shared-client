@@ -158,7 +158,7 @@ export class ReleaseNotesButton extends React.Component {
     return (
       <span>
         <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
-          <i className={`fa fa-fw ${this.props.buttonIcon}`} />
+          <i className={`fa fa-fw ${this.props.buttonIcon}`} /> <span className='d-md-none'>What's New?</span>
           <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()}>
             <ModalHeader>
               {this.props.modalTitle || `What's New in ${PackageInformation.name}`}
