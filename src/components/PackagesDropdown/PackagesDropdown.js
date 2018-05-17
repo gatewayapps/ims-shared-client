@@ -22,7 +22,7 @@ export default class PackagesDropdown extends React.Component {
             : undefined
           }
         </IndexLink>
-        <div className='dropdown-menu' aria-labelledby='packageDropDownLink' style={{ width:'410px', padding: '3px' }} >
+        <div className='dropdown-menu' aria-labelledby='packageDropDownLink' style={{ width: '99vw', position: 'absolute', left: '-15px', maxWidth:'410px', padding: '3px' }} >
           {this.props.packages.map((p, index) => <PackageTile key={`${index}`} package={p} />)}
         </div>
 

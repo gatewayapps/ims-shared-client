@@ -62,7 +62,7 @@ export class LoggedInUser extends BaseComponent {
           <div className='dropdown-divider' />
           <li className='dropdown-item nav-link'>
             <a role='button' href='#' onClick={this._onLogout}>
-              <i className='fa fa-fw fa-sign-out' /> Logout
+              <i className='fas fa-fw fa-sign-out' /> Logout
             </a>
           </li>
         </ul>
