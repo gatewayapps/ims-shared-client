@@ -139,9 +139,10 @@ export class ReleaseNotesButton extends React.Component {
     const btnClasses = classNames('btn btn-link', this.props.buttonClassName, {
       'btn-sm': this.props.size === 'sm',
       'btn-lg': this.props.size === 'lg',
-      'btn-xs': this.props.size === 'xs',
-      [animatedProperty]: this.state.isNew
+      'btn-xs': this.props.size === 'xs'
     })
+
+    const iconClasses = classNames('fa fa-fw', this.props.buttonIcon, { [animatedProperty]: this.state.isNew })
 
     // Old PackageInformations contained a single release
     // This should wrap old releases as an array so everything continues working
@@ -158,7 +159,7 @@ export class ReleaseNotesButton extends React.Component {
     return (
       <span>
         <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
-          <i className={`fa fa-fw ${this.props.buttonIcon}`} /> <span className='d-md-none'>What's New?</span>
+          <i className={iconClasses} /> <span className='d-md-none'>What's New?</span>
           <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()}>
             <ModalHeader>
               {this.props.modalTitle || `What's New in ${PackageInformation.name}`}

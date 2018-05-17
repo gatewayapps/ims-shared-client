@@ -83,7 +83,7 @@ class Header extends BaseComponent {
 
   render () {
     const navBarStyle = {
-      backgroundColor: this.props.backgroundColor || 'black',
+      backgroundColor: this.props.backgroundColor || PackageInformation.color || 'black',
       color: this.props.foregroundColor || 'white'
     }
 
@@ -101,7 +101,7 @@ class Header extends BaseComponent {
           <div style={{ flex: 1 }}>
             <ul className='navbar-nav justify-content-end'>
               {this.renderActionIcons()}
-              <li className='my-auto'>
+              <li className='my-auto d-md-none d-lg-block'>
                 <ReleaseNotesButton
                   packageName={PackageInformation.name}
                   packageCommit={PackageInformation.commit}
@@ -110,7 +110,7 @@ class Header extends BaseComponent {
                   packageBuildTime={PackageInformation.buildTime}
                   releaseNotes={PackageInformation.releaseNotes || {}} />
               </li>
-              <li className='my-auto'>
+              <li className='my-auto d-md-none d-lg-block'>
                 <FeedbackButton hubUrl={window.__HUB_URL__} icon='fa-smile' className='nav-link' user={this.props.user} />
               </li>
               <LoggedInUser user={this.props.user}
