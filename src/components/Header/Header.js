@@ -19,10 +19,12 @@ class Header extends BaseComponent {
 
   renderMenuItemChildren (parentText, children) {
     const linkChildren = children.map((link) => {
+      const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
+
       return (
         <li key={link.text} className='dropdown-item nav-link'>
           <Link key={link.text} to={link.url} permission='can-view-trees' role='user' label={link.text}>
-            <i className={link.faIcon} /> {link.text}
+            <i className={link.faIcon} /> {link.text} {badge}
           </Link>
         </li>
       )
@@ -40,20 +42,24 @@ class Header extends BaseComponent {
     if (this.props.menuItems) {
       const linkElements = this.props.menuItems.map((link) => {
         if (link.children && link.children.length > 0) {
+          const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
+
           return (
             <li className='nav-item dropdown'>
               <a className='nav-link dropdown-toggle' href='#' id={`${link.text}Dropdown`}
                 data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                <i className={link.faIcon} /> {link.text}
+                <i className={link.faIcon} /> {link.text} {badge}
               </a>
               {this.renderMenuItemChildren(link.text, link.children)}
             </li>
           )
         } else {
+          const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
+
           return (
             <li key={link.text} className='nav-item'>
               <Link key={link.text} to={link.url} className='nav-link' label={link.text}>
-                <i className={link.faIcon} aria-hidden='true' /> {link.text}
+                <i className={link.faIcon} aria-hidden='true' /> {link.text} {badge}
               </Link>
             </li>
           )
