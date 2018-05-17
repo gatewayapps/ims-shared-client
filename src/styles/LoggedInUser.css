@@ -1,0 +1,9 @@
+.profileIcon {
+  margin-right: 5px;
+}
+
+.profileImage img {
+  margin-right: 5px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}

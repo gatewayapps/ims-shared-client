@@ -97,7 +97,7 @@ export default class ReactiveLayout extends React.Component {
   render () {
     return (
       <div onTouchEnd={this.processTouchEnd} onTouchStart={this.processTouchStart} onTouchMove={this.processTouchMove} className='RLContainer'>
-        <div id='headerContainer' style={{ height: this.state.headerHeight }} className='RLHeaderContainer'>
+        <div id='headerContainer' className='RLHeaderContainer'>
           {this.props.Header}
         </div>
         <div className='RLPageContainer'>

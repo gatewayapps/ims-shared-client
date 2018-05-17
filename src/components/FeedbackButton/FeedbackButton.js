@@ -83,8 +83,8 @@ export class FeedbackButton extends React.Component {
       this.state.sending ? 'fa fa-fw fa-circle-o-notch fa-spin' : 'fa fa-fw fa-send'
     if (this.props.bootstrapVersion === 3) {
       return (
-        <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
-          <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
+        <a role='button' id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
+          <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} style={{ display:'inline-block' }} /><div style={{ display:'inline-block' }}><span className='visible-sm visible-xs'>Feedback</span></div>
           <ModalOld show={this.state.show} onHide={() => this._onHide()} >
             <ModalOld.Header closeButton>
               <ModalOld.Title>Send Feedback</ModalOld.Title>
@@ -101,12 +101,12 @@ export class FeedbackButton extends React.Component {
               </button>
             </ModalOld.Footer>
           </ModalOld>
-        </button>
+        </a>
       )
     } else {
       return (
         <button id='feedback-button' style={this.props.style} className={btnClasses} title='Send Feedback' onClick={() => this._showPrompt()}>
-          <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle-o'}`} />
+          <i className={`fa fa-fw ${this.props.icon || 'fa-question-circle'}`} /><span className='d-md-none ml-1'>Feedback</span>
           <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()} onHide={() => this._onHide()} >
             <ModalHeader closeButton>
               Send Feedback

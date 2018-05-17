@@ -11,6 +11,7 @@ import EquipmentAutosuggest from './components/EquipmentAutosuggest'
 import ErrorAlert from './components/ErrorAlert'
 import FileUploader from './components/FileUploader'
 import FormGroup from './components/FormGroup'
+import Header from './components/Header'
 import Image from './components/Image'
 import LoadingIndicator from './components/LoadingIndicator'
 import LogoutButton from './components/LogoutButton'
@@ -63,6 +64,7 @@ module.exports = {
   ReleaseNotesButton: ReleaseNotesButton,
   FileUploader: FileUploader,
   FormGroup: FormGroup,
+  Header: Header,
   Image: Image,
   LoadingIndicator: LoadingIndicator,
   LogoutButton: LogoutButton,
