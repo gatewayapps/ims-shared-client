@@ -138,10 +138,10 @@ export class ReleaseNotesButton extends React.Component {
     const animatedProperty = `animated ${this.props.newAnimationEffect}`
     const btnClasses = classNames('btn btn-link', this.props.buttonClassName, {
       'btn-sm': this.props.size === 'sm',
-      'btn-lg': this.props.size === 'lg',
-      'btn-xs': this.props.size === 'xs',
-      [animatedProperty]: this.state.isNew
+      'btn-lg': this.props.size === 'lg'
     })
+
+    const iconClasses = classNames('fa fa-fw', this.props.buttonIcon, { [animatedProperty]: this.state.isNew })
 
     let releasesContent
     if (PackageInformation.releaseNotes && typeof PackageInformation.releaseNotes === 'string') {
@@ -158,8 +158,9 @@ export class ReleaseNotesButton extends React.Component {
 
     if (this.props.bootstrapVersion === 3) {
       return (
-        <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
-          <i className={`fa fa-fw ${this.props.buttonIcon}`} />
+        <a id='whats-new-button' role='button' style={this.props.buttonStyle}
+          className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
+          <i className={iconClasses} style={{ display:'inline-block' }} /> <div style={{ display:'inline-block' }}><span className='visible-sm visible-xs'>What's New?</span></div>
           <ModalOld show={this.state.show} onHide={() => this._onHide()} >
             <ModalOld.Header closeButton>
               <ModalOld.Title>{this.props.modalTitle || `What's New in ${PackageInformation.name}`}</ModalOld.Title>
@@ -175,13 +176,14 @@ export class ReleaseNotesButton extends React.Component {
             </ModalOld.Dismiss>
             </ModalOld.Footer>
           </ModalOld>
-        </button>
+        </a>
       )
     } else {
       return (
         <span>
-          <button id='whats-new-button' style={this.props.buttonStyle} className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
-            <i className={`fa fa-fw ${this.props.buttonIcon}`} />
+          <button id='whats-new-button' style={this.props.buttonStyle}
+            className={btnClasses} title={this.props.buttonTitle} onClick={() => this._showPrompt()}>
+            <i className={iconClasses} /> <span className='d-md-none'>What's New?</span>
             <Modal zIndex={this.props.zIndex} isOpen={this.state.show} toggle={() => this._onHide()}>
               <ModalHeader>
                 {this.props.modalTitle || `What's New in ${PackageInformation.name}`}

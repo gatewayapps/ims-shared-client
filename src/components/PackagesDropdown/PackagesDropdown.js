@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, IndexLink } from 'react-router'
+import { IndexLink } from 'react-router'
 import PackageInformation from '../../PackageInformation'
 import PackageTile from '../PackageTile'
 export default class PackagesDropdown extends React.Component {
@@ -13,7 +13,8 @@ export default class PackagesDropdown extends React.Component {
     }
     return (
       <li className='nav-item dropdown' style={{ display: 'flex' }}>
-        <IndexLink to='/' className='navbar-brand nav-link dropdown-toggle' id='packageDropDownLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+        <IndexLink to='/' className='navbar-brand nav-link dropdown-toggle' id='packageDropDownLink'
+          data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
           <i className={packageIcon} aria-hidden='true' /> {PackageInformation.name}
           <span className='caret' />
           {
@@ -22,7 +23,8 @@ export default class PackagesDropdown extends React.Component {
             : undefined
           }
         </IndexLink>
-        <div className='dropdown-menu' aria-labelledby='packageDropDownLink' style={{ width: '410px', padding: '3px' }} >
+        <div className='dropdown-menu' aria-labelledby='packageDropDownLink'
+          style={{ width: '99vw', position: 'absolute', left: '-15px', maxWidth:'410px', padding: '3px' }} >
           {this.props.packages.map((p, index) => <PackageTile key={`${index}`} package={p} />)}
         </div>
 

@@ -1,6 +1,8 @@
 .package-tile{
-    width: 128px;
-    height: 128px;
+    width:30vw;
+    height:30vw;
+    max-width: 128px;
+    max-height: 128px;
     float:left;
     margin: 3px;
 }
