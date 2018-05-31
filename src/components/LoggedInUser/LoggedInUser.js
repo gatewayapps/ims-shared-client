@@ -72,8 +72,8 @@ export class LoggedInUser extends BaseComponent {
 }
 
 LoggedInUser.propTypes = {
-  flushNotificationQueue: PropTypes.func.isRequired,
-  isFlushingNotificationQueue: PropTypes.bool.isRequired,
+  flushNotificationQueue: PropTypes.func,
+  isFlushingNotificationQueue: PropTypes.bool,
   user: PropTypes.object,
   style: PropTypes.object
 }
