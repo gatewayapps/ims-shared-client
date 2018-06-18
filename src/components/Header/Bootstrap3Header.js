@@ -94,7 +94,7 @@ class Bootstrap3Header extends React.PureComponent {
     }
 
     return (
-      <nav className='navbar navbar-default' style={navBarStyle} >
+      <nav className='navbar navbar-default fixed-top' style={navBarStyle} >
         <div className='navbar-header'>
           <button className='navbar-toggle collapsed'
             type='button' data-toggle='collapse' data-target='#header-menu'
