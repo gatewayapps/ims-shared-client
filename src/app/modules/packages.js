@@ -35,10 +35,11 @@ export function setPackageBadgeCount (id, count) {
 const ACTION_HANDLERS = {
   [SET_PACKAGES_STATE]: (state, action) => {
     // Prevent zeroing out the badge count during an update
-    for (var i = 0; i < state.length; i++) {
-      const packageIndex = action.packages.findIndex((p) => p.packageId === state[i].packageId)
+    const packages = state.toJS()
+    for (var i = 0; i < packages.length; i++) {
+      const packageIndex = action.packages.findIndex((p) => p.id === packages[i].id)
       if (packageIndex > -1) {
-        action.packages[packageIndex].badgeCount = state[i].badgeCount
+        action.packages[packageIndex].badgeCount = packages[i].badgeCount
       }
     }
 

@@ -6,7 +6,7 @@ export default class PackageTile extends React.Component {
     const backgroundColor = this.props.package.color ? '#' + this.props.package.color.replace('#', '') : '#373737'
     return (
       <div className='package-tile' style={{ backgroundColor: backgroundColor, cursor: 'pointer' }}>
-        <a className='package-tile-link' href={this.props.package.url} target='__blank'>
+        <a className='package-tile-link' href={this.props.package.url} target='_blank'>
           <div className='package-tile-opacity' >
             <div className='package-tile-icon'>
               <PackageIcon package={this.props.package} />

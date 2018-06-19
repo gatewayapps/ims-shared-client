@@ -30,6 +30,7 @@ import ScopedComponent from './components/ScopedComponent'
 import SecureLink from './components/SecureLink'
 import SingleUserSelector from './components/SingleUserSelector'
 import SortableListHeader from './components/SortableListHeader'
+import Tooltip from './components/Tooltip'
 import UserAutosuggest from './components/UserAutosuggest'
 import Notifications from 'react-notification-system-redux'
 import UserProfileImage from './components/UserProfileImage'
@@ -81,8 +82,10 @@ module.exports = {
   SecureRoute: SecureRoute,
   SingleUserSelector: SingleUserSelector,
   SortableListHeader: SortableListHeader,
+  Tooltip: Tooltip,
   UserAutosuggest: UserAutosuggest,
   UserProfileImage: UserProfileImage,
+  
   Utils: {
     Cookies: Cookies,
     IconHelper: IconHelper,

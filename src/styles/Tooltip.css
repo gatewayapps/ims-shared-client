@@ -1,0 +1,198 @@
+.ims-tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.ims-tooltip {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px #777;
+  cursor: initial;
+  display: block;
+  font-weight: 400;
+  font-size: initial;
+  width: 300px;
+  z-index: 1060;
+}
+
+[data-placement^='top'].ims-tooltip {
+  margin-bottom: 7px;
+}
+
+[data-placement^='bottom'].ims-tooltip {
+  margin-top: 7px;
+}
+
+[data-placement^='right'].ims-tooltip {
+  margin-left: 7px;
+}
+
+[data-placement^='left'].ims-tooltip {
+  margin-right: 7px;
+}
+
+/* Tooltip Arrow */
+.ims-tooltip .ims-tooltip-arrow {
+  height: 7px;
+  margin: 0 5px;
+  position: absolute;
+  width: 14px;
+}
+
+.ims-tooltip .ims-tooltip-arrow::after,
+.ims-tooltip .ims-tooltip-arrow::before {
+  position: absolute;
+  display: block;
+  content: "";
+  border-color: transparent;
+  border-style: solid;
+}
+
+/* Placement Top */
+[data-placement^='top'].ims-tooltip .ims-tooltip-arrow {
+  bottom: -8px;
+}
+
+[data-placement^='top'].ims-tooltip .ims-tooltip-arrow::after,
+[data-placement^='top'].ims-tooltip .ims-tooltip-arrow::before {
+  border-width: 7px 7px 0;
+}
+
+[data-placement^='top'].ims-tooltip .ims-tooltip-arrow::before {
+  bottom: 0;
+  border-top-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-placement^='top'].ims-tooltip .ims-tooltip-arrow::after {
+  bottom: 1px;
+  border-top-color: #fff;
+}
+
+/* Placement Bottom */
+[data-placement^='bottom'].ims-tooltip .ims-tooltip-arrow {
+  top: -8px;
+}
+
+[data-placement^='bottom'].ims-tooltip .ims-tooltip-arrow::after,
+[data-placement^='bottom'].ims-tooltip .ims-tooltip-arrow::before {
+  border-width: 0 7px 7px 7px;
+}
+
+[data-placement^='bottom'].ims-tooltip .ims-tooltip-arrow::before {
+  top: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-placement^='bottom'].ims-tooltip .ims-tooltip-arrow::after {
+  top: 1px;
+  border-bottom-color: #fff;
+}
+
+[data-placement^='bottom'].ims-tooltip.editing .ims-tooltip-arrow::after {
+  top: 1px;
+  border-bottom-color: #efefef;
+}
+
+/* Placement Right */
+[data-placement^='right'].ims-tooltip .ims-tooltip-arrow {
+  left: -8px;
+  height: 14px;
+  margin: 5px 0;
+  width: 7px;
+}
+
+[data-placement^='right'].ims-tooltip .ims-tooltip-arrow::after,
+[data-placement^='right'].ims-tooltip .ims-tooltip-arrow::before {
+  border-width: 7px 7px 7px 0;
+}
+
+[data-placement^='right'].ims-tooltip .ims-tooltip-arrow::before {
+  left: 0;
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-placement^='right'].ims-tooltip .ims-tooltip-arrow::after {
+  left: 1px;
+  border-right-color: #fff;
+}
+
+/* Placement Left */
+[data-placement^='left'].ims-tooltip .ims-tooltip-arrow {
+  right: -8px;
+  height: 14px;
+  margin: 5px 0;
+  width: 7px;
+}
+
+[data-placement^='left'].ims-tooltip .ims-tooltip-arrow::after,
+[data-placement^='left'].ims-tooltip .ims-tooltip-arrow::before {
+  border-width: 7px 0 7px 7px;
+}
+
+[data-placement^='left'].ims-tooltip .ims-tooltip-arrow::before {
+  right: 0;
+  border-left-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-placement^='left'].ims-tooltip .ims-tooltip-arrow::after {
+  right: 1px;
+  border-left-color: #fff;
+}
+
+.ims-tooltip-content {
+  font-size: 14px;
+  padding: 10px;
+}
+
+.ims-tooltip-content p {
+  margin-bottom: 0;
+}
+
+.ims-tooltip-editor {
+  font-size: 14px;
+}
+
+.ims-tab-nav {
+  background: #efefef;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 10px 0 10px;
+}
+
+.ims-tab-nav .ims-tab {
+  color: #333;
+  display: inline-block;
+  margin-bottom: -1px;
+  padding: 5px 10px;
+  text-decoration: none;
+}
+
+.ims-tab-nav .ims-tab.selected {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-bottom-color: #fff;
+  border-radius: 5px 5px 0 0;
+}
+
+.ims-tooltip-editor footer {
+  padding: 0 10px 10px 10px;
+  text-align: right;
+}
+
+.ims-tooltip-edit-page {
+  padding: 10px;
+}
+
+.ims-tooltip-edit-page .form-group-sm {
+  margin-bottom: 10px;
+}
+
+.ims-tooltip-edit-page textarea {
+  width: 100%;
+  resize: none;
+}
+
+.ims-tooltip-edit-preview-page {
+  height: 207px;
+}
