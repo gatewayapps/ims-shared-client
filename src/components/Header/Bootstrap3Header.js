@@ -7,9 +7,8 @@ import PackageInformation from '../../PackageInformation'
 import LoggedInUser from '../LoggedInUser'
 
 class Bootstrap3Header extends React.PureComponent {
-
   renderMenuItemChildren (parentText, children) {
-    const linkChildren = children.map((link,li) => {
+    const linkChildren = children.map((link, li) => {
       const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
 
       return (
@@ -128,6 +127,7 @@ class Bootstrap3Header extends React.PureComponent {
               bootstrapVersion={this.props.bootstrapVersion}
               user={this.props.user}
               style={loggedInStyle}
+              logout={this.props.logout}
               profileDropdownItems={this.props.profileDropdownItems} />
           </ul>
         </div>
@@ -139,6 +139,7 @@ class Bootstrap3Header extends React.PureComponent {
 Bootstrap3Header.propTypes = {
   bootstrapVersion: React.PropTypes.number,
   user: React.PropTypes.object,
+  logout: React.PropTypes.func.isRequired,
   profileDropdownItems: React.PropTypes.any,
   backgroundColor: React.PropTypes.string,
   foregroundColor: React.PropTypes.string,

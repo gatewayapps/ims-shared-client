@@ -123,6 +123,7 @@ class Bootstrap4Header extends React.PureComponent {
               <LoggedInUser
                 bootstrapVersion={this.props.bootstrapVersion}
                 user={this.props.user}
+                logout={this.props.logout}
                 style={navBarStyle}
                 profileDropdownItems={this.props.profileDropdownItems} />
             </ul>
@@ -136,6 +137,7 @@ class Bootstrap4Header extends React.PureComponent {
 Bootstrap4Header.propTypes = {
   bootstrapVersion: React.PropTypes.number,
   user: React.PropTypes.object,
+  logout: React.PropTypes.func.isRequired,
   profileDropdownItems: React.PropTypes.any,
   backgroundColor: React.PropTypes.string,
   foregroundColor: React.PropTypes.string,

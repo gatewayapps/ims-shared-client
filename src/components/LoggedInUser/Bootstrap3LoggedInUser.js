@@ -68,7 +68,7 @@ Bootstrap3LoggedInUser.propTypes = {
   user: React.PropTypes.object,
   style: React.PropTypes.object,
   profileDropdownItems: React.PropTypes.any,
-  logout: React.PropTypes.any
+  logout: React.PropTypes.func
 }
 
 export default Bootstrap3LoggedInUser
