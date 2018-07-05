@@ -54,7 +54,7 @@ export class Bootstrap3LoggedInUser extends React.PureComponent {
           {this.props.profileDropdownItems()}
           <div className='dropdown-divider' />
           <li className='dropdown-item nav-link'>
-            <a role='button' href='#' onClick={this._onLogout}>
+            <a role='button' href='#' onClick={() => { this._onLogout() }}>
               <i className='fa fa-fw fa-sign-out' /> Logout
             </a>
           </li>

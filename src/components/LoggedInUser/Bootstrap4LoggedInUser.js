@@ -3,11 +3,6 @@ import classNames from 'classnames'
 import styles from '../../styles/LoggedInUser.css'
 
 export class Bootstrap4LoggedInUser extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    super.bindFunctions()
-  }
-
   _hasProfileImage () {
     return !!this.props.user.profileImageUrl
   }
@@ -59,7 +54,7 @@ export class Bootstrap4LoggedInUser extends React.PureComponent {
           {this.props.profileDropdownItems()}
           <div className='dropdown-divider' />
           <li className='dropdown-item nav-link'>
-            <a role='button' href='#' onClick={this._onLogout}>
+            <a role='button' href='#' onClick={() => { this._onLogout() }}>
               <i className='fas fa-fw fa-sign-out' /> Logout
             </a>
           </li>
