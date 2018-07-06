@@ -7,15 +7,6 @@ import PackageInformation from '../../PackageInformation'
 import LoggedInUser from '../LoggedInUser'
 
 class Bootstrap4Header extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    super.bindFunctions()
-  }
-
-  componentDidMount () {
-    console.log(this.props)
-  }
-
   renderMenuItemChildren (parentText, children) {
     const linkChildren = children.map((link) => {
       const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
