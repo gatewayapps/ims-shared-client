@@ -38,11 +38,11 @@ export class Bootstrap4LoggedInUser extends React.PureComponent {
     const anchorClasses = classNames('nav-link dropdown-toggle', {
       [styles.profileImage]: this._hasProfileImage()
     })
+    const profileItems = this.props.profileDropdownItems && this.props.profileDropdownItems()
 
     return (
-      <li className='nav-item dropdown'>
+      <li className='nav-item dropdown' style={{ cursor: 'pointer' }}>
         <a
-          href='#'
           className={anchorClasses}
           data-toggle='dropdown'
           role='button'
@@ -51,13 +51,15 @@ export class Bootstrap4LoggedInUser extends React.PureComponent {
           {this._renderProfileImage()} {this.props.user.displayName} <span className='caret' />
         </a>
         <ul className='dropdown-menu' style={this.props.style}>
-          {this.props.profileDropdownItems()}
-          <div className='dropdown-divider' />
-          <li className='dropdown-item nav-link'>
-            <a role='button' href='#' onClick={() => { this._onLogout() }}>
-              <i className='fas fa-fw fa-sign-out' /> Logout
-            </a>
+          {profileItems}
+          {profileItems && <div className='dropdown-divider' />}
+          <a role='button' onClick={() => { this._onLogout() }}>
+            <li className='dropdown-item nav-link'>
+
+              <i className='fa fas fa-fw fa-sign-out' /> Logout
+
           </li>
+          </a>
         </ul>
       </li>
     )

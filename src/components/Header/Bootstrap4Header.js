@@ -12,11 +12,13 @@ class Bootstrap4Header extends React.PureComponent {
       const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
 
       return (
-        <li key={link.text} className='dropdown-item nav-link'>
-          <Link key={link.text} to={link.url} label={link.text}>
+        <Link key={link.text} to={link.url} label={link.text}>
+          <li key={link.text} className='dropdown-item nav-link'>
+
             <i className={link.faIcon} /> {link.text} {badge}
-          </Link>
-        </li>
+
+          </li>
+        </Link>
       )
     })
 
@@ -47,11 +49,13 @@ class Bootstrap4Header extends React.PureComponent {
           const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
 
           return (
-            <li key={link.text} className='nav-item'>
-              <Link key={link.text} to={link.url} className='nav-link' label={link.text}>
+            <Link key={link.text} to={link.url} className='nav-link' label={link.text}>
+              <li key={link.text} className='nav-item'>
+
                 <i className={link.faIcon} aria-hidden='true' /> {link.text} {badge}
-              </Link>
-            </li>
+
+              </li>
+            </Link>
           )
         }
       })
@@ -109,13 +113,13 @@ class Bootstrap4Header extends React.PureComponent {
               </li>
               <li className='my-auto d-md-none d-lg-block'>
                 <FeedbackButton bootstrapVersion={this.props.bootstrapVersion} hubUrl={window.__HUB_URL__}
-                  icon='fa-smile' className='nav-link' user={this.props.user} />
+                  icon='fa-smile-o' className='nav-link' user={this.props.user} />
               </li>
               <LoggedInUser
                 bootstrapVersion={this.props.bootstrapVersion}
                 user={this.props.user}
                 logout={this.props.logout}
-                style={navBarStyle}
+
                 profileDropdownItems={this.props.profileDropdownItems} />
             </ul>
           </div>

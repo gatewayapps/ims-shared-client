@@ -40,7 +40,7 @@ export class Bootstrap3LoggedInUser extends React.PureComponent {
     })
 
     return (
-      <li className='nav-item dropdown'>
+      <li className='nav-item dropdown' style={{ cursor: 'pointer' }}>
         <a
           href='#'
           className={anchorClasses}
