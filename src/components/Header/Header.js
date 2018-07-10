@@ -22,11 +22,13 @@ class Header extends BaseComponent {
       const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
 
       return (
-        <li key={`menu-${parentText}-${li}-${link.text}`} className='dropdown-item nav-link'>
-          <Link key={link.text} to={link.url} role='user' label={link.text}>
+        <Link key={link.text} to={link.url} role='user' label={link.text} className='dropdown-item nav-link'>
+          <li key={`menu-${parentText}-${li}-${link.text}`}>
+
             <i className={link.faIcon} /> {link.text} {badge}
-          </Link>
-        </li>
+
+          </li>
+        </Link>
       )
     })
 
@@ -57,11 +59,13 @@ class Header extends BaseComponent {
           const badge = link.badgeCount > 0 ? <span className={`badge ${link.badgeClass}`}>{link.badgeCount}</span> : null
 
           return (
-            <li key={`menu-${link.text}-${lIndex}`} className='nav-item'>
-              <Link key={link.text} to={link.url} className='nav-link' label={link.text}>
+            <Link key={link.text} to={link.url} className='nav-item nav-link' label={link.text}>
+              <li key={`menu-${link.text}-${lIndex}`}>
+
                 <i className={link.faIcon} aria-hidden='true' /> {link.text} {badge}
-              </Link>
-            </li>
+
+              </li>
+            </Link>
           )
         }
       })
@@ -117,10 +121,10 @@ class Header extends BaseComponent {
                   releaseNotes={PackageInformation.releaseNotes || {}} />
               </li>
               <li className='my-auto d-md-none d-lg-block'>
-                <FeedbackButton hubUrl={window.__HUB_URL__} icon='fa-smile' className='nav-link' user={this.props.user} />
+                <FeedbackButton hubUrl={window.__HUB_URL__} icon='fa-smile-o' className='nav-link' user={this.props.user} />
               </li>
               <LoggedInUser user={this.props.user}
-                style={navBarStyle}
+
                 profileDropdownItems={this.props.profileDropdownItems}
                 flushNotificationQueue={this.props.flushNotificationQueue}
                 isFlushingNotificationQueue={this.props.isFlushingNotificationQueue} />

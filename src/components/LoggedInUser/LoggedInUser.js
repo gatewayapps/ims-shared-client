@@ -45,7 +45,8 @@ export class LoggedInUser extends BaseComponent {
     const anchorClasses = classNames('nav-link dropdown-toggle', {
       [styles.profileImage]: this._hasProfileImage()
     })
-
+    const profileItems = this.props.profileDropdownItems ? this.props.profileDropdownItems() : undefined
+    
     return (
       <li className='nav-item dropdown'>
         <a
@@ -58,13 +59,15 @@ export class LoggedInUser extends BaseComponent {
           {this._renderProfileImage()} {this.props.user.displayName} <span className='caret' />
         </a>
         <ul className='dropdown-menu' style={this.props.style}>
-          {this.props.profileDropdownItems()}
-          <div className='dropdown-divider' />
-          <li className='dropdown-item nav-link'>
-            <a role='button' href='#' onClick={this._onLogout}>
-              <i className='fas fa-fw fa-sign-out' /> Logout
-            </a>
-          </li>
+          {profileItems}
+          {profileItems && <div className='dropdown-divider separator' />}
+          <a href='#' className='dropdown-item nav-link' role='button' onClick={() => { this._onLogout() }}>
+            
+
+              <i className='fa fas fa-fw fa-sign-out' /> Logout
+
+          
+          </a>
         </ul>
       </li>
     )

@@ -113,7 +113,7 @@ export function isPackageAvailable (packageId) {
   const packages = List.isList(packagesList) ? packagesList.toJS() : undefined
   if (packages) {
     const filtered = packages.filter((p) => p.packageId === packageId)
-    return filtered.length > 0
+    return filtered.length > 0 && filtered[0].installed
   }
   return false
 }
