@@ -18,6 +18,7 @@ import { loadInitialState, loadInitialStateFromServer, loadPackagesFromHub, getP
 import createStore from './store/createStore'
 import { selectLocationState } from './modules/routing'
 import { serverInitialState } from './modules/universal'
+import { checkClientTime } from './modules/system'
 import { createPackageState, setPackageBadgeCount } from './modules/packages'
 
 export default function imsBootstrapper (options = {}) {
@@ -135,6 +136,7 @@ function completeInitialization (options) {
     // Create Store and History
     // ========================================================
     createStore(state.initialState, browserHistory, options).then((store) => {
+      store.dispatch(checkClientTime())
       if (state.fromLocalStorage === true) {
         loadInitialStateFromServer(options.stateInitializer.url)
         .then((initialState) => {
