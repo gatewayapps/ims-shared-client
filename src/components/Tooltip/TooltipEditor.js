@@ -5,18 +5,18 @@ import FormGroup from '../FormGroup'
 import TooltipViewer from './TooltipViewer'
 
 export default class TooltipEditor extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       tab: 'edit'
     }
   }
 
-  _setTab (tab) {
+  _setTab(tab) {
     this.setState({ tab: tab })
   }
 
-  render () {
+  render() {
     const navButtonDefaultClasses = 'ims-tab'
     const editNavClasses = classNames(navButtonDefaultClasses, {
       selected: this.state.tab === 'edit'
@@ -25,12 +25,22 @@ export default class TooltipEditor extends React.Component {
       selected: this.state.tab === 'preview'
     })
     return (
-      <div className='ims-tooltip-editor'>
-        <nav className='ims-tab-nav'>
-          <a role='button' className={editNavClasses} onClick={() => { this._setTab('edit') }}>
+      <div className="ims-tooltip-editor">
+        <nav className="ims-tab-nav">
+          <a
+            role="button"
+            className={editNavClasses}
+            onClick={() => {
+              this._setTab('edit')
+            }}>
             Edit
           </a>
-          <a role='button' className={previewNavClasses} onClick={() => { this._setTab('preview') }}>
+          <a
+            role="button"
+            className={previewNavClasses}
+            onClick={() => {
+              this._setTab('preview')
+            }}>
             Preview
           </a>
         </nav>
@@ -39,10 +49,17 @@ export default class TooltipEditor extends React.Component {
           {this.state.tab === 'preview' && this.renderPreview()}
         </section>
         <footer>
-          <button className='btn btn-sm btn-link' onClick={() => { this.props.cancelEdit(this.props.tooltipId) }}>
+          <button
+            className="btn btn-sm btn-link"
+            onClick={() => {
+              this.props.cancelEdit(this.props.tooltipId)
+            }}>
             Cancel
           </button>
-          <button className='btn btn-sm btn-primary' disabled={this.props.isSaving} onClick={() => this.props.saveTooltip(this.props.tooltip)}>
+          <button
+            className="btn btn-sm btn-primary"
+            disabled={this.props.isSaving}
+            onClick={() => this.props.saveTooltip(this.props.tooltip)}>
             Save
           </button>
         </footer>
@@ -50,34 +67,44 @@ export default class TooltipEditor extends React.Component {
     )
   }
 
-  renderEdit () {
+  renderEdit() {
     return (
-      <div className='ims-tooltip-edit-page'>
+      <div className="ims-tooltip-edit-page">
         <FormGroup>
-          <label htmlFor='content' className='control-label'>Content</label>
+          <label htmlFor="content" className="control-label">
+            Content
+          </label>
           <textarea
-            name='content'
-            className='form-control'
+            name="content"
+            className="form-control"
             rows={4}
             value={this.props.tooltip.content || ''}
-            onChange={(e) => { this.props.changeContent(this.props.tooltipId, e.target.value) }} />
+            onChange={(e) => {
+              this.props.changeContent(this.props.tooltipId, e.target.value)
+            }}
+          />
         </FormGroup>
         <FormGroup>
-          <label htmlFor='link' className='control-label'>Link</label>
+          <label htmlFor="link" className="control-label">
+            Link
+          </label>
           <input
-            type='url'
-            name='link'
-            className='form-control'
+            type="url"
+            name="link"
+            className="form-control"
             value={this.props.tooltip.link || ''}
-            onChange={(e) => { this.props.changeLink(this.props.tooltipId, e.target.value) }} />
+            onChange={(e) => {
+              this.props.changeLink(this.props.tooltipId, e.target.value)
+            }}
+          />
         </FormGroup>
       </div>
     )
   }
 
-  renderPreview () {
+  renderPreview() {
     return (
-      <div className='ims-tooltip-edit-preview-page'>
+      <div className="ims-tooltip-edit-preview-page">
         <TooltipViewer tooltip={this.props.tooltip} />
       </div>
     )

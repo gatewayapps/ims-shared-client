@@ -14,8 +14,8 @@ import PackageInformation from '../PackageInformation'
  * requestOptions: options to send with the request
  */
 
-export default function (options) {
-  const log = function (msg, arg) {
+export default function(options) {
+  const log = function(msg, arg) {
     if (options.logging) {
       console.log(msg, arg)
     }
@@ -64,7 +64,8 @@ export default function (options) {
     return request(`${hubUrl}${options.path || '/events/track'}`, {
       body: body,
       method: options.method || 'POST',
-      requestOptions: options.requestOptions })
+      requestOptions: options.requestOptions
+    })
   }
 
   const addPropertiesToAction = (action) => {
@@ -80,10 +81,11 @@ export default function (options) {
   }
 
   const queueAction = (action) => {
-    if ((options.shouldTrackAction && options.shouldTrackAction(action)) || (options.include && shouldQueueAction(action))) {
-      ACTION_QUEUE.push(
-        addPropertiesToAction(action)
-      )
+    if (
+      (options.shouldTrackAction && options.shouldTrackAction(action)) ||
+      (options.include && shouldQueueAction(action))
+    ) {
+      ACTION_QUEUE.push(addPropertiesToAction(action))
       if (QUEUE_TIMEOUT === null) {
         QUEUE_TIMEOUT = window.setTimeout(sendQueue, TIME_TO_WAIT)
       }
@@ -91,7 +93,7 @@ export default function (options) {
   }
 
   // Actual middleware
-  return store => next => action => {
+  return (store) => (next) => (action) => {
     queueAction(action)
     return next(action)
   }

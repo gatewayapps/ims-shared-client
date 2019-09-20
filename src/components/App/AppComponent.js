@@ -8,14 +8,11 @@ export class AppComponent extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     onAppWillMount: PropTypes.func,
-    routes: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.arrayOf(PropTypes.object)
-    ]).isRequired,
+    routes: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]).isRequired,
     store: PropTypes.object.isRequired
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount() {
     if (this.props.onAppWillMount) {
       this.props.onAppWillMount(this.props.store)
     }
@@ -26,14 +23,14 @@ export class AppComponent extends Component {
     }, 5 * 60 * 1000)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.tooltipsRefreshInterval) {
       clearInterval(this.tooltipsRefreshInterval)
       this.tooltipsRefreshInterval = undefined
     }
   }
 
-  render () {
+  render() {
     const { history, routes, store } = this.props
 
     return (
@@ -41,7 +38,6 @@ export class AppComponent extends Component {
         <div style={{ height: '100%' }}>
           <NotificationContainer />
           <Router history={history} children={routes} />
-
         </div>
       </Provider>
     )

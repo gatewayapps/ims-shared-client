@@ -4,13 +4,13 @@ import { createStructuredSelector } from 'reselect'
 
 import PackagesDropdown from './PackagesDropdown'
 
-const mapDispatchToProps = {
-
-}
+const mapDispatchToProps = {}
 
 const mapStateToProps = createStructuredSelector({
   packages: selectPackages()
-
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PackagesDropdown)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PackagesDropdown)

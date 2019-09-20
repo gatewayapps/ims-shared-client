@@ -2,26 +2,27 @@ import 'event-source-polyfill'
 import _ from 'lodash'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-  browserHistory
-} from 'react-router'
-import {
-  syncHistoryWithStore
-} from 'react-router-redux'
+import { browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
 import { Constants } from 'ims-shared-core'
 import ImsApplication from '../components/App/'
 import { getAuthorizeUrl } from '../utils/auth'
 import { getCookie } from '../utils/cookies'
 import { setLocation } from '../utils/window'
 import PackageInformation from '../PackageInformation'
-import { loadInitialState, loadInitialStateFromServer, loadPackagesFromHub, getPackageBadgeCount } from './stateInitializer'
+import {
+  loadInitialState,
+  loadInitialStateFromServer,
+  loadPackagesFromHub,
+  getPackageBadgeCount
+} from './stateInitializer'
 import createStore from './store/createStore'
 import { selectLocationState } from './modules/routing'
 import { serverInitialState } from './modules/universal'
 import { checkClientTime } from './modules/system'
 import { createPackageState, setPackageBadgeCount } from './modules/packages'
 
-export default function imsBootstrapper (options = {}) {
+export default function imsBootstrapper(options = {}) {
   const opts = validateOptions(options)
 
   // ========================================================
@@ -58,7 +59,7 @@ export default function imsBootstrapper (options = {}) {
   loadInitialState(opts.stateInitializer).then(completeInitialization(opts))
 }
 
-function validateOptions (options) {
+function validateOptions(options) {
   if (!_.isObjectLike(options)) {
     throw new TypeError('options should be an object')
   }
@@ -114,8 +115,8 @@ function validateOptions (options) {
   return lOpts
 }
 
-    // Load packages access from the hub
-function updatePackages (store) {
+// Load packages access from the hub
+function updatePackages(store) {
   loadPackagesFromHub().then((result) => {
     if (result.success) {
       store.dispatch(createPackageState(result.packages))
@@ -130,86 +131,91 @@ function updatePackages (store) {
   })
 }
 
-function completeInitialization (options) {
+function completeInitialization(options) {
   return (state) => {
     // ========================================================
     // Create Store and History
     // ========================================================
-    createStore(state.initialState, browserHistory, options).then((store) => {
-      store.dispatch(checkClientTime())
-      if (state.fromLocalStorage === true) {
-        loadInitialStateFromServer(options.stateInitializer.url)
-        .then((initialState) => {
-          if (initialState) {
-            store.dispatch(serverInitialState(initialState))
-          }
+    createStore(state.initialState, browserHistory, options)
+      .then((store) => {
+        store.dispatch(checkClientTime())
+        if (state.fromLocalStorage === true) {
+          loadInitialStateFromServer(options.stateInitializer.url).then((initialState) => {
+            if (initialState) {
+              store.dispatch(serverInitialState(initialState))
+            }
+          })
+        }
+
+        window.setTimeout(() => {
+          updatePackages(store)
+        }, 0)
+        window.setInterval(() => {
+          updatePackages(store)
+        }, 60000)
+
+        const history = syncHistoryWithStore(browserHistory, store, {
+          selectLocationState: selectLocationState()
         })
-      }
 
-      window.setTimeout(() => { updatePackages(store) }, 0)
-      window.setInterval(() => { updatePackages(store) }, 60000)
+        // ========================================================
+        // Render Setup
+        // ========================================================
+        const MOUNT_NODE = document.getElementById('root')
 
-      const history = syncHistoryWithStore(browserHistory, store, {
-        selectLocationState: selectLocationState()
-      })
+        let render = () => {
+          const routes = options.routes(store)
 
-    // ========================================================
-    // Render Setup
-    // ========================================================
-      const MOUNT_NODE = document.getElementById('root')
+          const appComponent = (
+            <ImsApplication
+              store={store}
+              history={history}
+              routes={routes}
+              onAppWillMount={options.onAppWillMount}
+            />
+          )
 
-      let render = () => {
-        const routes = options.routes(store)
+          ReactDOM.render(appComponent, MOUNT_NODE)
+        }
 
-        const appComponent = (
-          <ImsApplication
-            store={store}
-            history={history}
-            routes={routes}
-            onAppWillMount={options.onAppWillMount} />
-      )
+        if (options.isDev === true) {
+          if (module.hot) {
+            // Development render functions
+            const renderApp = render
+            const renderError = (error) => {
+              const RedBox = require('redbox-react').default
 
-        ReactDOM.render(appComponent, MOUNT_NODE)
-      }
+              ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
+            }
 
-      if (options.isDev === true) {
-        if (module.hot) {
-        // Development render functions
-          const renderApp = render
-          const renderError = (error) => {
-            const RedBox = require('redbox-react').default
+            // Wrap render in try/catch
+            render = () => {
+              try {
+                renderApp()
+              } catch (error) {
+                renderError(error)
+              }
+            }
 
-            ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
-          }
-
-        // Wrap render in try/catch
-          render = () => {
-            try {
-              renderApp()
-            } catch (error) {
-              renderError(error)
+            if (options.configureHMR) {
+              options.configureHMR(() => {
+                setTimeout(() => {
+                  ReactDOM.unmountComponentAtNode(MOUNT_NODE)
+                  render()
+                })
+              })
             }
           }
-
-          if (options.configureHMR) {
-            options.configureHMR(() => {
-              setTimeout(() => {
-                ReactDOM.unmountComponentAtNode(MOUNT_NODE)
-                render()
-              })
-            })
-          }
         }
-      }
 
-    // ========================================================
-    // Go!
-    // ========================================================
-      render()
-    })
-    .catch((err) => {
-      // A rejection here likely means that you are being redirected to the login page
-      console.log(err.message)
-    })
+        // ========================================================
+        // Go!
+        // ========================================================
+        render()
+      })
+      .catch((err) => {
+        // A rejection here likely means that you are being redirected to the login page
+        console.log(err.message)
+      })
   }
 }

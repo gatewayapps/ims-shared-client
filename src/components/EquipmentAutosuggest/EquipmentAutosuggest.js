@@ -7,7 +7,7 @@ import EquipmentAutosuggestItem from './EquipmentAutosuggestItem'
 import '../../styles/Autosuggest.css'
 
 export class EquipmentAutosuggest extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       value: '',
@@ -17,17 +17,15 @@ export class EquipmentAutosuggest extends React.Component {
     this.lastRequestId = null
   }
 
-  _getSuggestionValue (suggestion) {
+  _getSuggestionValue(suggestion) {
     return suggestion.name
   }
 
-  _renderSuggestion (suggestion) {
-    return (
-      <EquipmentAutosuggestItem equipment={suggestion} />
-    )
+  _renderSuggestion(suggestion) {
+    return <EquipmentAutosuggestItem equipment={suggestion} />
   }
 
-  _loadEquipment (search) {
+  _loadEquipment(search) {
     // Cancel the previous request
     if (this.lastRequestId !== null) {
       clearTimeout(this.lastRequestId)
@@ -80,34 +78,34 @@ export class EquipmentAutosuggest extends React.Component {
     }, 250)
   }
 
-  _onChange (event, { newValue }) {
+  _onChange(event, { newValue }) {
     this.setState({
       value: newValue
     })
   }
 
-  _onUserChange (value) {
+  _onUserChange(value) {
     this.setState({ filter: value })
   }
 
-  _onSuggestionsClearRequested () {
+  _onSuggestionsClearRequested() {
     this.setState({
       equipment: []
     })
   }
 
-  _onSuggestionsFetchRequested ({ value }) {
+  _onSuggestionsFetchRequested({ value }) {
     this._loadEquipment(value)
   }
 
-  _onSuggestionSelected (event, { suggestion }) {
+  _onSuggestionSelected(event, { suggestion }) {
     this.props.onSelect(suggestion)
     this.setState({
       value: ''
     })
   }
 
-  render () {
+  render() {
     const { value, equipment } = this.state
     const inputProps = {
       className: 'form-control',
@@ -126,7 +124,8 @@ export class EquipmentAutosuggest extends React.Component {
         renderSuggestion={this._renderSuggestion}
         inputProps={inputProps}
         focusFirstSuggestion
-        onSuggestionSelected={(e, d) => this._onSuggestionSelected(e, d)} />
+        onSuggestionSelected={(e, d) => this._onSuggestionSelected(e, d)}
+      />
     )
   }
 }

@@ -1,8 +1,4 @@
-import {
-  applyMiddleware,
-  compose,
-  createStore
-} from 'redux'
+import { applyMiddleware, compose, createStore } from 'redux'
 import { routerMiddleware } from 'react-router-redux'
 import { fromJS } from 'immutable'
 import { sagaMiddleware, initializeSagas } from './sagas'
@@ -33,18 +29,14 @@ export default (initialState = {}, history, options) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [
-    sagaMiddleware,
-    routerMiddleware(history),
-    ActionTracker(actionTrackerOpts)
-  ]
+  const middleware = [sagaMiddleware, routerMiddleware(history), ActionTracker(actionTrackerOpts)]
 
   // ======================================================
   // Store Enhancers
   // ======================================================
   const enhancers = []
   if (options.isDev) {
-    const devToolsExtension = window.devToolsExtension
+    const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
     if (typeof devToolsExtension === 'function') {
       enhancers.push(devToolsExtension())
     }
@@ -62,7 +54,7 @@ export default (initialState = {}, history, options) => {
     )
   )
   store.asyncReducers = {}
-    // Prepare scoped component injector
+  // Prepare scoped component injector
   prepareInjector(store, injectReducer)
 
   // Initialize global sagas

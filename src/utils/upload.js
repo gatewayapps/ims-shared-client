@@ -2,17 +2,17 @@ var UploadRequests = {}
 // fix sendAsBinary for chrome
 try {
   if (typeof XMLHttpRequest.prototype.sendAsBinary === 'undefined') {
-    XMLHttpRequest.prototype.sendAsBinary = function (text) {
+    XMLHttpRequest.prototype.sendAsBinary = function(text) {
       var data = new ArrayBuffer(text.length)
       var ui8a = new Uint8Array(data, 0)
-      for (var i = 0; i < text.length; i++) ui8a[i] = (text.charCodeAt(i) & 0xff)
+      for (var i = 0; i < text.length; i++) ui8a[i] = text.charCodeAt(i) & 0xff
       this.setRequestHeader('Content-Length', ui8a.length)
       this.send(ui8a)
     }
   }
-} catch (e) { }
+} catch (e) {}
 
-export function cancel (id) {
+export function cancel(id) {
   if (UploadRequests[id]) {
     const req = UploadRequests[id]
     // Is the request already completed?  If so, no need for abort
@@ -26,16 +26,21 @@ export function cancel (id) {
   }
 }
 
-export function upload (url, accessToken, file, id, callback) {
+export function upload(url, accessToken, file, id, callback) {
   const reader = new FileReader()
   reader.onloadend = (e) => {
     const bin = e.target.result
     var formData = new FormData()
-    console.log(file)
+
     formData.append('file', new Blob([bin]), file.name)
     const onProgress = (e) => {
       if (e.lengthComputable) {
-        callback({ type: 'progress', complete: (e.loaded / e.total) * 100, file: file.name, uploadId: id })
+        callback({
+          type: 'progress',
+          complete: (e.loaded / e.total) * 100,
+          file: file.name,
+          uploadId: id
+        })
       }
     }
     const onComplete = (e) => {
@@ -59,4 +64,3 @@ export function upload (url, accessToken, file, id, callback) {
   callback({ type: 'start', file: file.name, uploadId: id })
   reader.readAsArrayBuffer(file)
 }
-

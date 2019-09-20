@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 export class ActionLink extends React.Component {
-  render () {
-    var shouldRender = this.props.value ? this.props.condition === this.props.value : !!this.props.condition
+  render() {
+    var shouldRender = this.props.value
+      ? this.props.condition === this.props.value
+      : !!this.props.condition
 
     return shouldRender ? this.props.children : null
   }

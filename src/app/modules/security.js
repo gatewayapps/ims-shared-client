@@ -9,10 +9,7 @@ import { Constants, PermissionHandler } from 'ims-shared-core'
 import { INITIAL_STATE_STORAGE_KEY, SECURITY_STORAGE_KEY } from '../stateInitializer'
 import { getAuthorizeUrl, decodeJWT } from '../../utils/auth'
 import { deleteCookie, deleteSpecificCookie } from '../../utils/cookies'
-import {
-  removeItems,
-  setItem
-} from '../../utils/localStorage'
+import { removeItems, setItem } from '../../utils/localStorage'
 import { UPDATE_ACCESS_TOKEN, UPDATE_PACKAGE_ACCESS_TOKENS } from '../../utils/request'
 import { setLocation } from '../../utils/window'
 import PackageInformation from '../../PackageInformation'
@@ -25,7 +22,7 @@ export const SECURITY_LOGOUT = '@@security/LOGOUT'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function logout () {
+export function logout() {
   return {
     type: SECURITY_LOGOUT
   }
@@ -34,7 +31,7 @@ export function logout () {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-export function createSecurityState (accessToken, expires) {
+export function createSecurityState(accessToken, expires) {
   return {
     currentUser: decodeAccessToken(accessToken),
     tokens: {
@@ -44,7 +41,7 @@ export function createSecurityState (accessToken, expires) {
   }
 }
 
-export function createPackageSecurityObject (packageInfo) {
+export function createPackageSecurityObject(packageInfo) {
   if (packageInfo && packageInfo.accessToken && packageInfo.accessToken.token) {
     return {
       userInfo: decodeAccessToken(packageInfo.accessToken.token),
@@ -58,9 +55,9 @@ export function createPackageSecurityObject (packageInfo) {
   }
 }
 
-function decodeAccessToken (accessToken) {
+function decodeAccessToken(accessToken) {
   const decoded = decodeJWT(accessToken)
-  const permHandler = new PermissionHandler({ package:{ id: PackageInformation.packageId } })
+  const permHandler = new PermissionHandler({ package: { id: PackageInformation.packageId } })
   decoded.permissions = permHandler.createPermissionsArrayFromStringsArray(decoded.claims)
   return decoded
 }
@@ -89,7 +86,7 @@ const initialState = {
   },
   packages: []
 }
-export default function Reducer (state = fromJS(initialState), action) {
+export default function Reducer(state = fromJS(initialState), action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
@@ -98,21 +95,21 @@ export default function Reducer (state = fromJS(initialState), action) {
 // ------------------------------------
 // Sagas
 // ------------------------------------
-export function * logoutSaga (action) {
+export function* logoutSaga(action) {
   // delete the refreshToken cookie
   yield call(deleteCookie, Constants.Cookies.RefreshToken)
   // #TODO
   yield call(deleteSpecificCookie, 'SSO', 'nucor-yamato.com')
 
   // remove initialState from localStorage
-  yield call(removeItems, [ INITIAL_STATE_STORAGE_KEY, SECURITY_STORAGE_KEY ])
+  yield call(removeItems, [INITIAL_STATE_STORAGE_KEY, SECURITY_STORAGE_KEY])
 
   // redirect to the authorizeUrl
   let authorizeUrl = getAuthorizeUrl()
   yield call(setLocation, authorizeUrl)
 }
 
-export function * updateAccessTokenSaga (action) {
+export function* updateAccessTokenSaga(action) {
   // get security module from state
   const securityState = yield select(selectModuleState())
 
@@ -120,15 +117,15 @@ export function * updateAccessTokenSaga (action) {
   yield call(setItem, SECURITY_STORAGE_KEY, securityState.toJS())
 }
 
-export function * watchLogout () {
+export function* watchLogout() {
   yield takeEvery(SECURITY_LOGOUT, logoutSaga)
 }
 
-export function * watchUpdateAccessToken () {
+export function* watchUpdateAccessToken() {
   yield takeLatest(UPDATE_ACCESS_TOKEN, updateAccessTokenSaga)
 }
 
-export function * rootSaga () {
+export function* rootSaga() {
   yield fork(watchLogout)
   yield fork(watchUpdateAccessToken)
 }
@@ -138,23 +135,26 @@ export function * rootSaga () {
 // ------------------------------------
 const selectModuleState = () => (state) => state.get('security')
 
-export const selectCurrentUser = () => createSelector(
-  selectModuleState(),
-  (mState) => {
-    const currentUser = mState.get('currentUser')
-    return Map.isMap(currentUser) ? currentUser.toJS() : {}
-  }
-)
+export const selectCurrentUser = () =>
+  createSelector(
+    selectModuleState(),
+    (mState) => {
+      const currentUser = mState.get('currentUser')
+      return Map.isMap(currentUser) ? currentUser.toJS() : {}
+    }
+  )
 
-export const selectTokens = () => createSelector(
-  selectModuleState(),
-  (globalState) => {
-    const tokens = globalState.get('tokens')
-    return Map.isMap(tokens) ? tokens.toJS() : {}
-  }
-)
+export const selectTokens = () =>
+  createSelector(
+    selectModuleState(),
+    (globalState) => {
+      const tokens = globalState.get('tokens')
+      return Map.isMap(tokens) ? tokens.toJS() : {}
+    }
+  )
 
-export const selectAccessToken = () => createSelector(
-  selectModuleState(),
-  (globalState) => globalState.getIn([ 'tokens', 'accessToken' ])
-)
+export const selectAccessToken = () =>
+  createSelector(
+    selectModuleState(),
+    (globalState) => globalState.getIn(['tokens', 'accessToken'])
+  )

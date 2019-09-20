@@ -4,7 +4,7 @@ import { PermissionHandler } from 'ims-shared-core'
 import PackageInformation from '../../PackageInformation'
 
 export default class BaseComponent extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.permHandler = new PermissionHandler({
       package: {
@@ -12,7 +12,7 @@ export default class BaseComponent extends React.Component {
       }
     })
   }
-  bindFunctions () {
+  bindFunctions() {
     var keys = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
 
     for (var i in keys) {
@@ -23,7 +23,7 @@ export default class BaseComponent extends React.Component {
     }
   }
 
-  checkPermission (permission, userState, skipTreeNodeCheck) {
+  checkPermission(permission, userState, skipTreeNodeCheck) {
     const user = userState || this.props.user ? this.props.user : undefined
 
     if (!this._isUserInitialized(user)) {
@@ -33,7 +33,7 @@ export default class BaseComponent extends React.Component {
     return this.permHandler.checkPermission(permission, user.permissions, skipTreeNodeCheck)
   }
 
-  _isUserInitialized (user) {
+  _isUserInitialized(user) {
     return user && user.permissions
   }
 }

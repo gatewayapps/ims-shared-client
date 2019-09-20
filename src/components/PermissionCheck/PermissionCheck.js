@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import request from '../../utils/request'
 export class PermissionCheck extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       permissionChecked: false,
@@ -11,13 +11,13 @@ export class PermissionCheck extends React.Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.nodeId !== nextProps.nodeId) {
       this.checkPermissions(nextProps.nodeId)
     }
   }
 
-  checkPermissions (nodeId) {
+  checkPermissions(nodeId) {
     this.setState({
       nodeId: nodeId,
       permissionChecked: false,
@@ -36,11 +36,11 @@ export class PermissionCheck extends React.Component {
     })
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.checkPermissions(this.props.nodeId)
   }
 
-  render () {
+  render() {
     if (!this.state.permissionChecked || !this.state.permissionGranted) {
       return <span />
     } else {

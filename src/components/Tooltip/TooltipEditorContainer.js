@@ -24,4 +24,7 @@ const mapDispatchToProps = {
   saveTooltip
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TooltipEditor)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TooltipEditor)

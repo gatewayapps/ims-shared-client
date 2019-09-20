@@ -24,7 +24,7 @@ let REFRESH_ACCESS_TOKEN_TIMEOUT
 export const UPDATE_ACCESS_TOKEN = 'UPDATE_ACCESS_TOKEN'
 export const UPDATE_PACKAGE_ACCESS_TOKENS = 'UPDATE_PACKAGE_ACCESS_TOKENS'
 
-export function prepareRequest (store, tokensPath, packagesPath) {
+export function prepareRequest(store, tokensPath, packagesPath) {
   if (store && store.getState && store.dispatch) {
     storeInstance = store
   } else {
@@ -55,7 +55,7 @@ export function prepareRequest (store, tokensPath, packagesPath) {
   return refreshAccessToken()
 }
 
-export default function request (url, options) {
+export default function request(url, options) {
   try {
     verifyInitialized()
 
@@ -71,7 +71,7 @@ export default function request (url, options) {
   }
 }
 
-export function download (url, options) {
+export function download(url, options) {
   try {
     verifyInitialized()
 
@@ -87,17 +87,21 @@ export function download (url, options) {
   }
 }
 
-function getTokens () {
+function getTokens() {
   const tokens = storeInstance.getState().getIn(tokensPathKey)
   return Map.isMap(tokens) ? tokens.toJS() : undefined
 }
 
-function getAccessToken () {
+function getAccessToken() {
   const tokens = getTokens()
   if (tokens) {
-    if (tokens.expires < moment().add(1, 'minute').unix()) {
-      return refreshAccessToken()
-      .then((response) => response.accessToken)
+    if (
+      tokens.expires <
+      moment()
+        .add(1, 'minute')
+        .unix()
+    ) {
+      return refreshAccessToken().then((response) => response.accessToken)
     } else {
       return Promise.resolve(tokens.accessToken)
     }
@@ -107,7 +111,7 @@ function getAccessToken () {
   }
 }
 
-export function isPackageAvailable (packageId) {
+export function isPackageAvailable(packageId) {
   const packagesList = storeInstance.getState().getIn(packagesPathKey)
 
   const packages = List.isList(packagesList) ? packagesList.toJS() : undefined
@@ -118,7 +122,7 @@ export function isPackageAvailable (packageId) {
   return false
 }
 
-function getPackage (packageId) {
+function getPackage(packageId) {
   const packagesList = storeInstance.getState().getIn(packagesPathKey)
 
   const packages = List.isList(packagesList) ? packagesList.toJS() : undefined
@@ -131,27 +135,35 @@ function getPackage (packageId) {
   return undefined
 }
 
-function getAccessTokenForPackage (packageId) {
+function getAccessTokenForPackage(packageId) {
   const pkg = getPackage(packageId)
 
   if (pkg) {
     const token = pkg.accessToken
 
     if (token) {
-      if (token.expires < moment().add(1, 'minute').unix()) {
-        return refreshAccessToken()
-      .then(() => getAccessTokenForPackage(packageId))
+      if (
+        token.expires <
+        moment()
+          .add(1, 'minute')
+          .unix()
+      ) {
+        return refreshAccessToken().then(() => getAccessTokenForPackage(packageId))
       } else {
         return Promise.resolve(token.token)
       }
     }
   } else {
     console.log('NO PACKAGE')
-    throw new Error('The requested package is not present in the store.  You need to add ' + packageId + ' to your packageDependencies.')
+    throw new Error(
+      'The requested package is not present in the store.  You need to add ' +
+        packageId +
+        ' to your packageDependencies.'
+    )
   }
 }
 
-function scheduleRefreshAccessToken () {
+function scheduleRefreshAccessToken() {
   verifyInitialized()
 
   const tokens = getTokens()
@@ -172,13 +184,15 @@ function scheduleRefreshAccessToken () {
   }
 }
 
-function verifyInitialized () {
+function verifyInitialized() {
   if (!storeInstance || !tokensPathKey || !PackageInformation.packageId || !hubUrl) {
-    throw new Error('Request has not been prepared. You need to call "prepareRequest" to configure the request.')
+    throw new Error(
+      'Request has not been prepared. You need to call "prepareRequest" to configure the request.'
+    )
   }
 }
 
-function combineUrlParts (base, endpoint) {
+function combineUrlParts(base, endpoint) {
   if (endpoint.indexOf('/') !== 0) {
     endpoint = '/' + endpoint
   }
@@ -188,7 +202,7 @@ function combineUrlParts (base, endpoint) {
   return `${base}${endpoint}`
 }
 
-export function getUrlForPackage (packageId, endpoint) {
+export function getUrlForPackage(packageId, endpoint) {
   const pkg = getPackage(packageId)
   if (pkg && pkg.packageUrl) {
     return combineUrlParts(pkg.packageUrl, endpoint)
@@ -197,54 +211,65 @@ export function getUrlForPackage (packageId, endpoint) {
   }
 }
 
-function makeAuthenticatedRequest (url, requestOptions) {
+function makeAuthenticatedRequest(url, requestOptions) {
   if (requestOptions.packageId) {
     const pkg = getPackage(requestOptions.packageId)
     if (pkg && pkg.packageUrl) {
       return getAccessTokenForPackage(pkg.packageId).then((accessToken) => {
-        requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(requestOptions.packageId, accessToken)
+        requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(
+          requestOptions.packageId,
+          accessToken
+        )
 
         return makeRequest(combineUrlParts(pkg.packageUrl, url), requestOptions)
       })
     } else {
-      throw new Error(`Package ${requestOptions.packageId} was not found in ${packagesPathKey.join('.')}.  Make sure you have added the package to your packageDependencies`)
+      throw new Error(
+        `Package ${requestOptions.packageId} was not found in ${packagesPathKey.join(
+          '.'
+        )}.  Make sure you have added the package to your packageDependencies`
+      )
     }
   } else {
-    return getAccessToken()
-    .then((accessToken) => {
-      requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(PackageInformation.packageId, accessToken)
+    return getAccessToken().then((accessToken) => {
+      requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(
+        PackageInformation.packageId,
+        accessToken
+      )
       return makeRequest(url, requestOptions)
     })
   }
 }
 
-function makeUnauthenticatedRequest (url, requestOptions) {
+function makeUnauthenticatedRequest(url, requestOptions) {
   requestOptions.headers = HeaderUtils.createRequestHeader(PackageInformation.packageId)
   return makeRequest(url, requestOptions)
 }
 
-function makeRequest (url, requestOptions) {
+function makeRequest(url, requestOptions) {
   return fetch(url, requestOptions).then(parseResponse)
 }
 
-function makeAuthenticatedDownload (url, requestOptions, defaultFileName) {
-  return getAccessToken()
-    .then((accessToken) => {
-      requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(PackageInformation.packageId, accessToken)
-      return makeDownloadRequest(url, requestOptions, defaultFileName)
-    })
+function makeAuthenticatedDownload(url, requestOptions, defaultFileName) {
+  return getAccessToken().then((accessToken) => {
+    requestOptions.headers = HeaderUtils.createAuthenticatedRequestHeader(
+      PackageInformation.packageId,
+      accessToken
+    )
+    return makeDownloadRequest(url, requestOptions, defaultFileName)
+  })
 }
 
-function makeUnauthentiatedDownload (url, requestOptions, defaultFileName) {
+function makeUnauthentiatedDownload(url, requestOptions, defaultFileName) {
   requestOptions.headers = HeaderUtils.createRequestHeader(PackageInformation.packageId)
   return makeDownloadRequest(url, requestOptions, defaultFileName)
 }
 
-function makeDownloadRequest (url, requestOptions, defaultFileName) {
+function makeDownloadRequest(url, requestOptions, defaultFileName) {
   return fetch(url, requestOptions).then(parseDownloadResponse(defaultFileName))
 }
 
-export function makeRefreshAccessTokenRequest () {
+export function makeRefreshAccessTokenRequest() {
   const refreshToken = getCookie(Constants.Cookies.RefreshToken)
 
   if (!refreshToken) {
@@ -257,8 +282,8 @@ export function makeRefreshAccessTokenRequest () {
   // If a package has packageDependencies set, use those
   if (PackageInformation.packageDependencies) {
     const packages = Array.isArray(PackageInformation.packageDependencies)
-    ? PackageInformation.packageDependencies
-    : Object.keys(PackageInformation.packageDependencies)
+      ? PackageInformation.packageDependencies
+      : Object.keys(PackageInformation.packageDependencies)
     if (packages.indexOf(PackageInformation.packageId) === -1) {
       packages.push(PackageInformation.packageId)
     }
@@ -271,27 +296,27 @@ export function makeRefreshAccessTokenRequest () {
     body: JSON.stringify(body)
   }
 
-  return fetch(`${window.__HUB_URL__}/users/${accessTokenEndpoint}`, refreshOptions)
-    .then(parseResponse)
+  return fetch(`${window.__HUB_URL__}/users/${accessTokenEndpoint}`, refreshOptions).then(
+    parseResponse
+  )
 }
 
-function parseDownloadResponse (defaultFileName) {
+function parseDownloadResponse(defaultFileName) {
   return (response) => {
     if (response.status === 200) {
       const contentType = response.headers.get('content-type')
 
       if (contentType.indexOf('application/json') === -1) {
-        return response.blob()
-          .then((blob) => {
-            const contentDisposition = response.headers.get('content-disposition')
-            const re = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
-            const result = re.exec(contentDisposition)
-            if (result && result[1]) {
-              defaultFileName = result[1].replace(/"/g, '').replace(/'/g, '')
-            }
-            FileSaver.saveAs(blob, defaultFileName)
-            return true
-          })
+        return response.blob().then((blob) => {
+          const contentDisposition = response.headers.get('content-disposition')
+          const re = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
+          const result = re.exec(contentDisposition)
+          if (result && result[1]) {
+            defaultFileName = result[1].replace(/"/g, '').replace(/'/g, '')
+          }
+          FileSaver.saveAs(blob, defaultFileName)
+          return true
+        })
       }
     }
 
@@ -299,7 +324,7 @@ function parseDownloadResponse (defaultFileName) {
   }
 }
 
-export function refreshAccessToken (scheduleRefresh) {
+export function refreshAccessToken(scheduleRefresh) {
   return makeRefreshAccessTokenRequest()
     .then((response) => {
       if (response.success === true) {
@@ -309,7 +334,12 @@ export function refreshAccessToken (scheduleRefresh) {
               if (!response.results[i].accessToken || !response.results[i].accessToken.token) {
                 return goToLogin(response.results[i].loginUrl)
               }
-              storeInstance.dispatch(updateAccessToken(response.results[i].accessToken.token, response.results[i].accessToken.expires))
+              storeInstance.dispatch(
+                updateAccessToken(
+                  response.results[i].accessToken.token,
+                  response.results[i].accessToken.expires
+                )
+              )
             }
           }
           storeInstance.dispatch(updatePackageAccessTokens(response.results))
@@ -324,7 +354,9 @@ export function refreshAccessToken (scheduleRefresh) {
 
         refreshAttempts = 0
       } else {
-        console.error(`Received success false from refreshAccessToken with message: ${response.message}`)
+        console.error(
+          `Received success false from refreshAccessToken with message: ${response.message}`
+        )
         return goToLogin(response.loginUrl)
       }
 
@@ -337,7 +369,7 @@ export function refreshAccessToken (scheduleRefresh) {
     })
 }
 
-export function parseResponse (response) {
+export function parseResponse(response) {
   if (!response || response.status >= 500) {
     throw new RequestError('Response received a server error')
   }
@@ -349,14 +381,14 @@ export function parseResponse (response) {
   }
 }
 
-function updatePackageAccessTokens (accessTokens) {
+function updatePackageAccessTokens(accessTokens) {
   return {
     type: UPDATE_PACKAGE_ACCESS_TOKENS,
     accessTokens: accessTokens
   }
 }
 
-function updateAccessToken (accessToken, expires) {
+function updateAccessToken(accessToken, expires) {
   return {
     type: UPDATE_ACCESS_TOKEN,
     accessToken: accessToken,
@@ -364,7 +396,7 @@ function updateAccessToken (accessToken, expires) {
   }
 }
 
-function prepareDownloadOptions (options = {}) {
+function prepareDownloadOptions(options = {}) {
   const opts = prepareOptions(options)
 
   if (!opts.defaultFileName) {
@@ -374,7 +406,7 @@ function prepareDownloadOptions (options = {}) {
   return opts
 }
 
-function prepareOptions (options = {}) {
+function prepareOptions(options = {}) {
   const opts = Object.assign({}, options)
 
   if (!opts.method) {
@@ -396,7 +428,7 @@ function prepareOptions (options = {}) {
     body: opts.body,
     headers: {
       'content-type': 'application/json',
-      'accept': 'application/json'
+      accept: 'application/json'
     }
   }
 
@@ -409,7 +441,7 @@ function prepareOptions (options = {}) {
   return opts
 }
 
-function goToLogin (loginUrl) {
+function goToLogin(loginUrl) {
   loginUrl = loginUrl || getAuthorizeUrl(window.location.pathname)
   setLocation(loginUrl)
   return { success: false, message: 'Invalid refreshToken redirecting to login' }

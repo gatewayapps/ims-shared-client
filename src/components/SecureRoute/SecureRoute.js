@@ -8,7 +8,7 @@ import { getCookie } from '../../utils/cookies'
 import { selectCurrentUser, selectLocationState } from '../../app'
 
 export default class SecureRoute {
-  constructor (store, notAuthorizedUrl = '/notAuthorized') {
+  constructor(store, notAuthorizedUrl = '/notAuthorized') {
     this.store = store
     this.notAuthorizedUrl = notAuthorizedUrl
     this.permHandler = new PermissionHandler({
@@ -18,7 +18,7 @@ export default class SecureRoute {
     })
   }
 
-  onEnter (nextState, replace, callback) {
+  onEnter(nextState, replace, callback) {
     const context = createStructuredSelector({
       route: selectLocationState(),
       currentUser: selectCurrentUser()
@@ -36,7 +36,12 @@ export default class SecureRoute {
     }
 
     if (_.isArray(this.requiredPermissions) && this.requiredPermissions.length > 0) {
-      if (!this.permHandler.checkPermissions(this.requiredPermissions, context.currentUser.permissions)) {
+      if (
+        !this.permHandler.checkPermissions(
+          this.requiredPermissions,
+          context.currentUser.permissions
+        )
+      ) {
         replace(this.notAuthorizedUrl)
       }
     } else {

@@ -1,14 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 export class DisplayName extends React.Component {
-  render () {
+  render() {
     const { user, ...spanProps } = this.props
     if (!user) {
       return null
     } else if (user.displayName) {
-      return (<span {...spanProps}>{user.displayName}</span>)
+      return <span {...spanProps}>{user.displayName}</span>
     } else {
-      return (<span {...spanProps}>{user.firstName} {user.lastName}</span>)
+      return (
+        <span {...spanProps}>
+          {user.firstName} {user.lastName}
+        </span>
+      )
     }
   }
 }

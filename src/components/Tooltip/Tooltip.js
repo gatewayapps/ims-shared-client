@@ -8,17 +8,17 @@ import TooltipViewer from './TooltipViewer'
 import '../../styles/Tooltip.css'
 
 export default class Tooltip extends BaseComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { show: false }
     this.bindFunctions()
   }
 
-  _onEdit (tooltip) {
+  _onEdit(tooltip) {
     this.props.beginEdit(tooltip)
   }
 
-  _onMouseEnter () {
+  _onMouseEnter() {
     if (this.hideTimeout) {
       clearTimeout(this.hideTimeout)
       this.hideTimeout = undefined
@@ -26,7 +26,7 @@ export default class Tooltip extends BaseComponent {
     this.showTimeout = setTimeout(this._showPopup, 500)
   }
 
-  _onMouseLeave () {
+  _onMouseLeave() {
     if (this.showTimeout) {
       clearTimeout(this.showTimeout)
       this.showTimeout = undefined
@@ -34,19 +34,19 @@ export default class Tooltip extends BaseComponent {
     this.hideTimeout = setTimeout(this._hidePopup, 1000)
   }
 
-  _showPopup () {
+  _showPopup() {
     this.showTimeout = undefined
     this.setState({ show: true })
   }
 
-  _hidePopup () {
+  _hidePopup() {
     this.hideTimeout = undefined
     if (this.props.isEditing !== true) {
       this.setState({ show: false })
     }
   }
 
-  _togglePopup () {
+  _togglePopup() {
     if (this.state.show === true) {
       this._hidePopup()
     } else {
@@ -54,7 +54,7 @@ export default class Tooltip extends BaseComponent {
     }
   }
 
-  render () {
+  render() {
     const canEdit = this.checkPermission('admin:edit-tooltips')
 
     if (this.props.tooltip.content || this.props.tooltip.link || canEdit === true) {
@@ -63,9 +63,14 @@ export default class Tooltip extends BaseComponent {
       })
 
       return (
-        <Manager className='ims-tooltip-container'>
+        <Manager className="ims-tooltip-container">
           <Target>
-            <span className={iconClasses} onClick={this._togglePopup} onMouseEnter={this._onMouseEnter} onMouseLeave={this._onMouseLeave} />
+            <span
+              className={iconClasses}
+              onClick={this._togglePopup}
+              onMouseEnter={this._onMouseEnter}
+              onMouseLeave={this._onMouseLeave}
+            />
           </Target>
           {this.renderPopup(canEdit)}
         </Manager>
@@ -75,7 +80,7 @@ export default class Tooltip extends BaseComponent {
     }
   }
 
-  renderPopup (canEdit) {
+  renderPopup(canEdit) {
     if (!this.state.show) {
       return null
     }
@@ -83,28 +88,24 @@ export default class Tooltip extends BaseComponent {
     const popperClasses = classNames('ims-tooltip clearfix', {
       editing: canEdit && this.props.isEditing
     })
-    
+
     return (
-      <Popper placement='top' className={popperClasses} onMouseEnter={this._onMouseEnter} onMouseLeave={this._onMouseLeave}>
-        <Arrow className='ims-tooltip-arrow' />
+      <Popper
+        placement="top"
+        className={popperClasses}
+        onMouseEnter={this._onMouseEnter}
+        onMouseLeave={this._onMouseLeave}>
+        <Arrow className="ims-tooltip-arrow" />
         {this.renderPopupContent(canEdit)}
       </Popper>
     )
   }
 
-  renderPopupContent (canEdit) {
+  renderPopupContent(canEdit) {
     if (canEdit === true && this.props.isEditing === true) {
-      return (
-        <TooltipEditor
-          tooltipId={this.props.id} />
-      )
+      return <TooltipEditor tooltipId={this.props.id} />
     } else {
-      return (
-        <TooltipViewer
-          canEdit={canEdit}
-          onEdit={this._onEdit}
-          tooltip={this.props.tooltip} />
-      )
+      return <TooltipViewer canEdit={canEdit} onEdit={this._onEdit} tooltip={this.props.tooltip} />
     }
   }
 }

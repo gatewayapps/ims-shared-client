@@ -6,33 +6,33 @@ import UserAutosuggest from '../UserAutosuggest'
 import '../../styles/SingleUserSelector.css'
 
 export class SingleUserSelector extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       selectMode: false
     }
   }
 
-  _onCancel () {
+  _onCancel() {
     this.setState({
       selectMode: false
     })
   }
 
-  _onSelect (suggestion) {
+  _onSelect(suggestion) {
     this.props.onChange(suggestion)
     this.setState({
       selectMode: false
     })
   }
 
-  _onShowSelectMode () {
+  _onShowSelectMode() {
     this.setState({
       selectMode: true
     })
   }
 
-  _renderDisplayMode () {
+  _renderDisplayMode() {
     if (this.props.renderSelectedUser) {
       return this.props.renderSelectedUser()
     } else {
@@ -45,27 +45,21 @@ export class SingleUserSelector extends React.Component {
 
       return (
         <div>
-          <DisplayName
-            className='ims-single-user-selector__display-name'
-            user={this.props.value} />
-          <button
-            className={buttonClasses}
-            onClick={() => this._onShowSelectMode()}>
-            <i className='fa fa-fw fa-user' /> {this.props.label || 'Choose Employee'}
+          <DisplayName className="ims-single-user-selector__display-name" user={this.props.value} />
+          <button className={buttonClasses} onClick={() => this._onShowSelectMode()}>
+            <i className="fa fa-fw fa-user" /> {this.props.label || 'Choose Employee'}
           </button>
-          {this.props.clearButton && this.props.value &&
-            <button
-              className={clearButtonClasses}
-              onClick={() => this.props.onChange(undefined)}>
-              <i className='fa fa-fw fa-times' /> Clear
+          {this.props.clearButton && this.props.value && (
+            <button className={clearButtonClasses} onClick={() => this.props.onChange(undefined)}>
+              <i className="fa fa-fw fa-times" /> Clear
             </button>
-          }
+          )}
         </div>
       )
     }
   }
 
-  _renderSelectMode () {
+  _renderSelectMode() {
     const buttonClasses = classNames('btn btn-link', {
       'btn-sm': this.props.size === 'sm',
       'btn-lg': this.props.size === 'lg',
@@ -75,18 +69,17 @@ export class SingleUserSelector extends React.Component {
     const inputProps = Object.assign({}, { autoFocus: true }, this.props.inputProps)
 
     return (
-      <div className='ims-single-user-selector__select-container'>
-        <div className='ims-single-user-selector__select-container-input'>
+      <div className="ims-single-user-selector__select-container">
+        <div className="ims-single-user-selector__select-container-input">
           <UserAutosuggest
             autosuggestId={this.props.autosuggestId}
             onSelect={(s) => this._onSelect(s)}
             inputProps={inputProps}
-            placeholder={this.props.placeholder} />
+            placeholder={this.props.placeholder}
+          />
         </div>
-        <div className='ims-single-user-selector__select-container-cancel'>
-          <button
-            className={buttonClasses}
-            onClick={() => this._onCancel()}>
+        <div className="ims-single-user-selector__select-container-cancel">
+          <button className={buttonClasses} onClick={() => this._onCancel()}>
             Cancel
           </button>
         </div>
@@ -94,7 +87,7 @@ export class SingleUserSelector extends React.Component {
     )
   }
 
-  render () {
+  render() {
     if (this.state.selectMode === true) {
       return this._renderSelectMode()
     } else {
