@@ -7,7 +7,7 @@ export const ErrorAlert = (props) => {
   }
 
   return (
-    <div className='alert alert-danger fade in' role='alert'>
+    <div className="alert alert-danger fade in" role="alert">
       {props.message}
     </div>
   )

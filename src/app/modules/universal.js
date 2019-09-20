@@ -12,7 +12,7 @@ export const IMS_SERVER_INITIAL_STATE = '@@IMS/SERVER_INITIAL_STATE'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function serverInitialState (initialState) {
+export function serverInitialState(initialState) {
   return {
     type: IMS_SERVER_INITIAL_STATE,
     initialState: initialState
@@ -35,7 +35,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {}
-export default function Reducer (state = fromJS(initialState), action) {
+export default function Reducer(state = fromJS(initialState), action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

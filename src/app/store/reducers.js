@@ -11,16 +11,19 @@ let _globalReducers
 
 export const makeRootReducer = (globalReducers = {}, asyncReducers) => {
   _globalReducers = globalReducers || {}
-  return combineReducers({
-    routing: routerReducer,
-    security: securityReducer,
-    tooltips: tooltipsReducer,
-    system: systemReducer,
-    notifications: notifications,
-    __USER__PACKAGES: packagesReducer,
-    ...globalReducers,
-    ...asyncReducers
-  }, universalReducer)
+  return combineReducers(
+    {
+      routing: routerReducer,
+      security: securityReducer,
+      tooltips: tooltipsReducer,
+      system: systemReducer,
+      notifications: notifications,
+      __USER__PACKAGES: packagesReducer,
+      ...globalReducers,
+      ...asyncReducers
+    },
+    universalReducer
+  )
 }
 
 export const injectReducer = (store, { key, reducer }) => {

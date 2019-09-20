@@ -1,6 +1,6 @@
 import PackageInformation from '../PackageInformation'
 
-export function decodeJWT (token) {
+export function decodeJWT(token) {
   try {
     const parts = token.split('.')
     const buffer = Buffer.from(parts[1], 'base64')
@@ -10,8 +10,10 @@ export function decodeJWT (token) {
   }
 }
 
-export function getAuthorizeUrl (returnPath) {
-  let authorizeUrl = `${window.__HUB_URL__}/users/authorize?packageid=${encodeURIComponent(PackageInformation.packageId)}`
+export function getAuthorizeUrl(returnPath) {
+  let authorizeUrl = `${window.__HUB_URL__}/users/authorize?packageid=${encodeURIComponent(
+    PackageInformation.packageId
+  )}`
   if (returnPath) {
     authorizeUrl += `&return=${encodeURIComponent(returnPath)}`
   }

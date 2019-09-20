@@ -1,83 +1,82 @@
-import React from "react";
-import { upload } from "../../utils/upload";
-import PropTypes from "prop-types";
+import React from 'react'
+import { upload } from '../../utils/upload'
+import PropTypes from 'prop-types'
 export default class FileUploader extends React.Component {
   constructor(props) {
-    super(props);
-    this.currentIndex = 0;
+    super(props)
+    this.currentIndex = 0
   }
   render() {
     return (
       <div
         style={this.props.style}
         className={this.props.className}
-        onDragOver={e => {
-          return this._onDragOver(e);
+        onDragOver={(e) => {
+          return this._onDragOver(e)
         }}
-        onDragEnd={e => {
-          return this._onDragEnd(e);
+        onDragEnd={(e) => {
+          return this._onDragEnd(e)
         }}
-        onDragEnter={e => {
-          return this._onDragEnter(e);
+        onDragEnter={(e) => {
+          return this._onDragEnter(e)
         }}
-        onDrop={e => {
-          return this._onDrop(e);
-        }}
-      >
-        {this.props.children || "Drop attachments here"}
+        onDrop={(e) => {
+          return this._onDrop(e)
+        }}>
+        {this.props.children || 'Drop attachments here'}
       </div>
-    );
+    )
   }
 
   _onDragOver(e) {
-    e = e || event;
+    e = e || event
     if (e.preventDefault) {
-      e.preventDefault(); // Necessary. Allows us to drop.
+      e.preventDefault() // Necessary. Allows us to drop.
     }
     if (e.stopPropagation) {
-      e.stopPropagation(); // stops the browser from redirecting.
+      e.stopPropagation() // stops the browser from redirecting.
     }
     try {
-      e.dataTransfer.dropEffect = this.props.dropEffect || "copy";
+      e.dataTransfer.dropEffect = this.props.dropEffect || 'copy'
     } catch (err) {}
-    return false;
+    return false
   }
 
   _onDragEnter(e) {
-    e = e || event;
+    e = e || event
     if (e.preventDefault) {
-      e.preventDefault(); // Necessary. Allows us to drop.
+      e.preventDefault() // Necessary. Allows us to drop.
     }
     if (e.stopPropagation) {
-      e.stopPropagation(); // stops the browser from redirecting.
+      e.stopPropagation() // stops the browser from redirecting.
     }
-    return false;
+    return false
   }
 
   _onDragEnd(e) {
-    e = e || event;
+    e = e || event
     if (e.preventDefault) {
-      e.preventDefault(); // Necessary. Allows us to drop.
+      e.preventDefault() // Necessary. Allows us to drop.
     }
     if (e.stopPropagation) {
-      e.stopPropagation(); // stops the browser from redirecting.
+      e.stopPropagation() // stops the browser from redirecting.
     }
-    return false;
+    return false
   }
 
   _onDrop(e) {
-    e = e || event;
+    e = e || event
     if (e.stopPropagation) {
-      e.stopPropagation(); // stops the browser from redirecting.
+      e.stopPropagation() // stops the browser from redirecting.
     }
     if (e.preventDefault) {
-      e.preventDefault(); // Necessary. Allows us to drop.
+      e.preventDefault() // Necessary. Allows us to drop.
     }
-    this.uploadFiles(e.dataTransfer.files);
+    this.uploadFiles(e.dataTransfer.files)
   }
 
   uploadFile(file) {
-    this.uploadFiles([file]);
+    this.uploadFiles([file])
   }
 
   uploadFiles(files) {
@@ -87,9 +86,9 @@ export default class FileUploader extends React.Component {
         this.props.accessToken,
         files[i],
         this.currentIndex,
-        this.props.onProgress || (ev => {})
-      );
-      this.currentIndex++;
+        this.props.onProgress || ((ev) => {})
+      )
+      this.currentIndex++
     }
   }
 }
@@ -102,4 +101,4 @@ FileUploader.propTypes = {
   accessToken: PropTypes.string.isRequired,
   uploadUrl: PropTypes.string.isRequired,
   onProgress: PropTypes.func
-};
+}

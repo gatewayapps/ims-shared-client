@@ -19,7 +19,7 @@ export const SYSTEM_CHECK_CLIENT_TIME = '@@SYSTEM/CHECK CLIENT TIME'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function checkClientTime () {
+export function checkClientTime() {
   return {
     type: SYSTEM_CHECK_CLIENT_TIME
   }
@@ -28,18 +28,14 @@ export function checkClientTime () {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const ACTION_HANDLERS = {
-
-}
+const ACTION_HANDLERS = {}
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
+const initialState = {}
 
-}
-
-export default function Reducer (state = fromJS(initialState), action) {
+export default function Reducer(state = fromJS(initialState), action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
@@ -48,30 +44,34 @@ export default function Reducer (state = fromJS(initialState), action) {
 // ------------------------------------
 // Sagas
 // ------------------------------------
-function * checkClientTimeSaga (action) {
+function* checkClientTimeSaga(action) {
   const hubUrl = window.__HUB_URL__
   if (!hubUrl) {
-
   } else {
     const t = new Date()
     const response = yield call(request, `${window.__HUB_URL__}/api/timeCheck?t=${t}`)
     if (response.success === true) {
-
     } else {
-      yield put(Notifications.error({
-        title: (<div><i className='fa fa-exclamation-triangle' /> System Time Warning</div>),
-        message: response.reason,
-        autoDismiss: 5,
-        position: 'tr'
-      }))
+      yield put(
+        Notifications.error({
+          title: (
+            <div>
+              <i className="fa fa-exclamation-triangle" /> System Time Warning
+            </div>
+          ),
+          message: response.reason,
+          autoDismiss: 5,
+          position: 'tr'
+        })
+      )
     }
   }
 }
 
-function * watchCheckClientTime () {
+function* watchCheckClientTime() {
   yield takeLatest(SYSTEM_CHECK_CLIENT_TIME, checkClientTimeSaga)
 }
 
-export function * rootSaga () {
+export function* rootSaga() {
   yield fork(watchCheckClientTime)
 }

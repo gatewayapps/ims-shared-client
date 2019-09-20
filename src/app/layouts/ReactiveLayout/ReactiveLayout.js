@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import '../../../styles/ReactiveLayout.css'
 
 export default class ReactiveLayout extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { open: false, tx: 0, headerHeight: 54, sidebarReady: false }
   }
@@ -22,7 +22,6 @@ export default class ReactiveLayout extends React.Component {
 
   processTouchStart = (e) => {
     if (this.touch) {
-
     } else {
       this.touch = {
         start: new Date().getTime(),
@@ -53,7 +52,12 @@ export default class ReactiveLayout extends React.Component {
 
       const boundedX = Math.max(-this.state.sidebarWidth, Math.min(0, this.touch.sx + dx))
 
-      this.setState((prevState, props) => ({ sidebarReady: true, tx: boundedX, lx: dx, panning: true }))
+      this.setState((prevState, props) => ({
+        sidebarReady: true,
+        tx: boundedX,
+        lx: dx,
+        panning: true
+      }))
       // we have decided this is a pan
     } else {
       if (Math.abs(vx) > 0.1 && Math.abs(vy) < 0.25) {
@@ -64,24 +68,35 @@ export default class ReactiveLayout extends React.Component {
     }
   }
 
-  processTouchEnd =(e) => {
+  processTouchEnd = (e) => {
     if (this.touch.pan) {
       if (this.touch.vx > 0) {
         this.setState((prevState, props) => ({ tx: 0, panning: false, open: true }))
       } else {
-        this.setState((prevState, props) => ({ tx: -this.state.sidebarWidth, panning: false, open: false }))
+        this.setState((prevState, props) => ({
+          tx: -this.state.sidebarWidth,
+          panning: false,
+          open: false
+        }))
       }
     }
     delete this.touch
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const headerHeight = $('nav.navbar').height()
     const sidebarWidth = $('#sidebarContainer').width()
-    this.setState((nextState, props) => { return { headerHeight: headerHeight, sidebarWidth: sidebarWidth, tx: -sidebarWidth, sidebarReady: true } })
+    this.setState((nextState, props) => {
+      return {
+        headerHeight: headerHeight,
+        sidebarWidth: sidebarWidth,
+        tx: -sidebarWidth,
+        sidebarReady: true
+      }
+    })
   }
 
-  renderSidebar () {
+  renderSidebar() {
     const sidebarStyle = {
       transitionDuration: this.state.panning ? '0s' : '0.25s',
       visibility: this.state.sidebarReady ? 'visible' : 'hidden',
@@ -89,26 +104,27 @@ export default class ReactiveLayout extends React.Component {
       width: 'auto'
     }
     return (
-      <div id='sidebarContainer' style={sidebarStyle} className='RLSidebarContainer'>
+      <div id="sidebarContainer" style={sidebarStyle} className="RLSidebarContainer">
         {this.props.Sidebar ? this.props.Sidebar : null}
       </div>
     )
   }
 
-  render () {
+  render() {
     return (
-      <div onTouchEnd={this.processTouchEnd} onTouchStart={this.processTouchStart} onTouchMove={this.processTouchMove} className='RLContainer'>
-        <div id='headerContainer' className='RLHeaderContainer'>
+      <div
+        onTouchEnd={this.processTouchEnd}
+        onTouchStart={this.processTouchStart}
+        onTouchMove={this.processTouchMove}
+        className="RLContainer">
+        <div id="headerContainer" className="RLHeaderContainer">
           {this.props.Header}
         </div>
-        <div className='RLPageContainer'>
+        <div className="RLPageContainer">
           {this.renderSidebar()}
-          <div className='RLContentContainer'>
-            {this.props.Content}
-          </div>
+          <div className="RLContentContainer">{this.props.Content}</div>
         </div>
       </div>
-
     )
   }
 }

@@ -6,7 +6,7 @@ import ScopedComponent from '../ScopedComponent'
 import PackageInformation from '../../PackageInformation'
 
 export default class ScopedBaseComponent extends ScopedComponent {
-  constructor (props, scopedProps) {
+  constructor(props, scopedProps) {
     super(props, scopedProps)
     this.permHandler = new PermissionHandler({
       package: {
@@ -15,7 +15,7 @@ export default class ScopedBaseComponent extends ScopedComponent {
     })
   }
 
-  bindFunctions () {
+  bindFunctions() {
     var keys = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
 
     for (var i in keys) {
@@ -26,7 +26,7 @@ export default class ScopedBaseComponent extends ScopedComponent {
     }
   }
 
-  checkPermission (permission, userState) {
+  checkPermission(permission, userState) {
     const user = userState || this.props.user ? this.props.user : undefined
 
     if (!this._isUserInitialized(user)) {
@@ -36,7 +36,7 @@ export default class ScopedBaseComponent extends ScopedComponent {
     return this.permHandler.checkPermission(permission, user.permissions, true)
   }
 
-  _isUserInitialized (user) {
+  _isUserInitialized(user) {
     return user && user.permissions
   }
 }

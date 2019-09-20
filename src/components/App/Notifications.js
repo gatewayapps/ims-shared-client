@@ -4,12 +4,8 @@ import Notifications from 'react-notification-system-redux'
 import { connect } from 'react-redux'
 
 class NotificationContainer extends Component {
-  render () {
-    return (
-
-      <Notifications notifications={this.props.notifications} />
-
-    )
+  render() {
+    return <Notifications notifications={this.props.notifications} />
   }
 }
 NotificationContainer.propTypes = {
@@ -22,6 +18,4 @@ const mapStateToProps = (state, ownProps) => {
     notifications: localState
   }
 }
-export default connect(
-    mapStateToProps
-  )(NotificationContainer)
+export default connect(mapStateToProps)(NotificationContainer)

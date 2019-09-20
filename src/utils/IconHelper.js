@@ -83,7 +83,6 @@ module.exports = {
       default: {
         return 'file-o'
       }
-
     }
   }
 }

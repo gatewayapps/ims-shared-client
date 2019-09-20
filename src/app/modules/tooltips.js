@@ -26,21 +26,21 @@ export const TOOLTIPS_SAVE_SUCCESS = '@@TOOLTIPS/SAVE_SUCCESS'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function beginEdit (tooltip) {
+export function beginEdit(tooltip) {
   return {
     type: TOOLTIPS_BEGIN_EDIT,
     tooltip: tooltip
   }
 }
 
-export function cancelEdit (tooltipId) {
+export function cancelEdit(tooltipId) {
   return {
     type: TOOLTIPS_CANCEL_EDIT,
     tooltipId: tooltipId
   }
 }
 
-export function changeContent (tooltipId, content) {
+export function changeContent(tooltipId, content) {
   return {
     type: TOOLTIPS_CHANGE_CONTENT,
     tooltipId: tooltipId,
@@ -48,7 +48,7 @@ export function changeContent (tooltipId, content) {
   }
 }
 
-export function changeLink (tooltipId, link) {
+export function changeLink(tooltipId, link) {
   return {
     type: TOOLTIPS_CHANGE_LINK,
     tooltipId: tooltipId,
@@ -56,34 +56,34 @@ export function changeLink (tooltipId, link) {
   }
 }
 
-export function fetchTooltips () {
+export function fetchTooltips() {
   return {
     type: TOOLTIPS_FETCH
   }
 }
 
-export function fetchTooltipsSuccess (tooltips) {
+export function fetchTooltipsSuccess(tooltips) {
   return {
     type: TOOLTIPS_FETCH_SUCCESS,
     tooltips: tooltips
   }
 }
 
-export function fetchTooltipsFailure (error) {
+export function fetchTooltipsFailure(error) {
   return {
     type: TOOLTIPS_FETCH_FAILURE,
     error: error
   }
 }
 
-export function saveTooltip (tooltip) {
+export function saveTooltip(tooltip) {
   return {
     type: TOOLTIPS_SAVE,
     tooltip: tooltip
   }
 }
 
-export function saveTooltipFailure (tooltipId, error) {
+export function saveTooltipFailure(tooltipId, error) {
   return {
     type: TOOLTIPS_SAVE_FAILURE,
     tooltipId: tooltipId,
@@ -91,7 +91,7 @@ export function saveTooltipFailure (tooltipId, error) {
   }
 }
 
-export function saveTooltipSuccess (tooltipId, tooltip) {
+export function saveTooltipSuccess(tooltipId, tooltip) {
   return {
     type: TOOLTIPS_SAVE_SUCCESS,
     tooltip: tooltip
@@ -103,21 +103,21 @@ export function saveTooltipSuccess (tooltipId, tooltip) {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [TOOLTIPS_BEGIN_EDIT]: (state, action) => {
-    return state.setIn([ 'edit', `${action.tooltip.tooltipId}` ], fromJS(action.tooltip))
+    return state.setIn(['edit', `${action.tooltip.tooltipId}`], fromJS(action.tooltip))
   },
   [TOOLTIPS_CANCEL_EDIT]: (state, action) => {
-    return state.deleteIn([ 'edit', `${action.tooltipId}` ])
+    return state.deleteIn(['edit', `${action.tooltipId}`])
   },
   [TOOLTIPS_CHANGE_CONTENT]: (state, action) => {
-    if (state.hasIn([ 'edit', `${action.tooltipId}` ])) {
-      return state.setIn([ 'edit', `${action.tooltipId}`, 'content' ], action.content)
+    if (state.hasIn(['edit', `${action.tooltipId}`])) {
+      return state.setIn(['edit', `${action.tooltipId}`, 'content'], action.content)
     } else {
       return state
     }
   },
   [TOOLTIPS_CHANGE_LINK]: (state, action) => {
-    if (state.hasIn([ 'edit', `${action.tooltipId}` ])) {
-      return state.setIn([ 'edit', `${action.tooltipId}`, 'link' ], action.link)
+    if (state.hasIn(['edit', `${action.tooltipId}`])) {
+      return state.setIn(['edit', `${action.tooltipId}`, 'link'], action.link)
     } else {
       return state
     }
@@ -131,31 +131,29 @@ const ACTION_HANDLERS = {
       return m
     }, {})
 
-    return state
-      .set('error', '')
-      .set('items', fromJS(tooltips))
+    return state.set('error', '').set('items', fromJS(tooltips))
   },
   [TOOLTIPS_SAVE]: (state, action) => {
-    if (state.hasIn([ 'edit', `${action.tooltip.tooltipId}` ])) {
-      return state.setIn([ 'edit', `${action.tooltip.tooltipId}`, 'isSaving' ], true)
+    if (state.hasIn(['edit', `${action.tooltip.tooltipId}`])) {
+      return state.setIn(['edit', `${action.tooltip.tooltipId}`, 'isSaving'], true)
     } else {
       return state
     }
   },
   [TOOLTIPS_SAVE_FAILURE]: (state, action) => {
-    if (state.hasIn([ 'edit', `${action.tooltipId}` ])) {
+    if (state.hasIn(['edit', `${action.tooltipId}`])) {
       return state
-        .setIn([ 'edit', `${action.tooltipId}`, 'error' ], action.error)
-        .setIn([ 'edit', `${action.tooltipId}`, 'isSaving' ], false)
+        .setIn(['edit', `${action.tooltipId}`, 'error'], action.error)
+        .setIn(['edit', `${action.tooltipId}`, 'isSaving'], false)
     } else {
       return state
     }
   },
   [TOOLTIPS_SAVE_SUCCESS]: (state, action) => {
     return state
-      .setIn([ 'items', `${action.tooltip.tooltipId}` ], fromJS(action.tooltip))
-      .deleteIn([ 'edit', `${action.tooltip.tooltipId}` ])
-  },
+      .setIn(['items', `${action.tooltip.tooltipId}`], fromJS(action.tooltip))
+      .deleteIn(['edit', `${action.tooltip.tooltipId}`])
+  }
 }
 
 // ------------------------------------
@@ -167,7 +165,7 @@ const initialState = {
   edit: {}
 }
 
-export default function Reducer (state = fromJS(initialState), action) {
+export default function Reducer(state = fromJS(initialState), action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
@@ -176,7 +174,7 @@ export default function Reducer (state = fromJS(initialState), action) {
 // ------------------------------------
 // Sagas
 // ------------------------------------
-function * fetchTooltipsSaga () {
+function* fetchTooltipsSaga() {
   try {
     const hubUrl = window.__HUB_URL__
 
@@ -185,7 +183,10 @@ function * fetchTooltipsSaga () {
       return
     }
 
-    const response = yield call(request, `${window.__HUB_URL__}/api/packages/${PackageInformation.packageId}/tooltips`)
+    const response = yield call(
+      request,
+      `${window.__HUB_URL__}/api/packages/${PackageInformation.packageId}/tooltips`
+    )
     if (response.success === true) {
       yield put(fetchTooltipsSuccess(response.results))
     } else {
@@ -196,7 +197,7 @@ function * fetchTooltipsSaga () {
   }
 }
 
-function * saveTooltipSaga (action) {
+function* saveTooltipSaga(action) {
   try {
     const hubUrl = window.__HUB_URL__
 
@@ -223,15 +224,15 @@ function * saveTooltipSaga (action) {
   }
 }
 
-function * watchFetchTooltips () {
+function* watchFetchTooltips() {
   yield takeLatest(TOOLTIPS_FETCH, fetchTooltipsSaga)
 }
 
-function * watchSaveTooltip () {
+function* watchSaveTooltip() {
   yield takeEvery(TOOLTIPS_SAVE, saveTooltipSaga)
 }
 
-export function * rootSaga () {
+export function* rootSaga() {
   yield fork(watchFetchTooltips)
   yield fork(watchSaveTooltip)
 }
@@ -241,37 +242,41 @@ export function * rootSaga () {
 // ------------------------------------
 const selectModuleState = () => (state) => state.get('tooltips')
 
-export const selectEditTooltip = (tooltipId) => createSelector(
-  selectModuleState(),
-  (mState) => {
-    const editTooltip = mState.getIn([ 'edit', `${tooltipId}` ])
-    return Map.isMap(editTooltip) ? editTooltip.toJS() : undefined
-  }
-)
+export const selectEditTooltip = (tooltipId) =>
+  createSelector(
+    selectModuleState(),
+    (mState) => {
+      const editTooltip = mState.getIn(['edit', `${tooltipId}`])
+      return Map.isMap(editTooltip) ? editTooltip.toJS() : undefined
+    }
+  )
 
-export const selectIsEditing = (tooltipId) => createSelector(
-  selectModuleState(),
-  (mState) => {
-    return mState.hasIn([ 'edit', `${tooltipId}` ])
-  }
-)
+export const selectIsEditing = (tooltipId) =>
+  createSelector(
+    selectModuleState(),
+    (mState) => {
+      return mState.hasIn(['edit', `${tooltipId}`])
+    }
+  )
 
-export const selectIsSaving = (tooltipId) => createSelector(
-  selectModuleState(),
-  (mState) => {
-    return mState.getIn([ 'edit', `${tooltipId}`, 'isSaving' ]) || false
-  }
-)
+export const selectIsSaving = (tooltipId) =>
+  createSelector(
+    selectModuleState(),
+    (mState) => {
+      return mState.getIn(['edit', `${tooltipId}`, 'isSaving']) || false
+    }
+  )
 
-export const selectTooltip = (tooltipId) => createSelector(
-  selectModuleState(),
-  (mState) => {
-    const tooltip = mState.getIn([ 'items', `${tooltipId}` ])
-    return Map.isMap(tooltip) ? tooltip.toJS() : makeTooltip(tooltipId)
-  }
-)
+export const selectTooltip = (tooltipId) =>
+  createSelector(
+    selectModuleState(),
+    (mState) => {
+      const tooltip = mState.getIn(['items', `${tooltipId}`])
+      return Map.isMap(tooltip) ? tooltip.toJS() : makeTooltip(tooltipId)
+    }
+  )
 
-function makeTooltip (tooltipId) {
+function makeTooltip(tooltipId) {
   return {
     packageId: PackageInformation.packageId,
     tooltipId: tooltipId,

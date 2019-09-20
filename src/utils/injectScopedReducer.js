@@ -1,14 +1,12 @@
-
 var storeInstance
 var injectorInstance
 
-
-export function prepareInjector (store, injector) {
+export function prepareInjector(store, injector) {
   storeInstance = store
   injectorInstance = injector
 }
 
-export function injectScopedReducer (scope, reducer) {
+export function injectScopedReducer(scope, reducer) {
   const wrappedReducer = wrapReducer(scope, reducer)
 
   injectorInstance(storeInstance, { key: scope, reducer: wrappedReducer })

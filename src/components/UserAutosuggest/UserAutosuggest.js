@@ -7,7 +7,7 @@ import UserAutosuggestItem from './UserAutosuggestItem'
 import '../../styles/Autosuggest.css'
 
 export class UserAutosuggest extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       value: '',
@@ -17,18 +17,17 @@ export class UserAutosuggest extends React.Component {
     this.lastRequestId = null
   }
 
-  _getSuggestionValue (suggestion) {
-    return suggestion.displayName ? suggestion.displayName
+  _getSuggestionValue(suggestion) {
+    return suggestion.displayName
+      ? suggestion.displayName
       : suggestion.firstName + ' ' + suggestion.lastName
   }
 
-  _renderSuggestion (suggestion) {
-    return (
-      <UserAutosuggestItem user={suggestion} />
-    )
+  _renderSuggestion(suggestion) {
+    return <UserAutosuggestItem user={suggestion} />
   }
 
-  _loadUsers (search) {
+  _loadUsers(search) {
     // Cancel the previous request
     if (this.lastRequestId !== null) {
       clearTimeout(this.lastRequestId)
@@ -48,7 +47,7 @@ export class UserAutosuggest extends React.Component {
       }
     } else if (typeof this.props.includeNodes === 'number' && this.props.includeNodes >= 0) {
       postBody.ancestors = {
-        include: [ this.props.includeNodes ]
+        include: [this.props.includeNodes]
       }
     }
 
@@ -93,34 +92,34 @@ export class UserAutosuggest extends React.Component {
     }, 250)
   }
 
-  _onChange (event, { newValue }) {
+  _onChange(event, { newValue }) {
     this.setState({
       value: newValue
     })
   }
 
-  _onUserChange (value) {
+  _onUserChange(value) {
     this.setState({ filter: value })
   }
 
-  _onSuggestionsClearRequested () {
+  _onSuggestionsClearRequested() {
     this.setState({
       users: []
     })
   }
 
-  _onSuggestionsFetchRequested ({ value }) {
+  _onSuggestionsFetchRequested({ value }) {
     this._loadUsers(value)
   }
 
-  _onSuggestionSelected (event, { suggestion }) {
+  _onSuggestionSelected(event, { suggestion }) {
     this.props.onSelect(suggestion)
     this.setState({
       value: ''
     })
   }
 
-  render () {
+  render() {
     const { value, users } = this.state
     const inputProps = {
       className: 'form-control',
@@ -140,17 +139,15 @@ export class UserAutosuggest extends React.Component {
         renderSuggestion={this._renderSuggestion}
         inputProps={inputProps}
         focusFirstSuggestion
-        onSuggestionSelected={(e, d) => this._onSuggestionSelected(e, d)} />
+        onSuggestionSelected={(e, d) => this._onSuggestionSelected(e, d)}
+      />
     )
   }
 }
 
 UserAutosuggest.propTypes = Object.assign({}, React.Component, {
   autosuggestId: PropTypes.string,
-  includeNodes: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.arrayOf(PropTypes.number)
-  ]),
+  includeNodes: PropTypes.oneOfType([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]),
   onSelect: PropTypes.func.isRequired,
   placeholder: PropTypes.string
 })

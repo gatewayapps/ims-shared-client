@@ -10,23 +10,26 @@ import UserProfileImage from '../UserProfileImage'
 import '../../styles/PersonCard.css'
 
 export class PersonCard extends BaseComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.bindFunctions()
   }
 
-  _renderPersonHeader () {
+  _renderPersonHeader() {
     const subtitleClasses = classNames('ims-card__subtitle ims-person-card__subtitle', {
-      'ims-person-card__subtitle--double': this.props.showHireDate || this.props.showPositionStartDate
+      'ims-person-card__subtitle--double':
+        this.props.showHireDate || this.props.showPositionStartDate
     })
 
-    const hireDate = this.props.showHireDate && this.props.person.hireDate
-      ? (<span>Hired {moment(this.props.person.hireDate).format('M/D/YYYY')}</span>)
-      : null
+    const hireDate =
+      this.props.showHireDate && this.props.person.hireDate ? (
+        <span>Hired {moment(this.props.person.hireDate).format('M/D/YYYY')}</span>
+      ) : null
 
-    const positionDate = this.props.showPositionStartDate && this.props.person.showPositionStartDate
-      ? (<span>Position {moment(this.props.person.positionStartDate).format('M/D/YYYY')}</span>)
-      : null
+    const positionDate =
+      this.props.showPositionStartDate && this.props.person.showPositionStartDate ? (
+        <span>Position {moment(this.props.person.positionStartDate).format('M/D/YYYY')}</span>
+      ) : null
 
     return (
       <div className={'ims-person-card__header-container'}>
@@ -38,7 +41,9 @@ export class PersonCard extends BaseComponent {
             <DisplayName user={this.props.person} />
           </div>
           <div className={subtitleClasses}>
-            <div className={'ims-person-card__text-ellipsis'} title={this.props.person.positionPath}>
+            <div
+              className={'ims-person-card__text-ellipsis'}
+              title={this.props.person.positionPath}>
               <NodePath path={this.props.person.positionPath} removeFirst />
             </div>
             <div>
@@ -50,10 +55,8 @@ export class PersonCard extends BaseComponent {
     )
   }
 
-  render () {
-    return (
-      <Card style={this.props.style} renderHeader={this._renderPersonHeader} {...this.props} />
-    )
+  render() {
+    return <Card style={this.props.style} renderHeader={this._renderPersonHeader} {...this.props} />
   }
 }
 

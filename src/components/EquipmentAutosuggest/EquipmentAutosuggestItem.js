@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import '../../styles/EquipmentAutosuggestItem.css'
 
 export class EquipmentAutosuggestItem extends React.Component {
-  render () {
+  render() {
     return (
-      <div className='ims-equipment-autosuggest-item__container'>
-        <div className='ims-equipment-autosuggest-item__name'>{this.props.equipment.name}</div>
-        <div className='ims-equipment-autosuggest-item__area-path'>{this.props.equipment.areaPath}</div>
+      <div className="ims-equipment-autosuggest-item__container">
+        <div className="ims-equipment-autosuggest-item__name">{this.props.equipment.name}</div>
+        <div className="ims-equipment-autosuggest-item__area-path">
+          {this.props.equipment.areaPath}
+        </div>
       </div>
     )
   }

@@ -1,6 +1,5 @@
-
 class PackageInformation {
-  configure (info) {
+  configure(info) {
     if (!info.packageId) {
       throw new Error('You must provide a package id')
     }

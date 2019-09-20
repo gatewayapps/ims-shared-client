@@ -1,12 +1,7 @@
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectCurrentUser } from '../../app/modules/security'
-import {
-  beginEdit,
-  cancelEdit,
-  selectIsEditing,
-  selectTooltip
-} from '../../app/modules/tooltips'
+import { beginEdit, cancelEdit, selectIsEditing, selectTooltip } from '../../app/modules/tooltips'
 import Tooltip from './Tooltip'
 
 const mapStateToProps = (state, ownProps) => {
@@ -22,4 +17,7 @@ const mapDispatchToProps = {
   cancelEdit
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tooltip)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Tooltip)

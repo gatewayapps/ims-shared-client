@@ -1,13 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 export class Image extends React.Component {
-  render () {
-    const {
-      src,
-      height,
-      width,
-      ...props
-    } = this.props
+  render() {
+    const { src, height, width, ...props } = this.props
 
     let qs = []
 
@@ -25,7 +20,7 @@ export class Image extends React.Component {
       imgUrl += `?${qs.join('&')}`
     }
 
-    return (<img src={imgUrl} {...props} />)
+    return <img src={imgUrl} {...props} />
   }
 }
 

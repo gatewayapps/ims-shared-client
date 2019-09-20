@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 export class NodePath extends React.Component {
-  _getNodePath () {
+  _getNodePath() {
     if (this.props.removeFirst === true) {
       const startIdx = this.props.path.indexOf(' / ')
       if (startIdx >= 0) {
@@ -14,12 +14,12 @@ export class NodePath extends React.Component {
     }
   }
 
-  render () {
+  render() {
     if (!this.props.path || this.props.path.length === 0) {
       return null
     }
 
-    return (<span>{this._getNodePath()}</span>)
+    return <span>{this._getNodePath()}</span>
   }
 }
 
