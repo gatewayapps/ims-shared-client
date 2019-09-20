@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectScopedReducer } from '../../utils/injectScopedReducer'

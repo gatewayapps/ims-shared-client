@@ -2,5 +2,5 @@ src
 node_modules
 .gitignore
 .npmignore
-.eslintrc
-.eslintignore
+.prettierignore
+prettier.config.js

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { Component } from 'react'
 import { Router } from 'react-router'
 import NotificationContainer from './Notifications'

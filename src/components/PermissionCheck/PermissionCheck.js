@@ -1,5 +1,3 @@
-/* eslint-disable semi */
-/* eslint-disable camelcase */
 import React from 'react'
 import PropTypes from 'prop-types'
 import request from '../../utils/request'
