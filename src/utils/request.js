@@ -321,6 +321,7 @@ export function makeRefreshAccessTokenRequest() {
   const refreshOptions = {
     headers: HeaderUtils.createRequestHeader(PackageInformation.packageId),
     method: "POST",
+    credentials: "include",
     body: JSON.stringify(body),
   };
 
